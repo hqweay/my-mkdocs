@@ -1,0 +1,78 @@
+site_name: Hqweay's Wiki
+site_description: Thinking Drafts
+site_author: hqweay
+site_url: https://wiki.leay.net/
+
+# Repository
+repo_name: hqweay/my-mkdocs
+repo_url: https://github.com/hqweay/my-mkdocs
+edit_uri: edit/master/docs/
+
+# copyright: 
+
+google_analytics: ['UA-105976066-3', 'wiki.leay.net']
+
+# extra_css:
+#     - css/extra.css
+#     - css/second_extra.css
+extra_javascript:
+   
+theme:
+  name: 'material'
+  language: 'zh'
+  favicon: img/favicon.ico
+  feature:
+    tabs: true
+  palette:
+    primary: indigo
+    accent: indigo
+  font:
+    text: Noto Serif SC
+    code: Roboto Mono
+
+# minify require install
+plugins:
+  - search
+  - minify:
+      minify_html: true
+
+extra:
+  search:
+    language: 'en, ja'
+  social:
+    - type: 'home'
+      link: 'https://leay.net'
+    - type: 'github'
+      link: 'https://github.com/hqweay'  
+
+markdown_extensions:
+  - markdown.extensions.admonition
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: "#"
+  # pymdown-extensions
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: none
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde 
+
+nav:
+    #- Home: index.md
+    #- User Guide: 阅读/标注
+    #- Bug Tracker: https://example.com/
