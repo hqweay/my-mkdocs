@@ -1,0 +1,1345 @@
+<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=description content="Thinking Drafts"><link href=https://wiki.leay.net/book/OnJava8/docs/book/10-Interfaces/ rel=canonical><meta name=author content=hqweay><meta name=lang:clipboard.copy content=复制><meta name=lang:clipboard.copied content=已复制><meta name=lang:search.language content="en, ja"><meta name=lang:search.pipeline.stopwords content=True><meta name=lang:search.pipeline.trimmer content=True><meta name=lang:search.result.none content=没有找到符合条件的结果><meta name=lang:search.result.one content="找到 1 个符合条件的结果"><meta name=lang:search.result.other content="# 个符合条件的结果"><meta name=lang:search.tokenizer content=[\uff0c\u3002]+><link rel="shortcut icon" href=../../../../../img/favicon.ico><meta name=generator content="mkdocs-1.1, mkdocs-material-4.6.3"><title>10 Interfaces - Hqweay's Wiki</title><link rel=stylesheet href=../../../../../assets/stylesheets/application.adb8469c.css><link rel=stylesheet href=../../../../../assets/stylesheets/application-palette.a8b3c06d.css><meta name=theme-color content=#3f51b5><script src=../../../../../assets/javascripts/modernizr.86422ebf.js></script><link href=https://fonts.gstatic.com rel=preconnect crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>body,input{font-family:"Noto Serif SC","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style><link rel=stylesheet href=../../../../../assets/fonts/material-icons.css><script>
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  }
+  ga.l = +new Date
+  /* Setup integration and send page view */
+  ga("create", "UA-105976066-3", "wiki.leay.net")
+  ga("set", "anonymizeIp", true)
+  ga("send", "pageview")
+  /* Register handler to log search on blur */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.forms.search) {
+      var query = document.forms.search.query
+      query.addEventListener("blur", function() {
+        if (this.value) {
+          var path = document.location.pathname;
+          ga("send", "pageview", path + "?q=" + this.value)
+        }
+      })
+    }
+  })
+</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-primary=indigo data-md-color-accent=indigo> <svg class=md-svg> <defs> <svg xmlns=http://www.w3.org/2000/svg width=416 height=448 viewbox="0 0 416 448" id=__github><path fill=currentColor d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg> </defs> </svg> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay data-md-component=overlay for=__drawer></label> <a href=#_1 tabindex=0 class=md-skip> 跳转至 </a> <header class=md-header data-md-component=header> <nav class="md-header-nav md-grid"> <div class=md-flex> <div class="md-flex__cell md-flex__cell--shrink"> <a href=https://wiki.leay.net/ title="Hqweay's Wiki" aria-label="Hqweay's Wiki" class="md-header-nav__button md-logo"> <i class=md-icon></i> </a> </div> <div class="md-flex__cell md-flex__cell--shrink"> <label class="md-icon md-icon--menu md-header-nav__button" for=__drawer></label> </div> <div class="md-flex__cell md-flex__cell--stretch"> <div class="md-flex__ellipsis md-header-nav__title" data-md-component=title> <span class=md-header-nav__topic> Hqweay's Wiki </span> <span class=md-header-nav__topic> 10 Interfaces </span> </div> </div> <div class="md-flex__cell md-flex__cell--shrink"> <label class="md-icon md-icon--search md-header-nav__button" for=__search></label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input aria-label=search name=query placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=query data-md-state=active> <label class="md-icon md-search__icon" for=__search></label> <button type=reset class="md-icon md-search__icon" data-md-component=reset tabindex=-1> &#xE5CD; </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=result> <div class=md-search-result__meta> 键入以开始搜索 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> </div> <div class="md-flex__cell md-flex__cell--shrink"> <div class=md-header-nav__source> <a href=https://github.com/hqweay/my-mkdocs/ title="前往 Github 仓库" class=md-source data-md-source=github> <div class=md-source__icon> <svg viewbox="0 0 24 24" width=24 height=24> <use xlink:href=#__github width=24 height=24></use> </svg> </div> <div class=md-source__repository> hqweay/my-mkdocs </div> </a> </div> </div> </div> </nav> </header> <div class=md-container> <nav class="md-tabs md-tabs--active" data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../../../.. class=md-tabs__link> About </a> </li> <li class=md-tabs__item> <a href=../../../ class="md-tabs__link md-tabs__link--active"> Book </a> </li> <li class=md-tabs__item> <a href=../../../../../doc/ class=md-tabs__link> Doc </a> </li> <li class=md-tabs__item> <a href=../../../../../life/reading/ class=md-tabs__link> Life </a> </li> <li class=md-tabs__item> <a href=../../../../../study/draft/try-wiki/ class=md-tabs__link> Study </a> </li> <li class=md-tabs__item> <a href=../../../../../tech/code/frontend/2017-09-14-easy-web-test/ class=md-tabs__link> Tech </a> </li> </ul> </div> </nav> <main class=md-main role=main> <div class="md-main__inner md-grid" data-md-component=container> <div class="md-sidebar md-sidebar--primary" data-md-component=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary" data-md-level=0> <label class="md-nav__title md-nav__title--site" for=__drawer> <a href=https://wiki.leay.net/ title="Hqweay's Wiki" class="md-nav__button md-logo"> <i class=md-icon></i> </a> Hqweay's Wiki </label> <div class=md-nav__source> <a href=https://github.com/hqweay/my-mkdocs/ title="前往 Github 仓库" class=md-source data-md-source=github> <div class=md-source__icon> <svg viewbox="0 0 24 24" width=24 height=24> <use xlink:href=#__github width=24 height=24></use> </svg> </div> <div class=md-source__repository> hqweay/my-mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../.. title=About class=md-nav__link> About </a> </li> <li class=md-nav__item> <a href=../../../../../test/ title=特殊语法 class=md-nav__link> 特殊语法 </a> </li> <li class=md-nav__item> <a href=../../../../../web-page/ title=静态文档导航 class=md-nav__link> 静态文档导航 </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4 type=checkbox id=nav-4 checked> <label class=md-nav__link for=nav-4> Book </label> <nav class=md-nav data-md-component=collapsible data-md-level=1> <label class=md-nav__title for=nav-4> Book </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4-1 type=checkbox id=nav-4-1 checked> <label class=md-nav__link for=nav-4-1> OnJava8 </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-4-1> OnJava8 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../ title="《On Java 8》中文版" class=md-nav__link> 《On Java 8》中文版 </a> </li> <li class=md-nav__item> <a href=../../../CONTRIBUTING/ title=CONTRIBUTING class=md-nav__link> CONTRIBUTING </a> </li> <li class=md-nav__item> <a href=../../../SUMMARY/ title=Summary class=md-nav__link> Summary </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4-1-4 type=checkbox id=nav-4-1-4 checked> <label class=md-nav__link for=nav-4-1-4> Docs </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-4-1-4> Docs </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../ title=译者的话 class=md-nav__link> 译者的话 </a> </li> <li class=md-nav__item> <a href=../../_coverpage/ title=coverpage class=md-nav__link> coverpage </a> </li> <li class=md-nav__item> <a href=../../sidebar/ title=Sidebar class=md-nav__link> Sidebar </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4-1-4-4 type=checkbox id=nav-4-1-4-4> <label class=md-nav__link for=nav-4-1-4-4> style </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-4-1-4-4> style </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4-1-4-4-1 type=checkbox id=nav-4-1-4-4-1> <label class=md-nav__link for=nav-4-1-4-4-1> Prism master </label> <nav class=md-nav data-md-component=collapsible data-md-level=5> <label class=md-nav__title for=nav-4-1-4-4-1> Prism master </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../_style/prism-master/ title=[Prism](http://prismjs.com/) class=md-nav__link> [Prism](http://prismjs.com/) </a> </li> <li class=md-nav__item> <a href=../../_style/prism-master/CHANGELOG/ title="Prism Changelog" class=md-nav__link> Prism Changelog </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4-1-4-5 type=checkbox id=nav-4-1-4-5 checked> <label class=md-nav__link for=nav-4-1-4-5> Book </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-4-1-4-5> Book </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../00-Introduction/ title=简介 class=md-nav__link> 简介 </a> </li> <li class=md-nav__item> <a href=../00-On-Java-8/ title="00 On Java 8" class=md-nav__link> 00 On Java 8 </a> </li> <li class=md-nav__item> <a href=../00-Preface/ title=前言 class=md-nav__link> 前言 </a> </li> <li class=md-nav__item> <a href=../01-What-is-an-Object/ title="第一章 对象的概念" class=md-nav__link> 第一章 对象的概念 </a> </li> <li class=md-nav__item> <a href=../02-Installing-Java-and-the-Book-Examples/ title="02 Installing Java and the Book Examples" class=md-nav__link> 02 Installing Java and the Book Examples </a> </li> <li class=md-nav__item> <a href=../03-Objects-Everywhere/ title="03 Objects Everywhere" class=md-nav__link> 03 Objects Everywhere </a> </li> <li class=md-nav__item> <a href=../04-Operators/ title="04 Operators" class=md-nav__link> 04 Operators </a> </li> <li class=md-nav__item> <a href=../05-Control-Flow/ title="05 Control Flow" class=md-nav__link> 05 Control Flow </a> </li> <li class=md-nav__item> <a href=../06-Housekeeping/ title="06 Housekeeping" class=md-nav__link> 06 Housekeeping </a> </li> <li class=md-nav__item> <a href=../07-Implementation-Hiding/ title="07 Implementation Hiding" class=md-nav__link> 07 Implementation Hiding </a> </li> <li class=md-nav__item> <a href=../08-Reuse/ title="08 Reuse" class=md-nav__link> 08 Reuse </a> </li> <li class=md-nav__item> <a href=../09-Polymorphism/ title="09 Polymorphism" class=md-nav__link> 09 Polymorphism </a> </li> <li class="md-nav__item md-nav__item--active"> <input class="md-toggle md-nav__toggle" data-md-toggle=toc type=checkbox id=__toc> <label class="md-nav__link md-nav__link--active" for=__toc> 10 Interfaces </label> <a href=./ title="10 Interfaces" class="md-nav__link md-nav__link--active"> 10 Interfaces </a> <nav class="md-nav md-nav--secondary"> <label class=md-nav__title for=__toc>目录</label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=#_2 class=md-nav__link> 抽象类和方法 </a> </li> <li class=md-nav__item> <a href=#_3 class=md-nav__link> 接口创建 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_4 class=md-nav__link> 默认方法 </a> </li> <li class=md-nav__item> <a href=#_5 class=md-nav__link> 多继承 </a> </li> <li class=md-nav__item> <a href=#_6 class=md-nav__link> 接口中的静态方法 </a> </li> <li class=md-nav__item> <a href=#instrument class=md-nav__link> Instrument 作为接口 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_7 class=md-nav__link> 抽象类和接口 </a> </li> <li class=md-nav__item> <a href=#_8 class=md-nav__link> 完全解耦 </a> </li> <li class=md-nav__item> <a href=#_9 class=md-nav__link> 多接口结合 </a> </li> <li class=md-nav__item> <a href=#_10 class=md-nav__link> 使用继承扩展接口 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_11 class=md-nav__link> 结合接口时的命名冲突 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_12 class=md-nav__link> 接口适配 </a> </li> <li class=md-nav__item> <a href=#_13 class=md-nav__link> 接口字段 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_14 class=md-nav__link> 初始化接口中的字段 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_15 class=md-nav__link> 接口嵌套 </a> </li> <li class=md-nav__item> <a href=#_16 class=md-nav__link> 接口和工厂方法模式 </a> </li> <li class=md-nav__item> <a href=#_17 class=md-nav__link> 本章小结 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=../11-Inner-Classes/ title="11 Inner Classes" class=md-nav__link> 11 Inner Classes </a> </li> <li class=md-nav__item> <a href=../12-Collections/ title="12 Collections" class=md-nav__link> 12 Collections </a> </li> <li class=md-nav__item> <a href=../13-Functional-Programming/ title="13 Functional Programming" class=md-nav__link> 13 Functional Programming </a> </li> <li class=md-nav__item> <a href=../14-Streams/ title="14 Streams" class=md-nav__link> 14 Streams </a> </li> <li class=md-nav__item> <a href=../15-Exceptions/ title="15 Exceptions" class=md-nav__link> 15 Exceptions </a> </li> <li class=md-nav__item> <a href=../16-Validating-Your-Code/ title="16 Validating Your Code" class=md-nav__link> 16 Validating Your Code </a> </li> <li class=md-nav__item> <a href=../17-Files/ title="17 Files" class=md-nav__link> 17 Files </a> </li> <li class=md-nav__item> <a href=../18-Strings/ title="18 Strings" class=md-nav__link> 18 Strings </a> </li> <li class=md-nav__item> <a href=../19-Type-Information/ title="19 Type Information" class=md-nav__link> 19 Type Information </a> </li> <li class=md-nav__item> <a href=../20-Generics/ title="20 Generics" class=md-nav__link> 20 Generics </a> </li> <li class=md-nav__item> <a href=../21-Arrays/ title="21 Arrays" class=md-nav__link> 21 Arrays </a> </li> <li class=md-nav__item> <a href=../22-Enumerations/ title="22 Enumerations" class=md-nav__link> 22 Enumerations </a> </li> <li class=md-nav__item> <a href=../23-Annotations/ title="23 Annotations" class=md-nav__link> 23 Annotations </a> </li> <li class=md-nav__item> <a href=../24-Concurrent-Programming/ title="24 Concurrent Programming" class=md-nav__link> 24 Concurrent Programming </a> </li> <li class=md-nav__item> <a href=../25-Patterns/ title="25 Patterns" class=md-nav__link> 25 Patterns </a> </li> <li class=md-nav__item> <a href=../Appendix-Becoming-a-Programmer/ title="Appendix Becoming a Programmer" class=md-nav__link> Appendix Becoming a Programmer </a> </li> <li class=md-nav__item> <a href=../Appendix-Benefits-and-Costs-of-Static-Type-Checking/ title="Appendix Benefits and Costs of Static Type Checking" class=md-nav__link> Appendix Benefits and Costs of Static Type Checking </a> </li> <li class=md-nav__item> <a href=../Appendix-Collection-Topics/ title="Appendix Collection Topics" class=md-nav__link> Appendix Collection Topics </a> </li> <li class=md-nav__item> <a href=../Appendix-Data-Compression/ title="Appendix Data Compression" class=md-nav__link> Appendix Data Compression </a> </li> <li class=md-nav__item> <a href=../Appendix-IO-Streams/ title="Appendix IO Streams" class=md-nav__link> Appendix IO Streams </a> </li> <li class=md-nav__item> <a href=../Appendix-Javadoc/ title="Appendix Javadoc" class=md-nav__link> Appendix Javadoc </a> </li> <li class=md-nav__item> <a href=../Appendix-Low-Level-Concurrency/ title="Appendix Low Level Concurrency" class=md-nav__link> Appendix Low Level Concurrency </a> </li> <li class=md-nav__item> <a href=../Appendix-New-IO/ title="Appendix New IO" class=md-nav__link> Appendix New IO </a> </li> <li class=md-nav__item> <a href=../Appendix-Object-Serialization/ title="Appendix Object Serialization" class=md-nav__link> Appendix Object Serialization </a> </li> <li class=md-nav__item> <a href=../Appendix-Passing-and-Returning-Objects/ title="Appendix Passing and Returning Objects" class=md-nav__link> Appendix Passing and Returning Objects </a> </li> <li class=md-nav__item> <a href=../Appendix-Programming-Guidelines/ title="Appendix Programming Guidelines" class=md-nav__link> Appendix Programming Guidelines </a> </li> <li class=md-nav__item> <a href=../Appendix-Standard-IO/ title="Appendix Standard IO" class=md-nav__link> Appendix Standard IO </a> </li> <li class=md-nav__item> <a href=../Appendix-Supplements/ title="Appendix Supplements" class=md-nav__link> Appendix Supplements </a> </li> <li class=md-nav__item> <a href=../Appendix-The-Positive-Legacy-of-C-plus-plus-and-Java/ title="Appendix The Positive Legacy of C plus plus and Java" class=md-nav__link> Appendix The Positive Legacy of C plus plus and Java </a> </li> <li class=md-nav__item> <a href=../Appendix-Understanding-equals-and-hashCode/ title="Appendix Understanding equals and hashCode" class=md-nav__link> Appendix Understanding equals and hashCode </a> </li> <li class=md-nav__item> <a href=../GLOSSARY/ title=GLOSSARY class=md-nav__link> GLOSSARY </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5 type=checkbox id=nav-5> <label class=md-nav__link for=nav-5> Doc </label> <nav class=md-nav data-md-component=collapsible data-md-level=1> <label class=md-nav__title for=nav-5> Doc </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/ title=About class=md-nav__link> About </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2 type=checkbox id=nav-5-2> <label class=md-nav__link for=nav-5-2> English </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-5-2> English </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1 type=checkbox id=nav-5-2-1> <label class=md-nav__link for=nav-5-2-1> A Programmers Guide to English </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-5-2-1> A Programmers Guide to English </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/ title="A Programmer's Guide to English" class=md-nav__link> A Programmer's Guide to English </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/SUMMARY/ title=Summary class=md-nav__link> Summary </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1-3 type=checkbox id=nav-5-2-1-3> <label class=md-nav__link for=nav-5-2-1-3> Essence </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-1-3> Essence </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/essence/ title=语言学习的本质浅析 class=md-nav__link> 语言学习的本质浅析 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1-4 type=checkbox id=nav-5-2-1-4> <label class=md-nav__link for=nav-5-2-1-4> Make a program </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-1-4> Make a program </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/make-a-program/ title=如何构建一个识别英语的程序 class=md-nav__link> 如何构建一个识别英语的程序 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1-5 type=checkbox id=nav-5-2-1-5> <label class=md-nav__link for=nav-5-2-1-5> Qa </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-1-5> Qa </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/qa/ title="常见问题 QA" class=md-nav__link> 常见问题 QA </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/qa/WhyPTE/ title="为什么我选择 PTE 考试" class=md-nav__link> 为什么我选择 PTE 考试 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1-6 type=checkbox id=nav-5-2-1-6> <label class=md-nav__link for=nav-5-2-1-6> Resources </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-1-6> Resources </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/resources/ title=资料、工具推荐和扩展阅读 class=md-nav__link> 资料、工具推荐和扩展阅读 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1-7 type=checkbox id=nav-5-2-1-7> <label class=md-nav__link for=nav-5-2-1-7> Training </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-1-7> Training </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/training/ title=我的训练方法 class=md-nav__link> 我的训练方法 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/training/KnowledgeBase/ title=扩充语料库的训练方法 class=md-nav__link> 扩充语料库的训练方法 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/training/ListeningandSpeaking/ title=发音和听力训练方法 class=md-nav__link> 发音和听力训练方法 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/training/Thinking/ title=英语思维训练 class=md-nav__link> 英语思维训练 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-2 type=checkbox id=nav-5-2-2> <label class=md-nav__link for=nav-5-2-2> English level up tips for Chinese </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-5-2-2> English level up tips for Chinese </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/ title=English-level-up-tips-for-Chinese class=md-nav__link> English-level-up-tips-for-Chinese </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/SUMMARY/ title=Summary class=md-nav__link> Summary </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-2-3 type=checkbox id=nav-5-2-2-3> <label class=md-nav__link for=nav-5-2-2-3> Part 1 </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-2-3> Part 1 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-1/1-understanding/ title=认知篇 class=md-nav__link> 认知篇 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-1/2-vocabulary/ title=单词篇 class=md-nav__link> 单词篇 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-1/3-listening/ title=听力篇 class=md-nav__link> 听力篇 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-1/4-reading/ title=阅读篇 class=md-nav__link> 阅读篇 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-1/5-speaking/ title="5 speaking" class=md-nav__link> 5 speaking </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-2-4 type=checkbox id=nav-5-2-2-4> <label class=md-nav__link for=nav-5-2-2-4> Part 2 </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-2-4> Part 2 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-2/x-misc/ title=扯淡篇 class=md-nav__link> 扯淡篇 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-2-5 type=checkbox id=nav-5-2-2-5> <label class=md-nav__link for=nav-5-2-2-5> Word list </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-2-5> Word list </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/Go/ title=Go class=md-nav__link> Go </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/Java/ title=Java class=md-nav__link> Java </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/JavaScript/ title=JavaScript class=md-nav__link> JavaScript </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/PHP/ title=PHP class=md-nav__link> PHP </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/Python/ title=Python class=md-nav__link> Python </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/Swift/ title=Swift class=md-nav__link> Swift </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-3 type=checkbox id=nav-5-2-3> <label class=md-nav__link for=nav-5-2-3> Everyone can use english </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-5-2-3> Everyone can use english </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/ title=人人都能用英语 class=md-nav__link> 人人都能用英语 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter1/ title="第一章 起点" class=md-nav__link> 第一章 起点 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter2/ title="第二章 口语" class=md-nav__link> 第二章 口语 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter3/ title="第三章 语音" class=md-nav__link> 第三章 语音 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter4/ title="第四章 朗读" class=md-nav__link> 第四章 朗读 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter5/ title="第五章 词典" class=md-nav__link> 第五章 词典 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter6/ title="第六章 语法" class=md-nav__link> 第六章 语法 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter7/ title="第七章 精读" class=md-nav__link> 第七章 精读 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter8/ title="第八章 叮嘱" class=md-nav__link> 第八章 叮嘱 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/end/ title=后记 class=md-nav__link> 后记 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-3 type=checkbox id=nav-5-3> <label class=md-nav__link for=nav-5-3> Writing </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-5-3> Writing </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-3-1 type=checkbox id=nav-5-3-1> <label class=md-nav__link for=nav-5-3-1> Chinese copywriting guidelines </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-5-3-1> Chinese copywriting guidelines </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/writing/chinese-copywriting-guidelines/ title=中文文案排版指北 class=md-nav__link> 中文文案排版指北 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/chinese-copywriting-guidelines/CHANGELOG/ title=CHANGELOG class=md-nav__link> CHANGELOG </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/chinese-copywriting-guidelines/README.en-US/ title="Chinese Copywriting Guidelines" class=md-nav__link> Chinese Copywriting Guidelines </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/chinese-copywriting-guidelines/README.zh-CN/ title=中文文案排版指北 class=md-nav__link> 中文文案排版指北 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/chinese-copywriting-guidelines/README.zh-HK/ title=中文文案排版指北 class=md-nav__link> 中文文案排版指北 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-3-2 type=checkbox id=nav-5-3-2> <label class=md-nav__link for=nav-5-3-2> Document style guide </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-5-3-2> Document style guide </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/ title=Index class=md-nav__link> Index </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-3-2-2 type=checkbox id=nav-5-3-2-2> <label class=md-nav__link for=nav-5-3-2-2> Docs </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-3-2-2> Docs </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/marks/ title=标点符号 class=md-nav__link> 标点符号 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/number/ title=数值 class=md-nav__link> 数值 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/paragraph/ title=段落 class=md-nav__link> 段落 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/reference/ title=参考链接 class=md-nav__link> 参考链接 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/structure/ title=文档体系 class=md-nav__link> 文档体系 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/text/ title=文本 class=md-nav__link> 文本 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/title/ title=标题 class=md-nav__link> 标题 </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6 type=checkbox id=nav-6> <label class=md-nav__link for=nav-6> Life </label> <nav class=md-nav data-md-component=collapsible data-md-level=1> <label class=md-nav__title for=nav-6> Life </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6-1 type=checkbox id=nav-6-1> <label class=md-nav__link for=nav-6-1> Reading </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-6-1> Reading </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../life/reading/ title=阅读 class=md-nav__link> 阅读 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6-1-2 type=checkbox id=nav-6-1-2> <label class=md-nav__link for=nav-6-1-2> Mark </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-6-1-2> Mark </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../life/reading/mark/back-up/ title="2019 暑假备份" class=md-nav__link> 2019 暑假备份 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/back/ title=例行收集 class=md-nav__link> 例行收集 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/efficiency-time/ title=效率、时间、鸡汤 class=md-nav__link> 效率、时间、鸡汤 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/fiction/ title=小说 class=md-nav__link> 小说 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/films-remark/ title=影评、电影 class=md-nav__link> 影评、电影 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/fo/ title=佛 class=md-nav__link> 佛 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/hackers-others/ title=互联网、思维方式 class=md-nav__link> 互联网、思维方式 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/hooked-media/ title=媒介反思 class=md-nav__link> 媒介反思 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/isaka-kotaro/ title=伊坂幸太郎 class=md-nav__link> 伊坂幸太郎 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/knote/ title=整理 class=md-nav__link> 整理 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/mark-knote/ title=浪费时间 class=md-nav__link> 浪费时间 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/meaning/ title=思维方式 class=md-nav__link> 思维方式 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/morimi-tomihiko/ title=森见登美彦的文字好有趣啊! class=md-nav__link> 森见登美彦的文字好有趣啊! </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/murakamo-haruki/ title=村上春树 class=md-nav__link> 村上春树 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/no-fiction/ title=非虚构类 class=md-nav__link> 非虚构类 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/paper/ title=论文式总结 class=md-nav__link> 论文式总结 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/poem/ title=诗歌 class=md-nav__link> 诗歌 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/sence/ title=哲学相关通俗读物 class=md-nav__link> 哲学相关通俗读物 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/the-little-prince/ title="The Little Prince" class=md-nav__link> The Little Prince </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/universe/ title=物理科普读物 class=md-nav__link> 物理科普读物 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/utopia/ title=乌托邦小说世界关于书籍的冷幽默 class=md-nav__link> 乌托邦小说世界关于书籍的冷幽默 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/western-politics/ title=政哲 class=md-nav__link> 政哲 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/what-we-talk-about/ title=日本文学 class=md-nav__link> 日本文学 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/wuxia/ title=武侠 class=md-nav__link> 武侠 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/xiao-bo/ title=王小波 class=md-nav__link> 王小波 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6-1-3 type=checkbox id=nav-6-1-3> <label class=md-nav__link for=nav-6-1-3> Note </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-6-1-3> Note </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../life/reading/note/2017-09-02-book-JavaScript-DOM/ title="《JavaScript DOM 编程艺术》" class=md-nav__link> 《JavaScript DOM 编程艺术》 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/note/2017-09-09-coding-javascript-down/ title="尽量把 JavaScript 代码放到 HTML 网页底部" class=md-nav__link> 尽量把 JavaScript 代码放到 HTML 网页底部 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/note/2018-05-23-HTTP/ title="《HTTP 图解》" class=md-nav__link> 《HTTP 图解》 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/note/2018-06-07-computer/ title=计算机系统基础 class=md-nav__link> 计算机系统基础 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/note/2018-10-09-JVM/ title="JVM 笔记" class=md-nav__link> JVM 笔记 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/note/2018-11-25-computer/ title=计算机系统概论 class=md-nav__link> 计算机系统概论 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6-1-4 type=checkbox id=nav-6-1-4> <label class=md-nav__link for=nav-6-1-4> Review </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-6-1-4> Review </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../life/reading/review/2017-09-28-say-something/ title=听你吹牛的闲暇时光 class=md-nav__link> 听你吹牛的闲暇时光 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/review/2017-09-29-wuxia/ title="《流星 蝴蝶 剑》简记" class=md-nav__link> 《流星 蝴蝶 剑》简记 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/review/2017-12-30-xiao-bo/ title=波波老师 class=md-nav__link> 波波老师 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/review/2018-01-17-lai-zi-xin-shi-jie/ title=《来自新世界》 class=md-nav__link> 《来自新世界》 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/review/2018-10-06-October/ title=科普谈起 class=md-nav__link> 科普谈起 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/review/2019-09-07-story/ title=从网络小说谈起。 class=md-nav__link> 从网络小说谈起。 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6-2 type=checkbox id=nav-6-2> <label class=md-nav__link for=nav-6-2> Watching </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-6-2> Watching </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../life/watching/2017-08-29-watch-movies-rencently/ title=最近看的几部电影 class=md-nav__link> 最近看的几部电影 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2017-10-13-september-movies-record/ title=九月观影记录 class=md-nav__link> 九月观影记录 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2017-11-01-October-summary/ title=十月看片与非专业类阅读 class=md-nav__link> 十月看片与非专业类阅读 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2017-12-01-1112/ title=观影与阅读记录 class=md-nav__link> 观影与阅读记录 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2018-01-10-12/ title=最近看片与阅读 class=md-nav__link> 最近看片与阅读 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2018-02-06-january/ title=一月观影记录 class=md-nav__link> 一月观影记录 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2018-03-08-February/ title=二月至今观影记录 class=md-nav__link> 二月至今观影记录 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2018-03-31-March/ title=三月观影记录 class=md-nav__link> 三月观影记录 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2018-12-26-Smultronst%C3%A4llet/ title=野草莓 class=md-nav__link> 野草莓 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2019-10-10-October/ title=克服本能就是善良吗？（从十月新番胡扯……） class=md-nav__link> 克服本能就是善良吗？（从十月新番胡扯……） </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2019-11-04-bgm/ title=无人声环 class=md-nav__link> 无人声环 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2019-11-13-the-end-of-the-world/ title="The End of the Fucking World" class=md-nav__link> The End of the Fucking World </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-7 type=checkbox id=nav-7> <label class=md-nav__link for=nav-7> Study </label> <nav class=md-nav data-md-component=collapsible data-md-level=1> <label class=md-nav__title for=nav-7> Study </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-7-1 type=checkbox id=nav-7-1> <label class=md-nav__link for=nav-7-1> Draft </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-7-1> Draft </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../study/draft/try-wiki/ title="一些 Wiki 工具的尝试" class=md-nav__link> 一些 Wiki 工具的尝试 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-7-2 type=checkbox id=nav-7-2> <label class=md-nav__link for=nav-7-2> Language </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-7-2> Language </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../study/language/%E6%97%A5%E8%AF%AD%E5%85%A5%E9%97%A8/ title=日语入门 class=md-nav__link> 日语入门 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8 type=checkbox id=nav-8> <label class=md-nav__link for=nav-8> Tech </label> <nav class=md-nav data-md-component=collapsible data-md-level=1> <label class=md-nav__title for=nav-8> Tech </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1 type=checkbox id=nav-8-1> <label class=md-nav__link for=nav-8-1> Code </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-8-1> Code </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1-1 type=checkbox id=nav-8-1-1> <label class=md-nav__link for=nav-8-1-1> Frontend </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-1-1> Frontend </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/code/frontend/2017-09-14-easy-web-test/ title=大表哥的电商网页实战体验 class=md-nav__link> 大表哥的电商网页实战体验 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/frontend/2017-09-23-know-nothing/ title=知其然不知其所以然 class=md-nav__link> 知其然不知其所以然 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/frontend/2018-06-08-responsive/ title=大表哥的响应式设计 class=md-nav__link> 大表哥的响应式设计 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/frontend/zh-javascript-info/ title="现代 JavaScript 教程摘录" class=md-nav__link> 现代 JavaScript 教程摘录 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1-2 type=checkbox id=nav-8-1-2> <label class=md-nav__link for=nav-8-1-2> Go </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-1-2> Go </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/code/go/01/ title=01 class=md-nav__link> 01 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1-3 type=checkbox id=nav-8-1-3> <label class=md-nav__link for=nav-8-1-3> Java </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-1-3> Java </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/code/java/2017-12-30-Java%20Web/ title="从 url 访问服务器资源讨论 Java Web 中的 Servlet" class=md-nav__link> 从 url 访问服务器资源讨论 Java Web 中的 Servlet </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2018-11-23-ArrayList/ title=ArrayList class=md-nav__link> ArrayList </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-01-31-HashMap/ title=HashMap class=md-nav__link> HashMap </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-02-01-String/ title="String 分析(栈,堆,字符串常量池)" class=md-nav__link> String 分析(栈,堆,字符串常量池) </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-02-03-String/ title=String、StringBuffer、StingBuilder class=md-nav__link> String、StringBuffer、StingBuilder </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-02-06-Hashtable/ title=Hashtable class=md-nav__link> Hashtable </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-03-22-string-pool/ title=字符串常量池到底保存的是字符串对象还是字符串对象的引用? class=md-nav__link> 字符串常量池到底保存的是字符串对象还是字符串对象的引用? </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-03-23-Java-Thread-pool/ title="Java 线程池" class=md-nav__link> Java 线程池 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-03-29-Java%20Web/ title="Java Web 启动流程" class=md-nav__link> Java Web 启动流程 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-04-05-AQS-lock/ title="AQS 与 Java 锁的具体实现" class=md-nav__link> AQS 与 Java 锁的具体实现 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1-4 type=checkbox id=nav-8-1-4> <label class=md-nav__link for=nav-8-1-4> Projects </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-1-4> Projects </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/code/projects/2018-05-07-big-data/ title="大数据 Demo （采集、处理、应用）复盘" class=md-nav__link> 大数据 Demo （采集、处理、应用）复盘 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1-5 type=checkbox id=nav-8-1-5> <label class=md-nav__link for=nav-8-1-5> Spring </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-1-5> Spring </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/code/spring/2018-09-01-Spring%20Security/ title="Spring Boot 与 Spring Security" class=md-nav__link> Spring Boot 与 Spring Security </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/spring/2019-03-29-Spring-init/ title="Spring 启动流程与简单源码分析" class=md-nav__link> Spring 启动流程与简单源码分析 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/spring/2019-04-06-Spring-MVC/ title="Spring MVC 简单源码分析" class=md-nav__link> Spring MVC 简单源码分析 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-2 type=checkbox id=nav-8-2> <label class=md-nav__link for=nav-8-2> Config </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-8-2> Config </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-2-1 type=checkbox id=nav-8-2-1> <label class=md-nav__link for=nav-8-2-1> Git </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-2-1> Git </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/config/git/2018-02-01-git/ title="Git 的简单使用" class=md-nav__link> Git 的简单使用 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/git/2019-08-10-git-merge/ title="Git 协作管理项目时不可避免的 merge 操作" class=md-nav__link> Git 协作管理项目时不可避免的 merge 操作 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/git/submodule/ title=submodule class=md-nav__link> submodule </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-2-2 type=checkbox id=nav-8-2-2> <label class=md-nav__link for=nav-8-2-2> Linux </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-2-2> Linux </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/config/linux/2019-12-18-manjaro/ title="Manjaro 个人新装配置" class=md-nav__link> Manjaro 个人新装配置 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/linux/2020-02-23-archer-s-arch/ title="Archer`s Arch" class=md-nav__link> Archer`s Arch </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/linux/fontconfig/ title="Arch Emoji fontconfig" class=md-nav__link> Arch Emoji fontconfig </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/linux/softwares/ title=各种工具 class=md-nav__link> 各种工具 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-2-3 type=checkbox id=nav-8-2-3> <label class=md-nav__link for=nav-8-2-3> Tools </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-2-3> Tools </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/config/tools/cz-conventional-changelog/ title=cz-conventional-changelog class=md-nav__link> cz-conventional-changelog </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-2-4 type=checkbox id=nav-8-2-4> <label class=md-nav__link for=nav-8-2-4> Undefined </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-2-4> Undefined </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2018-03-31-Generator-SpringBoot-Gradle/ title="MyBatis Generator + Spring Boot + Gradle 配置" class=md-nav__link> MyBatis Generator + Spring Boot + Gradle 配置 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2018-06-25-VS-Code-Python/ title="VS Code 写 Python" class=md-nav__link> VS Code 写 Python </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2018-06-26-linux-kawa/ title="在 Linux 上使用 kawa" class=md-nav__link> 在 Linux 上使用 kawa </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2018-11-25-mysql/ title="【转】在 CentOS 上部署 MySQL 解压版" class=md-nav__link> 【转】在 CentOS 上部署 MySQL 解压版 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2019-04-03-Redis-lock/ title="Redis 的分布式锁实现" class=md-nav__link> Redis 的分布式锁实现 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2019-07-28-picGo/ title="Github + picGo ——有图床了" class=md-nav__link> Github + picGo ——有图床了 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2019-11-18-linux-mount/ title="Linux 挂载分区/磁盘" class=md-nav__link> Linux 挂载分区/磁盘 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-02-03-terminal-wifi/ title=把显卡驱动删了后在终端连热点 class=md-nav__link> 把显卡驱动删了后在终端连热点 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-02-12-css/ title=一个引号引发的惨案 class=md-nav__link> 一个引号引发的惨案 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-02-23-archer-s-arch/ title="Archer`s Arch" class=md-nav__link> Archer`s Arch </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-03-12-electron-vue/ title="用 Vue 写 Electron 的一次问题解决" class=md-nav__link> 用 Vue 写 Electron 的一次问题解决 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-03-12-ttrss/ title="部署 TTRSS 遇到的一些有趣的东西" class=md-nav__link> 部署 TTRSS 遇到的一些有趣的东西 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-04-02-hexo-asset-image/ title="hexo-next-theme 开启 lazyload 使用 hexo-asset-image 出问题了" class=md-nav__link> hexo-next-theme 开启 lazyload 使用 hexo-asset-image 出问题了 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-3 type=checkbox id=nav-8-3> <label class=md-nav__link for=nav-8-3> Project </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-8-3> Project </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/project/2017-12-21-xiao-zong-jie/ title=做个小小的总结 class=md-nav__link> 做个小小的总结 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2018-05-07-big-data/ title="大数据 Demo （采集、处理、应用）复盘" class=md-nav__link> 大数据 Demo （采集、处理、应用）复盘 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2018-06-25-tencent-news-spider-py/ title=腾讯新闻爬虫 class=md-nav__link> 腾讯新闻爬虫 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2018-09-13-lite-terminal-home-page/ title=简单的仿终端主页 class=md-nav__link> 简单的仿终端主页 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-01-11-tank/ title=花里胡哨的坦克大战 class=md-nav__link> 花里胡哨的坦克大战 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-02-05-new-year/ title=大年初一（爬取豆瓣条目及吐槽） class=md-nav__link> 大年初一（爬取豆瓣条目及吐槽） </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-04-03-blog-project/ title=写博客 class=md-nav__link> 写博客 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-06-17-nodejs/ title="MarkAll 导入豆瓣数据 —— NodeJS 写爬虫" class=md-nav__link> MarkAll 导入豆瓣数据 —— NodeJS 写爬虫 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-11-15-Autumn-Json/ title="Autumn-From-Spring 自定义 BeanDefinitionReader" class=md-nav__link> Autumn-From-Spring 自定义 BeanDefinitionReader </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-11-15-bookmarkdown/ title="Chrome 插件——书签转 MarkDown" class=md-nav__link> Chrome 插件——书签转 MarkDown </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-4 type=checkbox id=nav-8-4> <label class=md-nav__link for=nav-8-4> Undefined </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-8-4> Undefined </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/undefined/2017-08-10-then-start/ title=那就开始吧 class=md-nav__link> 那就开始吧 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2017-08-16-Writing-is%20the-reward-of-writing-itself/ title=写就是写本身的报酬 class=md-nav__link> 写就是写本身的报酬 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2017-11-19-change-my-blog/ title=【过时内容】嘿，我转移博客啦！ class=md-nav__link> 【过时内容】嘿，我转移博客啦！ </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2017-12-08-yao-guai-ji-yu-you-ren-bo/ title=妖怪唧唧与友人波波 class=md-nav__link> 妖怪唧唧与友人波波 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-01-01-ubuntu/ title="折腾 ubuntu 与 win10 共存" class=md-nav__link> 折腾 ubuntu 与 win10 共存 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-02-09-pc-system/ title="黑苹果与 Ubuntu 及 PC 折腾系统" class=md-nav__link> 黑苹果与 Ubuntu 及 PC 折腾系统 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-03-12-install-Vmware-on-linux/ title="deepin 安装 VMware" class=md-nav__link> deepin 安装 VMware </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-03-31-SQL/ title="Spring Boot 开发遇到一些 SQL 问题" class=md-nav__link> Spring Boot 开发遇到一些 SQL 问题 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-04-06-jquery-confrim/ title="JQuery-Confrim 的一点问题" class=md-nav__link> JQuery-Confrim 的一点问题 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-04-06-some-plugins/ title="ECharts + PageHelper + Bootstrap Table" class=md-nav__link> ECharts + PageHelper + Bootstrap Table </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-04-09-js-in-thymeleaf/ title="Thymeleaf 里使用 JavaScript 时的注意事项" class=md-nav__link> Thymeleaf 里使用 JavaScript 时的注意事项 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-04-09-spring-boot-gradle-yml-log4j2/ title="Spring Boot + Gradle + yml 配置 log4j2" class=md-nav__link> Spring Boot + Gradle + yml 配置 log4j2 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-05-09-softwares/ title="Linux 常用软件" class=md-nav__link> Linux 常用软件 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-05-30-hexo-image/ title="【可能过时】Hexo 一点问题（生成博文插入本地图片,修改文章路径）" class=md-nav__link> 【可能过时】Hexo 一点问题（生成博文插入本地图片,修改文章路径） </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-05-30-show/ title=如果给文章提供多种渲染方式 class=md-nav__link> 如果给文章提供多种渲染方式 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-08-30-vue-music/ title="简单的单页应用(Vue CLI2 的简单使用)" class=md-nav__link> 简单的单页应用(Vue CLI2 的简单使用) </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-09-23-word-count/ title="WordCount 项目总结" class=md-nav__link> WordCount 项目总结 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2020-02-06-markall-douban-backup/ title=豆瓣标记数据备份插件 class=md-nav__link> 豆瓣标记数据备份插件 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2020-02-07-markall-douban-backup-yes/ title=【过时】又一个——豆瓣标记数据备份插件 class=md-nav__link> 【过时】又一个——豆瓣标记数据备份插件 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2020-02-13-blog/ title=从分析本网站的网络请求谈起 class=md-nav__link> 从分析本网站的网络请求谈起 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/draft/ title=Draft class=md-nav__link> Draft </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary"> <label class=md-nav__title for=__toc>目录</label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=#_2 class=md-nav__link> 抽象类和方法 </a> </li> <li class=md-nav__item> <a href=#_3 class=md-nav__link> 接口创建 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_4 class=md-nav__link> 默认方法 </a> </li> <li class=md-nav__item> <a href=#_5 class=md-nav__link> 多继承 </a> </li> <li class=md-nav__item> <a href=#_6 class=md-nav__link> 接口中的静态方法 </a> </li> <li class=md-nav__item> <a href=#instrument class=md-nav__link> Instrument 作为接口 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_7 class=md-nav__link> 抽象类和接口 </a> </li> <li class=md-nav__item> <a href=#_8 class=md-nav__link> 完全解耦 </a> </li> <li class=md-nav__item> <a href=#_9 class=md-nav__link> 多接口结合 </a> </li> <li class=md-nav__item> <a href=#_10 class=md-nav__link> 使用继承扩展接口 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_11 class=md-nav__link> 结合接口时的命名冲突 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_12 class=md-nav__link> 接口适配 </a> </li> <li class=md-nav__item> <a href=#_13 class=md-nav__link> 接口字段 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_14 class=md-nav__link> 初始化接口中的字段 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_15 class=md-nav__link> 接口嵌套 </a> </li> <li class=md-nav__item> <a href=#_16 class=md-nav__link> 接口和工厂方法模式 </a> </li> <li class=md-nav__item> <a href=#_17 class=md-nav__link> 本章小结 </a> </li> </ul> </nav> </div> </div> </div> <div class=md-content> <article class="md-content__inner md-typeset"> <a href=https://github.com/hqweay/my-mkdocs/edit/master/docs/book/OnJava8/docs/book/10-Interfaces.md title=编辑此页 class="md-icon md-content__icon">&#xE3C9;</a> <div class=toc> <ul> <li><a href=#_1>第十章 接口</a><ul> <li><a href=#_2>抽象类和方法</a></li> <li><a href=#_3>接口创建</a><ul> <li><a href=#_4>默认方法</a></li> <li><a href=#_5>多继承</a></li> <li><a href=#_6>接口中的静态方法</a></li> <li><a href=#instrument>Instrument 作为接口</a></li> </ul> </li> <li><a href=#_7>抽象类和接口</a></li> <li><a href=#_8>完全解耦</a></li> <li><a href=#_9>多接口结合</a></li> <li><a href=#_10>使用继承扩展接口</a><ul> <li><a href=#_11>结合接口时的命名冲突</a></li> </ul> </li> <li><a href=#_12>接口适配</a></li> <li><a href=#_13>接口字段</a><ul> <li><a href=#_14>初始化接口中的字段</a></li> </ul> </li> <li><a href=#_15>接口嵌套</a></li> <li><a href=#_16>接口和工厂方法模式</a></li> <li><a href=#_17>本章小结</a></li> </ul> </li> </ul> </div> <!-- Interfaces --> <h1 id=_1>第十章 接口<a class=headerlink href=#_1 title="Permanent link">#</a></h1> <p>接口和抽象类提供了一种将接口与实现分离的更加结构化的方法。</p> <p>这种机制在编程语言中不常见，例如 C++ 只对这种概念有间接的支持。而在 Java 中存在这些关键字，说明这些思想很重要，Java 为它们提供了直接支持。</p> <p>首先，我们将学习抽象类，一种介于普通类和接口之间的折中手段。尽管你的第一想法是创建接口，但是对于构建具有属性和未实现方法的类来说，抽象类也是重要且必要的工具。你不可能总是使用纯粹的接口。</p> <!-- Abstract Classes and Methods --> <h2 id=_2>抽象类和方法<a class=headerlink href=#_2 title="Permanent link">#</a></h2> <p>在上一章的乐器例子中，基类 <strong>Instrument</strong> 中的方法往往是“哑”方法。如果调用了这些方法，就会出现一些错误。这是因为接口的目的是为它的派生类创建一个通用接口。</p> <p>在那些例子中，创建这个通用接口的唯一理由是，不同的子类可以用不同的方式表示此接口。通用接口建立了一个基本形式，以此表达所有派生类的共同部分。另一种说法把 <strong>Instrument</strong> 称为抽象基类，或简称抽象类。</p> <p>对于像 <strong>Instrument</strong> 那样的抽象类来说，它的对象几乎总是没有意义的。创建一个抽象类是为了通过通用接口操纵一系列类。因此，<strong>Instrument</strong> 只是表示接口，不是具体实现，所以创建一个 <strong>Instrument</strong> 的对象毫无意义，我们可能希望阻止用户这么做。通过让 <strong>Instrument</strong> 所有的方法产生错误，就可以达到这个目的，但是这么做会延迟到运行时才能得知错误信息，并且需要用户进行可靠、详尽的测试。最好能在编译时捕捉问题。</p> <p>Java 提供了一个叫做<em>抽象方法</em>的机制，这个方法是不完整的：它只有声明没有方法体。下面是抽象方法的声明语法：</p> <div class=highlight><pre><span></span><code><span class=kd>abstract</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>();</span>
+</code></pre></div> <p>包含抽象方法的类叫做<em>抽象类</em>。如果一个类包含一个或多个抽象方法，那么类本身也必须限定为抽象的，否则，编译器会报错。</p> <div class=highlight><pre><span></span><code><span class=c1>// interface/Basic.java</span>
+<span class=kd>abstract</span> <span class=kd>class</span> <span class=nc>Basic</span> <span class=p>{</span>
+    <span class=kd>abstract</span> <span class=kt>void</span> <span class=nf>unimplemented</span><span class=p>();</span>
+<span class=p>}</span>
+</code></pre></div> <p>如果一个抽象类是不完整的，当试图创建这个类的对象时，Java 会怎么做呢？它不会创建抽象类的对象，所以我们只会得到编译器的错误信息。这样保证了抽象类的纯粹性，我们不用担心误用它。</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/AttemptToUseBasic.java</span>
+<span class=c1>// {WillNotCompile}</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>AttemptToUseBasic</span> <span class=p>{</span>
+    <span class=n>Basic</span> <span class=n>b</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Basic</span><span class=p>();</span>
+    <span class=c1>// error: Basic is abstract; cannot be instantiated</span>
+<span class=p>}</span>
+</code></pre></div> <p>如果创建一个继承抽象类的新类并为之创建对象，那么就必须为基类的所有抽象方法提供方法定义。如果不这么做（可以选择不做），新类仍然是一个抽象类，编译器会强制我们为新类加上 <strong>abstract</strong> 关键字。</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/Basic2.java</span>
+<span class=kd>abstract</span> <span class=kd>class</span> <span class=nc>Basic2</span> <span class=kd>extends</span> <span class=n>Basic</span> <span class=p>{</span>
+    <span class=kt>int</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=mi>111</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=kd>abstract</span> <span class=kt>void</span> <span class=nf>g</span><span class=p>()</span> <span class=p>{</span>
+        <span class=c1>// unimplemented() still not implemented</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>可以将一个不包含任何抽象方法的类指明为 <strong>abstract</strong>，在类中的抽象方法没啥意义但想阻止创建类的对象时，这么做就很有用。</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/AbstractWithoutAbstracts.java</span>
+<span class=kd>abstract</span> <span class=kd>class</span> <span class=nc>Basic3</span> <span class=p>{</span>
+    <span class=kt>int</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=mi>111</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=c1>// No abstract methods</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>AbstractWithoutAbstracts</span> <span class=p>{</span>
+    <span class=c1>// Basic3 b3 = new Basic3();</span>
+    <span class=c1>// error: Basic3 is abstract; cannot be instantiated</span>
+<span class=p>}</span>
+</code></pre></div> <p>为了创建可初始化的类，就要继承抽象类，并提供所有抽象方法的定义：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/Instantiable.java</span>
+<span class=kd>abstract</span> <span class=kd>class</span> <span class=nc>Uninstantiable</span> <span class=p>{</span>
+    <span class=kd>abstract</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>();</span>
+    <span class=kd>abstract</span> <span class=kt>int</span> <span class=nf>g</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Instantiable</span> <span class=kd>extends</span> <span class=n>Uninstantiable</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;f()&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kt>int</span> <span class=nf>g</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=mi>22</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Uninstantiable</span> <span class=n>ui</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Instantiable</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>留意 <code>@Override</code> 的使用。没有这个注解的话，如果你没有定义相同的方法名或签名，抽象机制会认为你没有实现抽象方法从而产生编译时错误。因此，你可能认为这里的 <code>@Override</code> 是多余的。但是，<code>@Override</code> 还提示了这个方法被覆写——我认为这是有用的，所以我会使用 <code>@Override</code>，即使在没有这个注解，编译器告诉我错误的时候。 </p> <p>记住，事实上的访问权限是“friendly”。你很快会看到接口自动将其方法指明为 <strong>public</strong>。事实上，接口只允许 <strong>public</strong> 方法，如果不加访问修饰符的话，接口的方法不是 <strong>friendly</strong> 而是 <strong>public</strong>。然而，抽象类允许每件事：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/AbstractAccess.java</span>
+<span class=kd>abstract</span> <span class=kd>class</span> <span class=nc>AbstractAccess</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kt>void</span> <span class=nf>m1</span><span class=p>()</span> <span class=p>{}</span>
+
+    <span class=c1>// private abstract void m1a(); // illegal</span>
+
+    <span class=kd>protected</span> <span class=kt>void</span> <span class=nf>m2</span><span class=p>()</span> <span class=p>{}</span>
+
+    <span class=kd>protected</span> <span class=kd>abstract</span> <span class=kt>void</span> <span class=nf>m2a</span><span class=p>();</span>
+
+    <span class=kt>void</span> <span class=nf>m3</span><span class=p>()</span> <span class=p>{}</span>
+
+    <span class=kd>abstract</span> <span class=kt>void</span> <span class=nf>m3a</span><span class=p>();</span>
+
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>m4</span><span class=p>()</span> <span class=p>{}</span>
+
+    <span class=kd>public</span> <span class=kd>abstract</span> <span class=kt>void</span> <span class=nf>m4a</span><span class=p>();</span>
+<span class=p>}</span>
+</code></pre></div> <p><strong>private abstract</strong> 被禁止了是有意义的，因为你不可能在 <strong>AbstractAccess</strong> 的任何子类中合法地定义它。</p> <p>上一章的 <strong>Instrument</strong> 类可以很轻易地转换为一个抽象类。只需要部分方法是 <strong>abstract</strong> 即可。将一个类指明为 <strong>abstract</strong> 并不强制类中的所有方法必须都是抽象方法。如下图所示：</p> <p><img alt=类图 src=../../images/1562653648586.png></p> <p>下面是修改成使用抽象类和抽象方法的管弦乐器的例子：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/music4/Music4.java</span>
+<span class=c1>// Abstract classes and methods</span>
+<span class=c1>// {java interfaces.music4.Music4}</span>
+<span class=kn>package</span> <span class=nn>interfaces.music4</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>polymorphism.music.Note</span><span class=p>;</span>
+
+<span class=kd>abstract</span> <span class=kd>class</span> <span class=nc>Instrument</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kt>int</span> <span class=n>i</span><span class=p>;</span> <span class=c1>// Storage allocated for each</span>
+
+    <span class=kd>public</span> <span class=kd>abstract</span> <span class=kt>void</span> <span class=nf>play</span><span class=p>(</span><span class=n>Note</span> <span class=n>n</span><span class=p>);</span>
+
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>what</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=s>&quot;Instrument&quot;</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>abstract</span> <span class=kt>void</span> <span class=nf>adjust</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Wind</span> <span class=kd>extends</span> <span class=n>Instrument</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>play</span><span class=p>(</span><span class=n>Note</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Wind.play() &quot;</span> <span class=o>+</span> <span class=n>n</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>what</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=s>&quot;Wind&quot;</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>adjust</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Adjusting Wind&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Percussion</span> <span class=kd>extends</span> <span class=n>Instrument</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>play</span><span class=p>(</span><span class=n>Note</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Percussion.play() &quot;</span> <span class=o>+</span> <span class=n>n</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>what</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=s>&quot;Percussion&quot;</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>adjust</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Adjusting Percussion&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Stringed</span> <span class=kd>extends</span> <span class=n>Instrument</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>play</span><span class=p>(</span><span class=n>Note</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Stringed.play() &quot;</span> <span class=o>+</span> <span class=n>n</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>what</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=s>&quot;Stringed&quot;</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>adjust</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Adjusting Stringed&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Brass</span> <span class=kd>extends</span> <span class=n>Wind</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>play</span><span class=p>(</span><span class=n>Note</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Brass.play() &quot;</span> <span class=o>+</span> <span class=n>n</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>adjust</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Adjusting Brass&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Woodwind</span> <span class=kd>extends</span> <span class=n>Wind</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>play</span><span class=p>(</span><span class=n>Note</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Woodwind.play() &quot;</span> <span class=o>+</span> <span class=n>n</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>what</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=s>&quot;Woodwind&quot;</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Music4</span> <span class=p>{</span>
+    <span class=c1>// Doesn&#39;t care about type, so new types</span>
+    <span class=c1>// added to system still work right:</span>
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>tune</span><span class=p>(</span><span class=n>Instrument</span> <span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+        <span class=c1>// ...</span>
+        <span class=n>i</span><span class=p>.</span><span class=na>play</span><span class=p>(</span><span class=n>Note</span><span class=p>.</span><span class=na>MIDDLE_C</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>tuneAll</span><span class=p>(</span><span class=n>Instrument</span><span class=o>[]</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>for</span> <span class=p>(</span><span class=n>Instrument</span> <span class=n>i</span><span class=p>:</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+            <span class=n>tune</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=c1>// Upcasting during addition to the array:</span>
+        <span class=n>Instrument</span><span class=o>[]</span> <span class=n>orchestra</span> <span class=o>=</span> <span class=p>{</span>
+            <span class=k>new</span> <span class=n>Wind</span><span class=p>(),</span>
+            <span class=k>new</span> <span class=n>Percussion</span><span class=p>(),</span>
+            <span class=k>new</span> <span class=n>Stringed</span><span class=p>(),</span>
+            <span class=k>new</span> <span class=n>Brass</span><span class=p>(),</span>
+            <span class=k>new</span> <span class=n>Woodwind</span><span class=p>()</span>
+        <span class=p>};</span>
+        <span class=n>tuneAll</span><span class=p>(</span><span class=n>orchestra</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>Wind.play() MIDDLE_C
+Percussion.play() MIDDLE_C
+Stringed.play() MIDDLE_C
+Brass.play() MIDDLE_C
+Woodwind.play() MIDDLE_C
+</code></pre></div> <p>除了 <strong>Instrument</strong>，基本没区别。</p> <p>创建抽象类和抽象方法是有帮助的，因为它们使得类的抽象性很明确，并能告知用户和编译器使用意图。抽象类同时也是一种有用的重构工具，使用它们使得我们很容易地将沿着继承层级结构上移公共方法。</p> <!-- Interfaces --> <h2 id=_3>接口创建<a class=headerlink href=#_3 title="Permanent link">#</a></h2> <p>使用 <strong>interface</strong> 关键字创建接口。在本书中，interface 和 class 一样随处常见，除非特指关键字 <strong>interface</strong>，其他情况下都采用正常字体书写 interface。</p> <p>描述 Java 8 之前的接口更加容易，因为它们只允许抽象方法。像下面这样：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/PureInterface.java</span>
+<span class=c1>// Interface only looked like this before Java 8</span>
+<span class=kd>public</span> <span class=kd>interface</span> <span class=nc>PureInterface</span> <span class=p>{</span>
+    <span class=kt>int</span> <span class=nf>m1</span><span class=p>();</span> 
+    <span class=kt>void</span> <span class=nf>m2</span><span class=p>();</span>
+    <span class=kt>double</span> <span class=nf>m3</span><span class=p>();</span>
+<span class=p>}</span>
+</code></pre></div> <p>我们甚至不用为方法加上 <strong>abstract</strong> 关键字，因为方法在接口中。Java 知道这些方法不能有方法体（仍然可以为方法加上 <strong>abstract</strong> 关键字，但是看起来像是不明白接口，徒增难堪罢了）。</p> <p>因此，在 Java 8之前我们可以这么说：<strong>interface</strong> 关键字产生一个完全抽象的类，没有提供任何实现。我们只能描述类应该像什么，做什么，但不能描述怎么做，即只能决定方法名、参数列表和返回类型，但是无法确定方法体。接口只提供形式，通常来说没有实现，尽管在某些受限制的情况下可以有实现。</p> <p>一个接口表示：所有实现了该接口的类看起来都像这样。因此，任何使用某特定接口的代码都知道可以调用该接口的哪些方法，而且仅需知道这些。所以，接口被用来建立类之间的协议。（一些面向对象编程语言中，使用 protocol 关键字完成相同的功能。）</p> <p>Java 8 中接口稍微有些变化，因为 Java 8 允许接口包含默认方法和静态方法——基于某些重要原因，看到后面你会理解。接口的基本概念仍然没变，介于类型之上、实现之下。接口与抽象类最明显的区别可能就是使用上的惯用方式。接口的典型使用是代表一个类的类型或一个形容词，如 Runnable 或 Serializable，而抽象类通常是类层次结构的一部分或一件事物的类型，如 String 或 ActionHero。</p> <p>使用关键字 <strong>interface</strong> 而不是 <strong>class</strong> 来创建接口。和类一样，需要在关键字 <strong>interface</strong> 前加上 <strong>public</strong> 关键字（但只是在接口名与文件名相同的情况下），否则接口只有包访问权限，只能在接口相同的包下才能使用它。</p> <p>接口同样可以包含属性，这些属性被隐式指明为 <strong>static</strong> 和 <strong>final</strong>。</p> <p>使用 <strong>implements</strong> 关键字使一个类遵循某个特定接口（或一组接口），它表示：接口只是外形，现在我要说明它是如何工作的。除此之外，它看起来像继承。</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/ImplementingAnInterface.java</span>
+<span class=kd>interface</span> <span class=nc>Concept</span> <span class=p>{</span> <span class=c1>// Package access</span>
+    <span class=kt>void</span> <span class=nf>idea1</span><span class=p>();</span>
+    <span class=kt>void</span> <span class=nf>idea2</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Implementation</span> <span class=kd>implements</span> <span class=n>Concept</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>idea1</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;idea1&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>idea2</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;idea2&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>你可以选择显式地声明接口中的方法为 <strong>public</strong>，但是即使你不这么做，它们也是 <strong>public</strong> 的。所以当实现一个接口时，来自接口中的方法必须被定义为 <strong>public</strong>。否则，它们只有包访问权限，这样在继承时，它们的可访问权限就被降低了，这是 Java 编译器所不允许的。</p> <h3 id=_4>默认方法<a class=headerlink href=#_4 title="Permanent link">#</a></h3> <p>Java 8 为关键字 <strong>default</strong> 增加了一个新的用途（之前只用于 <strong>switch</strong> 语句和注解中）。当在接口中使用它时，任何实现接口却没有定义方法的时候可以使用 <strong>default</strong> 创建的方法体。默认方法比抽象类中的方法受到更多的限制，但是非常有用，我们将在“流式编程”一章中看到。现在让我们看下如何使用：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/AnInterface.java</span>
+<span class=kd>interface</span> <span class=nc>AnInterface</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>firstMethod</span><span class=p>();</span>
+    <span class=kt>void</span> <span class=nf>secondMethod</span><span class=p>();</span>
+<span class=p>}</span>
+</code></pre></div> <p>我们可以像这样实现接口：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/AnImplementation.java</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>AnImplementation</span> <span class=kd>implements</span> <span class=n>AnInterface</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>firstMethod</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;firstMethod&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>secondMethod</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;secondMethod&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>AnInterface</span> <span class=n>i</span> <span class=o>=</span> <span class=k>new</span> <span class=n>AnImplementation</span><span class=p>();</span>
+        <span class=n>i</span><span class=p>.</span><span class=na>firstMethod</span><span class=p>();</span>
+        <span class=n>i</span><span class=p>.</span><span class=na>secondMethod</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>firstMethod
+secondMethod
+</code></pre></div> <p>如果我们在 <strong>AnInterface</strong> 中增加一个新方法 <code>newMethod()</code>，而在 <strong>AnImplementation</strong> 中没有实现它，编译器就会报错：</p> <div class=highlight><pre><span></span><code>AnImplementation.java:3:error: AnImplementation is not abstract and does not override abstract method newMethod() in AnInterface
+public class AnImplementation implements AnInterface {
+^
+1 error
+</code></pre></div> <p>如果我们使用关键字 <strong>default</strong> 为 <code>newMethod()</code> 方法提供默认的实现，那么所有与接口有关的代码能正常工作，不受影响，而且这些代码还可以调用新的方法 <code>newMethod()</code>：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/InterfaceWithDefault.java</span>
+<span class=kd>interface</span> <span class=nc>InterfaceWithDefault</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>firstMethod</span><span class=p>();</span>
+    <span class=kt>void</span> <span class=nf>secondMethod</span><span class=p>();</span>
+
+    <span class=k>default</span> <span class=kt>void</span> <span class=nf>newMethod</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;newMethod&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>关键字 <strong>default</strong> 允许在接口中提供方法实现——在 Java 8 之前被禁止。</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/Implementation2.java</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Implementation2</span> <span class=kd>implements</span> <span class=n>InterfaceWithDefault</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>firstMethod</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;firstMethod&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>secondMethod</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;secondMethod&quot;</span><span class=p>)</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>InterfaceWithDefault</span> <span class=n>i</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Implementation2</span><span class=p>();</span>
+        <span class=n>i</span><span class=p>.</span><span class=na>firstMethod</span><span class=p>();</span>
+        <span class=n>i</span><span class=p>.</span><span class=na>secondMethod</span><span class=p>();</span>
+        <span class=n>i</span><span class=p>.</span><span class=na>newMethod</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>firstMethod
+secondMethod
+newMethod
+</code></pre></div> <p>尽管 <strong>Implementation2</strong> 中未定义 <code>newMethod()</code>，但是可以使用 <code>newMethod()</code> 了。 </p> <p>增加默认方法的极具说服力的理由是它允许在不破坏已使用接口的代码的情况下，在接口中增加新的方法。默认方法有时也被称为<em>守卫方法</em>或<em>虚拟扩展方法</em>。</p> <h3 id=_5>多继承<a class=headerlink href=#_5 title="Permanent link">#</a></h3> <p>多继承意味着一个类可能从多个父类型中继承特征和特性。</p> <p>Java 在设计之初，C++ 的多继承机制饱受诟病。Java 过去是一种严格要求单继承的语言：只能继承自一个类（或抽象类），但可以实现任意多个接口。在 Java 8 之前，接口没有包袱——它只是方法外貌的描述。</p> <p>多年后的现在，Java 通过默认方法具有了某种多继承的特性。结合带有默认方法的接口意味着结合了多个基类中的行为。因为接口中仍然不允许存在属性（只有静态属性，不适用），所以属性仍然只会来自单个基类或抽象类，也就是说，不会存在状态的多继承。正如下面这样：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/MultipleInheritance.java</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+
+<span class=kd>interface</span> <span class=nc>One</span> <span class=p>{</span>
+    <span class=k>default</span> <span class=kt>void</span> <span class=nf>first</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;first&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>Two</span> <span class=p>{</span>
+    <span class=k>default</span> <span class=kt>void</span> <span class=nf>second</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;second&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>Three</span> <span class=p>{</span>
+    <span class=k>default</span> <span class=kt>void</span> <span class=nf>third</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;third&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>MI</span> <span class=kd>implements</span> <span class=n>One</span><span class=p>,</span> <span class=n>Two</span><span class=p>,</span> <span class=n>Three</span> <span class=p>{}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>MultipleInheritance</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>MI</span> <span class=n>mi</span> <span class=o>=</span> <span class=k>new</span> <span class=n>MI</span><span class=p>();</span>
+        <span class=n>mi</span><span class=p>.</span><span class=na>first</span><span class=p>();</span>
+        <span class=n>mi</span><span class=p>.</span><span class=na>second</span><span class=p>();</span>
+        <span class=n>mi</span><span class=p>.</span><span class=na>third</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>first
+second
+third
+</code></pre></div> <p>现在我们做些在 Java 8 之前不可能完成的事：结合多个源的实现。只要基类方法中的方法名和参数列表不同，就能工作得很好，否则会得到编译器错误：</p> <div class=highlight><pre><span></span><code><span class=c1>// interface/MICollision.java</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+
+<span class=kd>interface</span> <span class=nc>Bob1</span> <span class=p>{</span>
+    <span class=k>default</span> <span class=kt>void</span> <span class=nf>bob</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Bob1::bob&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>Bob2</span> <span class=p>{</span>
+    <span class=k>default</span> <span class=kt>void</span> <span class=nf>bob</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Bob2::bob&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=c1>// class Bob implements Bob1, Bob2 {}</span>
+<span class=cm>/* Produces:</span>
+<span class=cm>error: class Bob inherits unrelated defaults</span>
+<span class=cm>for bob() from types Bob1 and Bob2</span>
+<span class=cm>class Bob implements Bob1, Bob2 {}</span>
+<span class=cm>^</span>
+<span class=cm>1 error</span>
+<span class=cm>*/</span>
+
+<span class=kd>interface</span> <span class=nc>Sam1</span> <span class=p>{</span>
+    <span class=k>default</span> <span class=kt>void</span> <span class=nf>sam</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Sam1::sam&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>Sam2</span> <span class=p>{</span>
+    <span class=k>default</span> <span class=kt>void</span> <span class=nf>sam</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>i</span> <span class=o>*</span> <span class=mi>2</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=c1>// This works because the argument lists are distinct:</span>
+<span class=kd>class</span> <span class=nc>Sam</span> <span class=kd>implements</span> <span class=n>Sam1</span><span class=p>,</span> <span class=n>Sam2</span> <span class=p>{}</span>
+
+<span class=kd>interface</span> <span class=nc>Max1</span> <span class=p>{</span>
+    <span class=k>default</span> <span class=kt>void</span> <span class=nf>max</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Max1::max&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>Max2</span> <span class=p>{</span>
+    <span class=k>default</span> <span class=kt>int</span> <span class=nf>max</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=mi>47</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=c1>// class Max implements Max1, Max2 {}</span>
+<span class=cm>/* Produces:</span>
+<span class=cm>error: types Max2 and Max1 are imcompatible;</span>
+<span class=cm>both define max(), but with unrelated return types</span>
+<span class=cm>class Max implements Max1, Max2 {}</span>
+<span class=cm>^</span>
+<span class=cm>1 error</span>
+<span class=cm>*/</span>
+</code></pre></div> <p><strong>Sam</strong> 类中的两个 <code>sam()</code> 方法有相同的方法名但是签名不同——方法签名包括方法名和参数类型，编译器也是用它来区分方法。但是从 <strong>Max</strong> 类可看出，返回类型不是方法签名的一部分，因此不能用来区分方法。为了解决这个问题，需要覆写冲突的方法：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/Jim.java</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+
+<span class=kd>interface</span> <span class=nc>Jim1</span> <span class=p>{</span>
+    <span class=k>default</span> <span class=kt>void</span> <span class=nf>jim</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Jim1::jim&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>Jim2</span> <span class=p>{</span>
+    <span class=k>default</span> <span class=kt>void</span> <span class=nf>jim</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Jim2::jim&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Jim</span> <span class=kd>implements</span> <span class=n>Jim1</span><span class=p>,</span> <span class=n>Jim2</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>jim</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>Jim2</span><span class=p>.</span><span class=na>super</span><span class=p>.</span><span class=na>jim</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>new</span> <span class=n>Jim</span><span class=p>().</span><span class=na>jim</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>Jim2::jim
+</code></pre></div> <p>当然，你可以重定义 <code>jim()</code> 方法，但是也能像上例中那样使用 <strong>super</strong> 关键字选择基类实现中的一种。</p> <h3 id=_6>接口中的静态方法<a class=headerlink href=#_6 title="Permanent link">#</a></h3> <p>Java 8 允许在接口中添加静态方法。这么做能恰当地把工具功能置于接口中，从而操作接口，或者成为通用的工具：</p> <div class=highlight><pre><span></span><code><span class=c1>// onjava/Operations.java</span>
+<span class=kn>package</span> <span class=nn>onjava</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+
+<span class=kd>public</span> <span class=kd>interface</span> <span class=nc>Operations</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>execute</span><span class=p>();</span>
+
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>runOps</span><span class=p>(</span><span class=n>Operations</span><span class=p>...</span> <span class=n>ops</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>for</span> <span class=p>(</span><span class=n>Operations</span> <span class=n>op</span><span class=p>:</span> <span class=n>ops</span><span class=p>)</span> <span class=p>{</span>
+            <span class=n>op</span><span class=p>.</span><span class=na>execute</span><span class=p>();</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>show</span><span class=p>(</span><span class=n>String</span> <span class=n>msg</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>msg</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>这是模版方法设计模式的一个版本（在“设计模式”一章中详细描述），<code>runOps()</code> 是一个模版方法。<code>runOps()</code> 使用可变参数列表，因而我们可以传入任意多的 <strong>Operation</strong> 参数并按顺序运行它们：</p> <div class=highlight><pre><span></span><code><span class=c1>// interface/Machine.java</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>onjava.Operations</span><span class=p>;</span>
+
+<span class=kd>class</span> <span class=nc>Bing</span> <span class=kd>implements</span> <span class=n>Operations</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>execute</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>Operations</span><span class=p>.</span><span class=na>show</span><span class=p>(</span><span class=s>&quot;Bing&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Crack</span> <span class=kd>implements</span> <span class=n>Operations</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>execute</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>Operations</span><span class=p>.</span><span class=na>show</span><span class=p>(</span><span class=s>&quot;Crack&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Twist</span> <span class=kd>implements</span> <span class=n>Operations</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>execute</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>Operations</span><span class=p>.</span><span class=na>show</span><span class=p>(</span><span class=s>&quot;Twist&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Machine</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Operations</span><span class=p>.</span><span class=na>runOps</span><span class=p>(</span>
+            <span class=k>new</span> <span class=n>Bing</span><span class=p>(),</span> <span class=k>new</span> <span class=n>Crack</span><span class=p>(),</span> <span class=k>new</span> <span class=n>Twist</span><span class=p>());</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>Bing
+Crack
+Twist
+</code></pre></div> <p>这里展示了创建 <strong>Operations</strong> 的不同方式：一个外部类(Bing)，一个匿名类，一个方法引用和 lambda 表达式——毫无疑问用在这里是最好的解决方法。</p> <p>这个特性是一项改善，因为它允许把静态方法放在更合适的地方。</p> <h3 id=instrument>Instrument 作为接口<a class=headerlink href=#instrument title="Permanent link">#</a></h3> <p>回顾下乐器的例子，使用接口的话：</p> <p><img alt=类图 src=../../images/1562737974623.png></p> <p>类 <strong>Woodwind</strong> 和 <strong>Brass</strong> 说明一旦实现了某个接口，那么其实现就变成一个普通类，可以按常规方式扩展它。</p> <p>接口的工作方式使得我们不需要显式声明其中的方法为 <strong>public</strong>，它们自动就是 <strong>public</strong> 的。<code>play()</code> 和 <code>adjust()</code> 使用 <strong>default</strong> 关键字定义实现。在 Java 8 之前，这些定义要在每个实现中重复实现，显得多余且令人烦恼：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/music5/Music5.java</span>
+<span class=c1>// {java interfaces.music5.Music5}</span>
+<span class=kn>package</span> <span class=nn>interfaces.music5</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>polymorphism.music.Note</span><span class=p>;</span>
+
+<span class=kd>interface</span> <span class=nc>Instrument</span> <span class=p>{</span>
+    <span class=c1>// Compile-time constant:</span>
+    <span class=kt>int</span> <span class=n>VALUE</span> <span class=o>=</span> <span class=mi>5</span><span class=p>;</span> <span class=c1>// static &amp; final</span>
+
+    <span class=k>default</span> <span class=kt>void</span> <span class=nf>play</span><span class=p>(</span><span class=n>Note</span> <span class=n>n</span><span class=p>)</span>  <span class=c1>// Automatically public </span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=k>this</span> <span class=o>+</span> <span class=s>&quot;.play() &quot;</span> <span class=o>+</span> <span class=n>n</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=k>default</span> <span class=kt>void</span> <span class=nf>adjust</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Adjusting &quot;</span> <span class=o>+</span> <span class=k>this</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Wind</span> <span class=kd>implements</span> <span class=n>Instrument</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=s>&quot;Wind&quot;</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Percussion</span> <span class=kd>implements</span> <span class=n>Instrument</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=s>&quot;Percussion&quot;</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Stringed</span> <span class=kd>implements</span> <span class=n>Instrument</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=s>&quot;Stringed&quot;</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Brass</span> <span class=kd>extends</span> <span class=n>Wind</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=s>&quot;Brass&quot;</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Woodwind</span> <span class=kd>extends</span> <span class=n>Wind</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=s>&quot;Woodwind&quot;</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Music5</span> <span class=p>{</span>
+    <span class=c1>// Doesn&#39;t care about type, so new types</span>
+    <span class=c1>// added to the system still work right:</span>
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>tune</span><span class=p>(</span><span class=n>Instrument</span> <span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+        <span class=c1>// ...</span>
+        <span class=n>i</span><span class=p>.</span><span class=na>play</span><span class=p>(</span><span class=n>Note</span><span class=p>.</span><span class=na>MIDDLE_C</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>tuneAll</span><span class=p>(</span><span class=n>Instrument</span><span class=o>[]</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>for</span> <span class=p>(</span><span class=n>Instrument</span> <span class=n>i</span><span class=p>:</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+            <span class=n>tune</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=c1>// Upcasting during addition to the array:</span>
+        <span class=n>Instrument</span><span class=o>[]</span> <span class=n>orchestra</span> <span class=o>=</span> <span class=p>{</span>
+            <span class=k>new</span> <span class=n>Wind</span><span class=p>(),</span>
+            <span class=k>new</span> <span class=n>Percussion</span><span class=p>(),</span>
+            <span class=k>new</span> <span class=n>Stringed</span><span class=p>(),</span>
+            <span class=k>new</span> <span class=n>Brass</span><span class=p>(),</span>
+            <span class=k>new</span> <span class=n>Woodwind</span><span class=p>()</span>
+        <span class=p>}</span>
+        <span class=n>tuneAll</span><span class=p>(</span><span class=n>orchestra</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>Wind.play() MIDDLE_C
+Percussion.play() MIDDLE_C
+Stringed.play() MIDDLE_C
+Brass.play() MIDDLE_C
+Woodwind.play() MIDDLE_C
+</code></pre></div> <p>这个版本的例子的另一个变化是：<code>what()</code> 被修改为 <code>toString()</code> 方法，因为 <code>toString()</code> 实现的正是 <code>what()</code> 方法要实现的逻辑。因为 <code>toString()</code> 是根基类 <strong>Object</strong> 的方法，所以它不需要出现在接口中。</p> <p>注意到，无论是将其向上转型为称作 <strong>Instrument</strong> 的普通类，或称作 <strong>Instrument</strong> 的抽象类，还是叫作 <strong>Instrument</strong> 的接口，其行为都是相同的。事实上，从 <code>tune()</code> 方法上看不出来 <strong>Instrument</strong> 到底是一个普通类、抽象类，还是一个接口。</p> <!-- Abstract Classes vs. Interfaces --> <h2 id=_7>抽象类和接口<a class=headerlink href=#_7 title="Permanent link">#</a></h2> <p>尤其是在 Java 8 引入 <strong>default</strong> 方法之后，选择用抽象类还是用接口变得更加令人困惑。下表做了明确的区分：</p> <table> <thead> <tr> <th align=center>特性</th> <th align=center>接口</th> <th align=center>抽象类</th> </tr> </thead> <tbody> <tr> <td align=center>组合</td> <td align=center>新类可以组合多个接口</td> <td align=center>只能继承单一抽象类</td> </tr> <tr> <td align=center>状态</td> <td align=center>不能包含属性（除了静态属性，不支持对象状态）</td> <td align=center>可以包含属性，非抽象方法可能引用这些属性</td> </tr> <tr> <td align=center>默认方法 和 抽象方法</td> <td align=center>不需要在子类中实现默认方法。默认方法可以引用其他接口的方法</td> <td align=center>必须在子类中实现抽象方法</td> </tr> <tr> <td align=center>构造器</td> <td align=center>没有构造器</td> <td align=center>可以有构造器</td> </tr> <tr> <td align=center>可见性</td> <td align=center>隐式 <strong>public</strong></td> <td align=center>可以是 <strong>protected</strong> 或友元</td> </tr> </tbody> </table> <p>抽象类仍然是一个类，在创建新类时只能继承它一个。而创建类的过程中可以实现多个接口。</p> <p>有一条实际经验：尽可能地抽象。因此，更倾向使用接口而不是抽象类。只有当必要时才使用抽象类。除非必须使用，否则不要用接口和抽象类。大多数时候，普通类已经做得很好，如果不行的话，再移动到接口或抽象类中。</p> <!-- Complete Decoupling --> <h2 id=_8>完全解耦<a class=headerlink href=#_8 title="Permanent link">#</a></h2> <p>当方法操纵的是一个类而非接口时，它就只能作用于那个类或其子类。如果想把方法应用于那个继承层级结构之外的类，就会触霉头。接口在很大程度上放宽了这个限制，因而使用接口可以编写复用性更好的代码。</p> <p>例如有一个类 <strong>Process</strong> 有两个方法 <code>name()</code> 和 <code>process()</code>。<code>process()</code> 方法接受输入，修改并输出。把这个类作为基类用来创建各种不同类型的 <strong>Processor</strong>。下例中，<strong>Processor</strong> 的各个子类修改 String 对象（注意，返回类型可能是协变类型而非参数类型）：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/Applicator.java</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+
+<span class=kd>class</span> <span class=nc>Processor</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>name</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>getClass</span><span class=p>().</span><span class=na>getSimpleName</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=n>Object</span> <span class=nf>process</span><span class=p>(</span><span class=n>Object</span> <span class=n>input</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>input</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Upcase</span> <span class=kd>extends</span> <span class=n>Processor</span> <span class=p>{</span>
+    <span class=c1>// 返回协变类型</span>
+    <span class=nd>@Override</span> 
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>process</span><span class=p>(</span><span class=n>Object</span> <span class=n>input</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=p>((</span><span class=n>String</span><span class=p>)</span> <span class=n>input</span><span class=p>).</span><span class=na>toUpperCase</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Downcase</span> <span class=kd>extends</span> <span class=n>Processor</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>process</span><span class=p>(</span><span class=n>Object</span> <span class=n>input</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=p>((</span><span class=n>String</span><span class=p>)</span> <span class=n>input</span><span class=p>).</span><span class=na>toLowerCase</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Splitter</span> <span class=kd>extends</span> <span class=n>Processor</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>process</span><span class=p>(</span><span class=n>Object</span> <span class=n>input</span><span class=p>)</span> <span class=p>{</span>
+        <span class=c1>// split() divides a String into pieces:</span>
+        <span class=k>return</span> <span class=n>Arrays</span><span class=p>.</span><span class=na>toString</span><span class=p>(((</span><span class=n>String</span><span class=p>)</span> <span class=n>input</span><span class=p>).</span><span class=na>split</span><span class=p>(</span><span class=s>&quot; &quot;</span><span class=p>));</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Applicator</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>apply</span><span class=p>(</span><span class=n>Processor</span> <span class=n>p</span><span class=p>,</span> <span class=n>Object</span> <span class=n>s</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Using Processor &quot;</span> <span class=o>+</span> <span class=n>p</span><span class=p>.</span><span class=na>name</span><span class=p>());</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>p</span><span class=p>.</span><span class=na>process</span><span class=p>(</span><span class=n>s</span><span class=p>));</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>String</span> <span class=n>s</span> <span class=o>=</span> <span class=s>&quot;We are such stuff as dreams are made on&quot;</span><span class=p>;</span>
+        <span class=n>apply</span><span class=p>(</span><span class=k>new</span> <span class=n>Upcase</span><span class=p>(),</span> <span class=n>s</span><span class=p>);</span>
+        <span class=n>apply</span><span class=p>(</span><span class=k>new</span> <span class=n>Downcase</span><span class=p>(),</span> <span class=n>s</span><span class=p>);</span>
+        <span class=n>apply</span><span class=p>(</span><span class=k>new</span> <span class=n>Splitter</span><span class=p>(),</span> <span class=n>s</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>Using Processor Upcase
+WE ARE SUCH STUFF AS DREAMS ARE MADE ON
+Using Processor Downcase
+we are such stuff as dreams are made on
+Using Processor Splitter
+[We, are, such, stuff, as, dreams, are, made, on]
+</code></pre></div> <p><strong>Applicator</strong> 的 <code>apply()</code> 方法可以接受任何类型的 <strong>Processor</strong>，并将其应用到一个 <strong>Object</strong> 对象上输出结果。像本例中这样，创建一个能根据传入的参数类型从而具备不同行为的方法称为<em>策略</em>设计模式。方法包含算法中不变的部分，策略包含变化的部分。策略就是传入的对象，它包含要执行的代码。在这里，<strong>Processor</strong> 对象是策略，<code>main()</code> 方法展示了三种不同的应用于 <strong>String s</strong> 上的策略。</p> <p><code>split()</code> 是 <strong>String</strong> 类中的方法，它接受 <strong>String</strong> 类型的对象并以传入的参数作为分割界限，返回一个数组 <strong>String[]</strong>。在这里用它是为了更快地创建 <strong>String</strong> 数组。</p> <p>假设现在发现了一组电子滤波器，它们看起来好像能使用 <strong>Applicator</strong> 的 <code>apply()</code> 方法：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/filters/Waveform.java</span>
+<span class=kn>package</span> <span class=nn>interfaces.filters</span><span class=p>;</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Waveform</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kd>static</span> <span class=kt>long</span> <span class=n>counter</span><span class=p>;</span>
+    <span class=kd>private</span> <span class=kd>final</span> <span class=kt>long</span> <span class=n>id</span> <span class=o>=</span> <span class=n>counter</span><span class=o>++</span><span class=p>;</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=s>&quot;Waveform &quot;</span> <span class=o>+</span> <span class=n>id</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=c1>// interfaces/filters/Filter.java</span>
+<span class=kn>package</span> <span class=nn>interfaces.filters</span><span class=p>;</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Filter</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>name</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>getClass</span><span class=p>().</span><span class=na>getSimpleName</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=n>Waveform</span> <span class=nf>process</span><span class=p>(</span><span class=n>Waveform</span> <span class=n>input</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>input</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=c1>// interfaces/filters/LowPass.java</span>
+<span class=kn>package</span> <span class=nn>interfaces.filters</span><span class=p>;</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>LowPass</span> <span class=kd>extends</span> <span class=n>Filter</span> <span class=p>{</span>
+    <span class=kt>double</span> <span class=n>cutoff</span><span class=p>;</span>
+
+    <span class=kd>public</span> <span class=nf>LowPass</span><span class=p>(</span><span class=kt>double</span> <span class=n>cutoff</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>this</span><span class=p>.</span><span class=na>cutoff</span> <span class=o>=</span> <span class=n>cutoff</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>Waveform</span> <span class=nf>process</span><span class=p>(</span><span class=n>Waveform</span> <span class=n>input</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>input</span><span class=p>;</span> <span class=c1>// Dummy processing 哑处理</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=c1>// interfaces/filters/HighPass.java</span>
+<span class=kn>package</span> <span class=nn>interfaces.filters</span><span class=p>;</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>HighPass</span> <span class=kd>extends</span> <span class=n>Filter</span> <span class=p>{</span>
+    <span class=kt>double</span> <span class=n>cutoff</span><span class=p>;</span>
+
+    <span class=kd>public</span> <span class=nf>HighPass</span><span class=p>(</span><span class=kt>double</span> <span class=n>cutoff</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>this</span><span class=p>.</span><span class=na>cutoff</span> <span class=o>=</span> <span class=n>cutoff</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>Waveform</span> <span class=nf>process</span><span class=p>(</span><span class=n>Waveform</span> <span class=n>input</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>input</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=c1>// interfaces/filters/BandPass.java</span>
+<span class=kn>package</span> <span class=nn>interfaces.filters</span><span class=p>;</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>BandPass</span> <span class=kd>extends</span> <span class=n>Filter</span> <span class=p>{</span>
+    <span class=kt>double</span> <span class=n>lowCutoff</span><span class=p>,</span> <span class=n>highCutoff</span><span class=p>;</span>
+
+    <span class=kd>public</span> <span class=nf>BandPass</span><span class=p>(</span><span class=kt>double</span> <span class=n>lowCut</span><span class=p>,</span> <span class=kt>double</span> <span class=n>highCut</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>lowCutoff</span> <span class=o>=</span> <span class=n>lowCut</span><span class=p>;</span>
+        <span class=n>highCutoff</span> <span class=o>=</span> <span class=n>highCut</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>Waveform</span> <span class=nf>process</span><span class=p>(</span><span class=n>Waveform</span> <span class=n>input</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>input</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p><strong>Filter</strong> 类与 <strong>Processor</strong> 类具有相同的接口元素，但是因为它不是继承自 <strong>Processor</strong> —— 因为 <strong>Filter</strong> 类的创建者根本不知道你想将它当作 <strong>Processor</strong> 使用 —— 因此你不能将 <strong>Applicator</strong> 的 <code>apply()</code> 方法应用在 <strong>Filter</strong> 类上，即使这样做也能正常运行。主要是因为 <strong>Applicator</strong> 的 <code>apply()</code> 方法和 <strong>Processor</strong> 过于耦合，这阻止了 <strong>Applicator</strong> 的 <code>apply()</code> 方法被复用。另外要注意的一点是 Filter 类中 <code>process()</code> 方法的输入输出都是 <strong>Waveform</strong>。</p> <p>但如果 <strong>Processor</strong> 是一个接口，那么限制就会变得松动到足以复用 <strong>Applicator</strong> 的 <code>apply()</code> 方法，用来接受那个接口参数。下面是修改后的 <strong>Processor</strong> 和 <strong>Applicator</strong> 版本：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/interfaceprocessor/Processor.java</span>
+<span class=kn>package</span> <span class=nn>interfaces.interfaceprocessor</span><span class=p>;</span>
+
+<span class=kd>public</span> <span class=kd>interface</span> <span class=nc>Processor</span> <span class=p>{</span>
+    <span class=k>default</span> <span class=n>String</span> <span class=nf>name</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>getClass</span><span class=p>().</span><span class=na>getSimpleName</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=n>Object</span> <span class=nf>process</span><span class=p>(</span><span class=n>Object</span> <span class=n>input</span><span class=p>);</span>
+<span class=p>}</span>
+
+<span class=c1>// interfaces/interfaceprocessor/Applicator.java</span>
+<span class=kn>package</span> <span class=nn>interfaces.interfaceprocessor</span><span class=p>;</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Applicator</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>apply</span><span class=p>(</span><span class=n>Processor</span> <span class=n>p</span><span class=p>,</span> <span class=n>Object</span> <span class=n>s</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Using Processor &quot;</span> <span class=o>+</span> <span class=n>p</span><span class=p>.</span><span class=na>name</span><span class=p>());</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>p</span><span class=p>.</span><span class=na>process</span><span class=p>(</span><span class=n>s</span><span class=p>));</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>复用代码的第一种方式是客户端程序员遵循接口编写类，像这样：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/interfaceprocessor/StringProcessor.java</span>
+<span class=c1>// {java interfaces.interfaceprocessor.StringProcessor}</span>
+<span class=kn>package</span> <span class=nn>interfaces.interfaceprocessor</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+
+<span class=kd>interface</span> <span class=nc>StringProcessor</span> <span class=kd>extends</span> <span class=n>Processor</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=n>String</span> <span class=nf>process</span><span class=p>(</span><span class=n>Object</span> <span class=n>input</span><span class=p>);</span> <span class=c1>// [1]</span>
+    <span class=n>String</span> <span class=n>S</span> <span class=o>=</span> <span class=s>&quot;If she weighs the same as a duck, she&#39;s made of wood&quot;</span><span class=p>;</span> <span class=c1>// [2]</span>
+
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span> <span class=c1>// [3]</span>
+        <span class=n>Applicator</span><span class=p>.</span><span class=na>apply</span><span class=p>(</span><span class=k>new</span> <span class=n>Upcase</span><span class=p>(),</span> <span class=n>S</span><span class=p>);</span>
+        <span class=n>Applicator</span><span class=p>.</span><span class=na>apply</span><span class=p>(</span><span class=k>new</span> <span class=n>Downcase</span><span class=p>(),</span> <span class=n>S</span><span class=p>);</span>
+        <span class=n>Applicator</span><span class=p>.</span><span class=na>apply</span><span class=p>(</span><span class=k>new</span> <span class=n>Splitter</span><span class=p>(),</span> <span class=n>S</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Upcase</span> <span class=kd>implements</span> <span class=n>StringProcessor</span> <span class=p>{</span>
+    <span class=c1>// 返回协变类型</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>process</span><span class=p>(</span><span class=n>Object</span> <span class=n>input</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=p>((</span><span class=n>String</span><span class=p>)</span> <span class=n>input</span><span class=p>).</span><span class=na>toUpperCase</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Downcase</span> <span class=kd>implements</span> <span class=n>StringProcessor</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>process</span><span class=p>(</span><span class=n>Object</span> <span class=n>input</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=p>((</span><span class=n>String</span><span class=p>)</span> <span class=n>input</span><span class=p>).</span><span class=na>toLowerCase</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Splitter</span> <span class=kd>implements</span> <span class=n>StringProcessor</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>process</span><span class=p>(</span><span class=n>Object</span> <span class=n>input</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>Arrays</span><span class=p>.</span><span class=na>toString</span><span class=p>(((</span><span class=n>String</span><span class=p>)</span> <span class=n>input</span><span class=p>).</span><span class=na>split</span><span class=p>(</span><span class=s>&quot; &quot;</span><span class=p>));</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>Using Processor Upcase
+IF SHE WEIGHS THE SAME AS A DUCK, SHE&#39;S MADE OF WOOD
+Using Processor Downcase
+if she weighs the same as a duck, she&#39;s made of wood
+Using Processor Splitter
+[If, she, weighs, the, same, as, a, duck,, she&#39;s, made, of, wood]
+</code></pre></div> <blockquote> <p>[1] 该声明不是必要的，即使移除它，编译器也不会报错。但是注意这里的协变返回类型从 Object 变成了 String。</p> <p>[2] S 自动就是 final 和 static 的，因为它是在接口中定义的。</p> <p>[3] 可以在接口中定义 <code>main()</code> 方法。</p> </blockquote> <p>这种方式运作得很好，然而你经常遇到的情况是无法修改类。例如在电子滤波器的例子中，类库是被发现而不是创建的。在这些情况下，可以使用<em>适配器</em>设计模式。适配器允许代码接受已有的接口产生需要的接口，如下：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/interfaceprocessor/FilterProcessor.java</span>
+<span class=c1>// {java interfaces.interfaceprocessor.FilterProcessor}</span>
+<span class=kn>package</span> <span class=nn>interfaces.interfaceprocessor</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>interfaces.filters.*</span><span class=p>;</span>
+
+<span class=kd>class</span> <span class=nc>FilterAdapter</span> <span class=kd>implements</span> <span class=n>Processor</span> <span class=p>{</span>
+    <span class=n>Filter</span> <span class=n>filter</span><span class=p>;</span>
+
+    <span class=n>FilterAdapter</span><span class=p>(</span><span class=n>Filter</span> <span class=n>filter</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>this</span><span class=p>.</span><span class=na>filter</span> <span class=o>=</span> <span class=n>filter</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>name</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>filter</span><span class=p>.</span><span class=na>name</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>Waveform</span> <span class=nf>process</span><span class=p>(</span><span class=n>Object</span> <span class=n>input</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>filter</span><span class=p>.</span><span class=na>process</span><span class=p>((</span><span class=n>Waveform</span><span class=p>)</span> <span class=n>input</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>FilterProcessor</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Waveform</span> <span class=n>w</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Waveform</span><span class=p>();</span>
+        <span class=n>Applicator</span><span class=p>.</span><span class=na>apply</span><span class=p>(</span><span class=k>new</span> <span class=n>FilterAdapter</span><span class=p>(</span><span class=k>new</span> <span class=n>LowPass</span><span class=p>(</span><span class=mf>1.0</span><span class=p>)),</span> <span class=n>w</span><span class=p>);</span>
+        <span class=n>Applicator</span><span class=p>.</span><span class=na>apply</span><span class=p>(</span><span class=k>new</span> <span class=n>FilterAdapter</span><span class=p>(</span><span class=k>new</span> <span class=n>HighPass</span><span class=p>(</span><span class=mf>2.0</span><span class=p>)),</span> <span class=n>w</span><span class=p>);</span>
+        <span class=n>Applicator</span><span class=p>.</span><span class=na>apply</span><span class=p>(</span><span class=k>new</span> <span class=n>FilterAdapter</span><span class=p>(</span><span class=k>new</span> <span class=n>BandPass</span><span class=p>(</span><span class=mf>3.0</span><span class=p>,</span> <span class=mf>4.0</span><span class=p>)),</span> <span class=n>w</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>Using Processor LowPass
+Waveform 0
+Using Processor HighPass
+Waveform 0
+Using Processor BandPass
+Waveform 0
+</code></pre></div> <p>在这种使用适配器的方式中，<strong>FilterAdapter</strong> 的构造器接受已有的接口 <strong>Filter</strong>，继而产生需要的 <strong>Processor</strong> 接口的对象。你可能还注意到 <strong>FilterAdapter</strong> 中使用了委托。</p> <p>协变允许我们从 <code>process()</code> 方法中产生一个 <strong>Waveform</strong> 而非 <strong>Object</strong> 对象。</p> <p>将接口与实现解耦使得接口可以应用于多种不同的实现，因而代码更具可复用性。</p> <!-- Combining Multiple Interfaces --> <h2 id=_9>多接口结合<a class=headerlink href=#_9 title="Permanent link">#</a></h2> <p>接口没有任何实现——也就是说，没有任何与接口相关的存储——因此无法阻止结合的多接口。这是有价值的，因为你有时需要表示“一个 <strong>x</strong> 是一个 <strong>a</strong> 和一个 <strong>b</strong> 以及一个 <strong>c</strong>”。</p> <p><img alt=类图 src=../../images/1562999314238.png></p> <p>派生类并不要求必须继承自抽象的或“具体的”（没有任何抽象方法）的基类。如果继承一个非接口的类，那么只能继承一个类，其余的基元素必须都是接口。需要将所有的接口名称置于 <strong>implements</strong> 关键字之后且用逗号分隔。可以有任意多个接口，并可以向上转型为每个接口，因为每个接口都是独立的类型。下例展示了一个由多个接口组合而成的具体类产生的新类：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/Adventure.java</span>
+<span class=c1>// Multiple interfaces</span>
+<span class=kd>interface</span> <span class=nc>CanFight</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>fight</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>CanSwim</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>swim</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>CanFly</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>fly</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>ActionCharacter</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>fight</span><span class=p>(){}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Hero</span> <span class=kd>extends</span> <span class=n>ActionCharacter</span> <span class=kd>implements</span> <span class=n>CanFight</span><span class=p>,</span> <span class=n>CanSwim</span><span class=p>,</span> <span class=n>CanFly</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>swim</span><span class=p>()</span> <span class=p>{}</span>
+
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>fly</span><span class=p>()</span> <span class=p>{}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Adventure</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>t</span><span class=p>(</span><span class=n>CanFight</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>x</span><span class=p>.</span><span class=na>fight</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>u</span><span class=p>(</span><span class=n>CanSwim</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>x</span><span class=p>.</span><span class=na>swim</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>v</span><span class=p>(</span><span class=n>CanFly</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>x</span><span class=p>.</span><span class=na>fly</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>w</span><span class=p>(</span><span class=n>ActionCharacter</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>x</span><span class=p>.</span><span class=na>fight</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Hero</span> <span class=n>h</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Hero</span><span class=p>();</span>
+        <span class=n>t</span><span class=p>(</span><span class=n>h</span><span class=p>);</span> <span class=c1>// Treat it as a CanFight</span>
+        <span class=n>u</span><span class=p>(</span><span class=n>h</span><span class=p>);</span> <span class=c1>// Treat it as a CanSwim</span>
+        <span class=n>v</span><span class=p>(</span><span class=n>h</span><span class=p>);</span> <span class=c1>// Treat it as a CanFly</span>
+        <span class=n>w</span><span class=p>(</span><span class=n>h</span><span class=p>);</span> <span class=c1>// Treat it as an ActionCharacter</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>类 <strong>Hero</strong> 结合了具体类 <strong>ActionCharacter</strong> 和接口 <strong>CanFight</strong>、<strong>CanSwim</strong> 和 <strong>CanFly</strong>。当通过这种方式结合具体类和接口时，需要将具体类放在前面，后面跟着接口（否则编译器会报错）。</p> <p>接口 <strong>CanFight</strong> 和类 <strong>ActionCharacter</strong> 中的 <code>fight()</code> 方法签名相同，而在类 Hero 中也没有提供 <code>fight()</code> 的定义。可以扩展一个接口，但是得到的是另一个接口。当想创建一个对象时，所有的定义必须首先都存在。类 <strong>Hero</strong> 中没有显式地提供 <code>fight()</code> 的定义，是由于该方法在类 <strong>ActionCharacter</strong> 中已经定义过，这样才使得创建 <strong>Hero</strong> 对象成为可能。</p> <p>在类 <strong>Adventure</strong> 中可以看到四个方法，它们把不同的接口和具体类作为参数。当创建一个 <strong>Hero</strong> 对象时，它可以被传入这些方法中的任意一个，意味着它可以依次向上转型为每个接口。Java 中这种接口的设计方式，使得程序员不需要付出特别的努力。</p> <p>记住，前面例子展示了使用接口的核心原因之一：为了能够向上转型为多个基类型（以及由此带来的灵活性）。然而，使用接口的第二个原因与使用抽象基类相同：防止客户端程序员创建这个类的对象，确保这仅仅只是一个接口。这带来了一个问题：应该使用接口还是抽象类呢？如果创建不带任何方法定义或成员变量的基类，就选择接口而不是抽象类。事实上，如果知道某事物是一个基类，可以考虑用接口实现它（这个主题在本章总结会再次讨论）。</p> <!-- Extending an Interface with Inheritance --> <h2 id=_10>使用继承扩展接口<a class=headerlink href=#_10 title="Permanent link">#</a></h2> <p>通过继承，可以很容易在接口中增加方法声明，还可以在新接口中结合多个接口。这两种情况都可以得到新接口，如下例所示：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/HorrorShow.java</span>
+<span class=c1>// Extending an interface with inheritance</span>
+<span class=kd>interface</span> <span class=nc>Monster</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>menace</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>DangerousMonster</span> <span class=kd>extends</span> <span class=n>Monster</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>destroy</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>Lethal</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>kill</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>DragonZilla</span> <span class=kd>implements</span> <span class=n>DangerousMonster</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>menace</span><span class=p>()</span> <span class=p>{}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>destroy</span><span class=p>()</span> <span class=p>{}</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>Vampire</span> <span class=kd>extends</span> <span class=n>DangerousMonster</span><span class=p>,</span> <span class=n>Lethal</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>drinkBlood</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>VeryBadVampire</span> <span class=kd>implements</span> <span class=n>Vampire</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>menace</span><span class=p>()</span> <span class=p>{}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>destroy</span><span class=p>()</span> <span class=p>{}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>kill</span><span class=p>()</span> <span class=p>{}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>drinkBlood</span><span class=p>()</span> <span class=p>{}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>HorrorShow</span> <span class=p>{</span>
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>u</span><span class=p>(</span><span class=n>Monster</span> <span class=n>b</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>b</span><span class=p>.</span><span class=na>menace</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>v</span><span class=p>(</span><span class=n>DangerousMonster</span> <span class=n>d</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>d</span><span class=p>.</span><span class=na>menace</span><span class=p>();</span>
+        <span class=n>d</span><span class=p>.</span><span class=na>destroy</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>w</span><span class=p>(</span><span class=n>Lethal</span> <span class=n>l</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>l</span><span class=p>.</span><span class=na>kill</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>DangerousMonster</span> <span class=n>barney</span> <span class=o>=</span> <span class=k>new</span> <span class=n>DragonZilla</span><span class=p>();</span>
+        <span class=n>u</span><span class=p>(</span><span class=n>barney</span><span class=p>);</span>
+        <span class=n>v</span><span class=p>(</span><span class=n>barney</span><span class=p>);</span>
+        <span class=n>Vampire</span> <span class=n>vlad</span> <span class=o>=</span> <span class=k>new</span> <span class=n>VeryBadVampire</span><span class=p>();</span>
+        <span class=n>u</span><span class=p>(</span><span class=n>vlad</span><span class=p>);</span>
+        <span class=n>v</span><span class=p>(</span><span class=n>vlad</span><span class=p>);</span>
+        <span class=n>w</span><span class=p>(</span><span class=n>vlad</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>接口 <strong>DangerousMonster</strong> 是 <strong>Monster</strong> 简单扩展的一个新接口，类 <strong>DragonZilla</strong> 实现了这个接口。</p> <p><strong>Vampire</strong> 中使用的语法仅适用于接口继承。通常来说，<strong>extends</strong> 只能用于单一类，但是在构建接口时可以引用多个基类接口。注意到，接口名之间用逗号分隔。</p> <h3 id=_11>结合接口时的命名冲突<a class=headerlink href=#_11 title="Permanent link">#</a></h3> <p>当实现多个接口时可能会存在一个小陷阱。在前面的例子中，<strong>CanFight</strong> 和 <strong>ActionCharacter</strong> 具有完全相同的 <code>fight()</code> 方法。完全相同的方法没有问题，但是如果它们的签名或返回类型不同会怎么样呢？这里有一个例子：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/InterfaceCollision.java</span>
+<span class=kd>interface</span> <span class=nc>I1</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>f</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>I2</span> <span class=p>{</span>
+    <span class=kt>int</span> <span class=nf>f</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>);</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>I3</span> <span class=p>{</span>
+    <span class=kt>int</span> <span class=nf>f</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>C</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kt>int</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>C2</span> <span class=kd>implements</span> <span class=n>I1</span><span class=p>,</span> <span class=n>I2</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>int</span> <span class=nf>f</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=mi>1</span><span class=p>;</span>  <span class=c1>// 重载</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>C3</span> <span class=kd>extends</span> <span class=n>C</span> <span class=kd>implements</span> <span class=n>I2</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>int</span> <span class=nf>f</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=mi>1</span><span class=p>;</span> <span class=c1>// 重载</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>C4</span> <span class=kd>extends</span> <span class=n>C</span> <span class=kd>implements</span> <span class=n>I3</span> <span class=p>{</span>
+    <span class=c1>// 完全相同，没问题</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>int</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=c1>// 方法的返回类型不同</span>
+<span class=c1>//- class C5 extends C implements I1 {}</span>
+<span class=c1>//- interface I4 extends I1, I3 {}</span>
+</code></pre></div> <p>覆写、实现和重载令人不快地搅和在一起带来了困难。同时，重载方法仅根据返回类型是区分不了的。当不注释最后两行时，报错信息如下：</p> <div class=highlight><pre><span></span><code>error: C5 is not abstract and does not override abstract
+method f() in I1
+class C5 extends C implements I1 {}
+error: types I3 and I1 are incompatible; both define f(),
+but with unrelated return types
+interfacce I4 extends I1, I3 {}
+</code></pre></div> <p>当打算组合接口时，在不同的接口中使用相同的方法名通常会造成代码可读性的混乱，尽量避免这种情况。</p> <!-- Adapting to an Interface --> <h2 id=_12>接口适配<a class=headerlink href=#_12 title="Permanent link">#</a></h2> <p>接口最吸引人的原因之一是相同的接口可以有多个实现。在简单情况下体现在一个方法接受接口作为参数，该接口的实现和传递对象则取决于方法的使用者。</p> <p>因此，接口的一种常见用法是前面提到的<em>策略</em>设计模式。编写一个方法执行某些操作并接受一个指定的接口作为参数。可以说：“只要对象遵循接口，就可以调用方法” ，这使得方法更加灵活，通用，并更具可复用性。</p> <p>例如，类 <strong>Scanner</strong> 的构造器接受的是一个 <strong>Readable</strong> 接口（在“字符串”一章中学习更多相关内容）。你会发现 <strong>Readable</strong> 没有用作 Java 标准库中其他任何方法的参数——它是单独为 <strong>Scanner</strong> 创建的，因此 <strong>Scanner</strong> 没有将其参数限制为某个特定类。通过这种方式，<strong>Scanner</strong> 可以与更多的类型协作。如果你创建了一个新类并想让 <strong>Scanner</strong> 作用于它，就让它实现 <strong>Readable</strong> 接口，像这样：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/RandomStrings.java</span>
+<span class=c1>// Implementing an interface to conform to a method</span>
+<span class=kn>import</span> <span class=nn>java.nio.*</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>RandomStrings</span> <span class=kd>implements</span> <span class=n>Readable</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kd>static</span> <span class=n>Random</span> <span class=n>rand</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Random</span><span class=p>(</span><span class=mi>47</span><span class=p>);</span>
+    <span class=kd>private</span> <span class=kd>static</span> <span class=kd>final</span> <span class=kt>char</span><span class=o>[]</span> <span class=n>CAPITALS</span> <span class=o>=</span> <span class=s>&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span><span class=p>.</span><span class=na>toCharArray</span><span class=p>();</span>
+    <span class=kd>private</span> <span class=kd>static</span> <span class=kd>final</span> <span class=kt>char</span><span class=o>[]</span> <span class=n>LOWERS</span> <span class=o>=</span> <span class=s>&quot;abcdefghijklmnopqrstuvwxyz&quot;</span><span class=p>.</span><span class=na>toCharArray</span><span class=p>();</span>
+    <span class=kd>private</span> <span class=kd>static</span> <span class=kd>final</span> <span class=kt>char</span><span class=o>[]</span> <span class=n>VOWELS</span> <span class=o>=</span> <span class=s>&quot;aeiou&quot;</span><span class=p>.</span><span class=na>toCharArray</span><span class=p>();</span>
+    <span class=kd>private</span> <span class=kt>int</span> <span class=n>count</span><span class=p>;</span>
+
+    <span class=kd>public</span> <span class=nf>RandomStrings</span><span class=p>(</span><span class=kt>int</span> <span class=n>count</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>this</span><span class=p>.</span><span class=na>count</span> <span class=o>=</span> <span class=n>count</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>int</span> <span class=nf>read</span><span class=p>(</span><span class=n>CharBuffer</span> <span class=n>cb</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>count</span><span class=o>--</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span> <span class=c1>// indicates end of input</span>
+        <span class=p>}</span>
+        <span class=n>cb</span><span class=p>.</span><span class=na>append</span><span class=p>(</span><span class=n>CAPITALS</span><span class=o>[</span><span class=n>rand</span><span class=p>.</span><span class=na>nextInt</span><span class=p>(</span><span class=n>CAPITALS</span><span class=p>.</span><span class=na>length</span><span class=p>)</span><span class=o>]</span><span class=p>);</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>4</span><span class=p>;</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+            <span class=n>cb</span><span class=p>.</span><span class=na>append</span><span class=p>(</span><span class=n>VOWELS</span><span class=o>[</span><span class=n>rand</span><span class=p>.</span><span class=na>nextInt</span><span class=p>(</span><span class=n>VOWELS</span><span class=p>.</span><span class=na>length</span><span class=p>)</span><span class=o>]</span><span class=p>);</span>
+            <span class=n>cb</span><span class=p>.</span><span class=na>append</span><span class=p>(</span><span class=n>LOWERS</span><span class=o>[</span><span class=n>rand</span><span class=p>.</span><span class=na>nextInt</span><span class=p>(</span><span class=n>LOWERS</span><span class=p>.</span><span class=na>length</span><span class=p>)</span><span class=o>]</span><span class=p>);</span>
+        <span class=p>}</span>
+        <span class=n>cb</span><span class=p>.</span><span class=na>append</span><span class=p>(</span><span class=s>&quot; &quot;</span><span class=p>);</span>
+        <span class=k>return</span> <span class=mi>10</span><span class=p>;</span> <span class=c1>// Number of characters appended</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Scanner</span> <span class=n>s</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Scanner</span><span class=p>(</span><span class=k>new</span> <span class=n>RandomStrings</span><span class=p>(</span><span class=mi>10</span><span class=p>));</span>
+        <span class=k>while</span> <span class=p>(</span><span class=n>s</span><span class=p>.</span><span class=na>hasNext</span><span class=p>())</span> <span class=p>{</span>
+            <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>s</span><span class=p>.</span><span class=na>next</span><span class=p>());</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>Yazeruyac
+Fowenucor
+Goeazimom
+Raeuuacio
+Nuoadesiw
+Hageaikux
+Ruqicibui
+Numasetih
+Kuuuuozog
+Waqizeyoy
+</code></pre></div> <p><strong>Readable</strong> 接口只需要实现 <code>read()</code> 方法（注意 <code>@Override</code> 注解的突出方法）。在 <code>read()</code> 方法里，将输入内容添加到 <strong>CharBuffer</strong> 参数中（有多种方法可以实现，查看 <strong>CharBuffer</strong> 文档），或在没有输入时返回 <strong>-1</strong>。</p> <p>假设你有一个类没有实现 <strong>Readable</strong> 接口，怎样才能让 <strong>Scanner</strong> 作用于它呢？下面是一个产生随机浮点数的例子：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/RandomDoubles.java</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+
+<span class=kd>public</span> <span class=kd>interface</span> <span class=nc>RandomDoubles</span> <span class=p>{</span>
+    <span class=n>Random</span> <span class=n>RAND</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Random</span><span class=p>(</span><span class=mi>47</span><span class=p>);</span>
+
+    <span class=k>default</span> <span class=kt>double</span> <span class=nf>next</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>RAND</span><span class=p>.</span><span class=na>nextDouble</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>RandomDoubles</span> <span class=n>rd</span> <span class=o>=</span> <span class=k>new</span> <span class=n>RandomDoubles</span><span class=p>(){};</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>7</span><span class=p>;</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+            <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>rd</span><span class=p>.</span><span class=na>next</span><span class=p>()</span> <span class=o>+</span> <span class=s>&quot; &quot;</span><span class=p>);</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>0.7271157860730044 
+0.5309454508634242 
+0.16020656493302599 
+0.18847866977771732 
+0.5166020801268457 
+0.2678662084200585 
+0.2613610344283964
+</code></pre></div> <p>我们可以再次使用适配器模式，但这里适配器类可以实现两个接口。因此，通过关键字 <strong>interface</strong> 提供的多继承，我们可以创建一个既是 <strong>RandomDoubles</strong>，又是 <strong>Readable</strong> 的类：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/AdaptedRandomDoubles.java</span>
+<span class=c1>// creating an adapter with inheritance</span>
+<span class=kn>import</span> <span class=nn>java.nio.*</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>AdaptedRandomDoubles</span> <span class=kd>implements</span> <span class=n>RandomDoubles</span><span class=p>,</span> <span class=n>Readable</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kt>int</span> <span class=n>count</span><span class=p>;</span>
+
+    <span class=kd>public</span> <span class=nf>AdaptedRandomDoubles</span><span class=p>(</span><span class=kt>int</span> <span class=n>count</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>this</span><span class=p>.</span><span class=na>count</span> <span class=o>=</span> <span class=n>count</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>int</span> <span class=nf>read</span><span class=p>(</span><span class=n>CharBuffer</span> <span class=n>cb</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>count</span><span class=o>--</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=n>String</span> <span class=n>result</span> <span class=o>=</span> <span class=n>Double</span><span class=p>.</span><span class=na>toString</span><span class=p>(</span><span class=n>next</span><span class=p>())</span> <span class=o>+</span> <span class=s>&quot; &quot;</span><span class=p>;</span>
+        <span class=n>cb</span><span class=p>.</span><span class=na>append</span><span class=p>(</span><span class=n>result</span><span class=p>);</span>
+        <span class=k>return</span> <span class=n>result</span><span class=p>.</span><span class=na>length</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Scanner</span> <span class=n>s</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Scanner</span><span class=p>(</span><span class=k>new</span> <span class=n>AdaptedRandomDoubles</span><span class=p>(</span><span class=mi>7</span><span class=p>));</span>
+        <span class=k>while</span> <span class=p>(</span><span class=n>s</span><span class=p>.</span><span class=na>hasNextDouble</span><span class=p>())</span> <span class=p>{</span>
+            <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>print</span><span class=p>(</span><span class=n>s</span><span class=p>.</span><span class=na>nextDouble</span><span class=p>()</span> <span class=o>+</span> <span class=s>&quot; &quot;</span><span class=p>);</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>0.7271157860730044 0.5309454508634242 
+0.16020656493302599 0.18847866977771732 
+0.5166020801268457 0.2678662084200585 
+0.2613610344283964
+</code></pre></div> <p>因为你可以以这种方式在已有类中增加新接口，所以这就意味着一个接受接口类型的方法提供了一种让任何类都可以与该方法进行适配的方式。这就是使用接口而不是类的强大之处。</p> <!-- Fields in Interfaces --> <h2 id=_13>接口字段<a class=headerlink href=#_13 title="Permanent link">#</a></h2> <p>因为接口中的字段都自动是 <strong>static</strong> 和 <strong>final</strong> 的，所以接口就成为了创建一组常量的方便的工具。在 Java 5 之前，这是产生与 C 或 C++ 中的 enum (枚举类型) 具有相同效果的唯一方式。所以你可能在 Java 5 之前的代码中看到：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/Months.java</span>
+<span class=c1>// Using interfaces to create groups of constants</span>
+<span class=kd>public</span> <span class=kd>interface</span> <span class=nc>Months</span> <span class=p>{</span>
+    <span class=kt>int</span> 
+    <span class=n>JANUARY</span> <span class=o>=</span> <span class=mi>1</span><span class=p>,</span> <span class=n>FEBRUARY</span> <span class=o>=</span> <span class=mi>2</span><span class=p>,</span> <span class=n>MARCH</span> <span class=o>=</span> <span class=mi>3</span><span class=p>,</span>
+    <span class=n>APRIL</span> <span class=o>=</span> <span class=mi>4</span><span class=p>,</span> <span class=n>MAY</span> <span class=o>=</span> <span class=mi>5</span><span class=p>,</span> <span class=n>JUNE</span> <span class=o>=</span> <span class=mi>6</span><span class=p>,</span> <span class=n>JULY</span> <span class=o>=</span> <span class=mi>7</span><span class=p>,</span>
+    <span class=n>AUGUST</span> <span class=o>=</span> <span class=mi>8</span><span class=p>,</span> <span class=n>SEPTEMBER</span> <span class=o>=</span> <span class=mi>9</span><span class=p>,</span> <span class=n>OCTOBER</span> <span class=o>=</span> <span class=mi>10</span><span class=p>,</span>
+    <span class=n>NOVEMBER</span> <span class=o>=</span> <span class=mi>11</span><span class=p>,</span> <span class=n>DECEMBER</span> <span class=o>=</span> <span class=mi>12</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div> <p>注意 Java 中使用大写字母的风格定义具有初始化值的 <strong>static</strong> <strong>final</strong> 变量。接口中的字段自动是 <strong>public</strong> 的，所以没有显式指明这点。</p> <p>自 Java 5 开始，我们有了更加强大和灵活的关键字 <strong>enum</strong>，那么在接口中定义常量组就显得没什么意义了。然而当你阅读遗留的代码时，在很多场合你还会碰到这种旧的习惯用法。在“枚举”一章中你会学习到更多关于枚举的内容。</p> <h3 id=_14>初始化接口中的字段<a class=headerlink href=#_14 title="Permanent link">#</a></h3> <p>接口中定义的字段不能是“空 <strong>final</strong>"，但是可以用非常量表达式初始化。例如：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/RandVals.java</span>
+<span class=c1>// Initializing interface fields with</span>
+<span class=c1>// non-constant initializers</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+
+<span class=kd>public</span> <span class=kd>interface</span> <span class=nc>RandVals</span> <span class=p>{</span>
+    <span class=n>Random</span> <span class=n>RAND</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Random</span><span class=p>(</span><span class=mi>47</span><span class=p>);</span>
+    <span class=kt>int</span> <span class=n>RANDOM_INT</span> <span class=o>=</span> <span class=n>RAND</span><span class=p>.</span><span class=na>nextInt</span><span class=p>(</span><span class=mi>10</span><span class=p>);</span>
+    <span class=kt>long</span> <span class=n>RANDOM_LONG</span> <span class=o>=</span> <span class=n>RAND</span><span class=p>.</span><span class=na>nextLong</span><span class=p>()</span> <span class=o>*</span> <span class=mi>10</span><span class=p>;</span>
+    <span class=kt>float</span> <span class=n>RANDOM_FLOAT</span> <span class=o>=</span> <span class=n>RAND</span><span class=p>.</span><span class=na>nextLong</span><span class=p>()</span> <span class=o>*</span> <span class=mi>10</span><span class=p>;</span>
+    <span class=kt>double</span> <span class=n>RANDOM_DOUBLE</span> <span class=o>=</span> <span class=n>RAND</span><span class=p>.</span><span class=na>nextDouble</span><span class=p>()</span> <span class=o>*</span> <span class=mi>10</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div> <p>因为字段是 <strong>static</strong> 的，所以它们在类第一次被加载时初始化，这发生在任何字段首次被访问时。下面是个简单的测试：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/TestRandVals.java</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>TestRandVals</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>RandVals</span><span class=p>.</span><span class=na>RANDOM_INT</span><span class=p>);</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>RandVals</span><span class=p>.</span><span class=na>RANDOM_LONG</span><span class=p>);</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>RandVals</span><span class=p>.</span><span class=na>RANDOM_FLOAT</span><span class=p>);</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>RandVals</span><span class=p>.</span><span class=na>RANDOM_DOUBLE</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>8
+-32032247016559954
+-8.5939291E18
+5.779976127815049
+</code></pre></div> <p>这些字段不是接口的一部分，它们的值被存储在接口的静态存储区域中。</p> <!-- Nesting Interfaces --> <h2 id=_15>接口嵌套<a class=headerlink href=#_15 title="Permanent link">#</a></h2> <p>接口可以嵌套在类或其他接口中。下面揭示一些有趣的特性：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/nesting/NestingInterfaces.java</span>
+<span class=c1>// {java interfaces.nesting.NestingInterfaces}</span>
+<span class=kn>package</span> <span class=nn>interfaces.nesting</span><span class=p>;</span>
+
+<span class=kd>class</span> <span class=nc>A</span> <span class=p>{</span>
+    <span class=kd>interface</span> <span class=nc>B</span> <span class=p>{</span>
+        <span class=kt>void</span> <span class=nf>f</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>BImp</span> <span class=kd>implements</span> <span class=n>B</span> <span class=p>{</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{}</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>BImp2</span> <span class=kd>implements</span> <span class=n>B</span> <span class=p>{</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{}</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>interface</span> <span class=nc>C</span> <span class=p>{</span>
+        <span class=kt>void</span> <span class=nf>f</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>class</span> <span class=nc>CImp</span> <span class=kd>implements</span> <span class=n>C</span> <span class=p>{</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{}</span>
+    <span class=p>}</span>
+
+    <span class=kd>private</span> <span class=kd>class</span> <span class=nc>CImp2</span> <span class=kd>implements</span> <span class=n>C</span> <span class=p>{</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{}</span>
+    <span class=p>}</span>
+
+    <span class=kd>private</span> <span class=kd>interface</span> <span class=nc>D</span> <span class=p>{</span>
+        <span class=kt>void</span> <span class=nf>f</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>private</span> <span class=kd>class</span> <span class=nc>DImp</span> <span class=kd>implements</span> <span class=n>D</span> <span class=p>{</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{}</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>DImp2</span> <span class=kd>implements</span> <span class=n>D</span> <span class=p>{</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{}</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=n>D</span> <span class=nf>getD</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>DImp2</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>private</span> <span class=n>D</span> <span class=n>dRef</span><span class=p>;</span>
+
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>receiveD</span><span class=p>(</span><span class=n>D</span> <span class=n>d</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>dRef</span> <span class=o>=</span> <span class=n>d</span><span class=p>;</span>
+        <span class=n>dRef</span><span class=p>.</span><span class=na>f</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>E</span> <span class=p>{</span>
+    <span class=kd>interface</span> <span class=nc>G</span> <span class=p>{</span>
+        <span class=kt>void</span> <span class=nf>f</span><span class=p>();</span>
+    <span class=p>}</span>
+    <span class=c1>// Redundant &quot;public&quot;</span>
+    <span class=kd>public</span> <span class=kd>interface</span> <span class=nc>H</span> <span class=p>{</span>
+        <span class=kt>void</span> <span class=nf>f</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kt>void</span> <span class=nf>g</span><span class=p>();</span>
+    <span class=c1>// Cannot be private within an interface</span>
+    <span class=c1>//- private interface I {}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>NestingInterfaces</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>BImp</span> <span class=kd>implements</span> <span class=n>A</span><span class=p>.</span><span class=na>B</span> <span class=p>{</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{}</span>
+    <span class=p>}</span>
+
+    <span class=kd>class</span> <span class=nc>CImp</span> <span class=kd>implements</span> <span class=n>A</span><span class=p>.</span><span class=na>C</span> <span class=p>{</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{}</span>
+    <span class=p>}</span>
+    <span class=c1>// Cannot implements a private interface except</span>
+    <span class=c1>// within that interface&#39;s defining class:</span>
+    <span class=c1>//- class DImp implements A.D {</span>
+    <span class=c1>//- public void f() {}</span>
+    <span class=c1>//- }</span>
+    <span class=kd>class</span> <span class=nc>EImp</span> <span class=kd>implements</span> <span class=n>E</span> <span class=p>{</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>g</span><span class=p>()</span> <span class=p>{}</span>
+    <span class=p>}</span>
+
+    <span class=kd>class</span> <span class=nc>EGImp</span> <span class=kd>implements</span> <span class=n>E</span><span class=p>.</span><span class=na>G</span> <span class=p>{</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{}</span>
+    <span class=p>}</span>
+
+    <span class=kd>class</span> <span class=nc>EImp2</span> <span class=kd>implements</span> <span class=n>E</span> <span class=p>{</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>g</span><span class=p>()</span> <span class=p>{}</span>
+
+        <span class=kd>class</span> <span class=nc>EG</span> <span class=kd>implements</span> <span class=n>E</span><span class=p>.</span><span class=na>G</span> <span class=p>{</span>
+            <span class=nd>@Override</span>
+            <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{}</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>A</span> <span class=n>a</span> <span class=o>=</span> <span class=k>new</span> <span class=n>A</span><span class=p>();</span>
+        <span class=c1>// Can&#39;t access to A.D:</span>
+        <span class=c1>//- A.D ad = a.getD();</span>
+        <span class=c1>// Doesn&#39;t return anything but A.D:</span>
+        <span class=c1>//- A.DImp2 di2 = a.getD();</span>
+        <span class=c1>// cannot access a member of the interface:</span>
+        <span class=c1>//- a.getD().f();</span>
+        <span class=c1>// Only another A can do anything with getD():</span>
+        <span class=n>A</span> <span class=n>a2</span> <span class=o>=</span> <span class=k>new</span> <span class=n>A</span><span class=p>();</span>
+        <span class=n>a2</span><span class=p>.</span><span class=na>receiveD</span><span class=p>(</span><span class=n>a</span><span class=p>.</span><span class=na>getD</span><span class=p>());</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>在类中嵌套接口的语法是相当显而易见的。就像非嵌套接口一样，它们具有 <strong>public</strong> 或包访问权限的可见性。</p> <p>作为一种新添加的方式，接口也可以是 <strong>private</strong> 的，例如 <strong>A.D</strong>（同样的语法同时适用于嵌套接口和嵌套类）。那么 <strong>private</strong> 嵌套接口有什么好处呢？你可能猜测它只是被用来实现一个 <strong>private</strong> 内部类，就像 <strong>DImp</strong>。然而 <strong>A.DImp2</strong> 展示了它可以被实现为 <strong>public</strong> 类，但是 <strong>A.DImp2</strong> 只能被自己使用，你无法说它实现了 <strong>private</strong> 接口 <strong>D</strong>，所以实现 <strong>private</strong> 接口是一种可以强制该接口中的方法定义不会添加任何类型信息（即不可以向上转型）的方式。</p> <p><code>getD()</code> 方法产生了一个与 <strong>private</strong> 接口有关的窘境。它是一个 <strong>public</strong> 方法却返回了对 <strong>private</strong> 接口的引用。能对这个返回值做些什么呢？<code>main()</code> 方法里进行了一些使用返回值的尝试但都失败了。返回值必须交给有权使用它的对象，本例中另一个 <strong>A</strong> 通过 <code>receiveD()</code> 方法接受了它。</p> <p>接口 <strong>E</strong> 说明了接口之间也能嵌套。然而，作用于接口的规则——尤其是，接口中的元素必须是 <strong>public</strong> 的——在此都会被严格执行，所以嵌套在另一个接口中的接口自动就是 <strong>public</strong> 的，不能指明为 <strong>private</strong>。</p> <p>类 <strong>NestingInterfaces</strong> 展示了嵌套接口的不同实现方式。尤其是当实现某个接口时，并不需要实现嵌套在其内部的接口。同时，<strong>private</strong> 接口不能在定义它的类之外被实现。</p> <p>添加这些特性的最初原因看起来像是出于对严格的语法一致性的考虑，但是我通常认为，一旦你了解了某种特性，就总能找到其用武之地。</p> <!-- Interfaces and Factories --> <h2 id=_16>接口和工厂方法模式<a class=headerlink href=#_16 title="Permanent link">#</a></h2> <p>接口是多实现的途径，而生成符合某个接口的对象的典型方式是<em>工厂方法</em>设计模式。不同于直接调用构造器，只需调用工厂对象中的创建方法就能生成对象的实现——理论上，通过这种方式可以将接口与实现的代码完全分离，使得可以透明地将某个实现替换为另一个实现。这里是一个展示工厂方法结构的例子：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/Factories.java</span>
+<span class=kd>interface</span> <span class=nc>Service</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>method1</span><span class=p>();</span>
+    <span class=kt>void</span> <span class=nf>method2</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>ServiceFactory</span> <span class=p>{</span>
+    <span class=n>Service</span> <span class=nf>getService</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Service1</span> <span class=kd>implements</span> <span class=n>Service</span> <span class=p>{</span>
+    <span class=n>Service1</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// Package access</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>method1</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Service1 method1&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>method2</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Service1 method2&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Service1Factory</span> <span class=kd>implements</span> <span class=n>ServiceFactory</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>Service</span> <span class=nf>getService</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>Service1</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Service2</span> <span class=kd>implements</span> <span class=n>Service</span> <span class=p>{</span>
+    <span class=n>Service2</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// Package access</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>method1</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Service2 method1&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>method2</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Service2 method2&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Service2Factory</span> <span class=kd>implements</span> <span class=n>ServiceFactory</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>Service</span> <span class=nf>getService</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>Service2</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Factories</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>serviceConsumer</span><span class=p>(</span><span class=n>ServiceFactory</span> <span class=n>fact</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Service</span> <span class=n>s</span> <span class=o>=</span> <span class=n>fact</span><span class=p>.</span><span class=na>getService</span><span class=p>();</span>
+        <span class=n>s</span><span class=p>.</span><span class=na>method1</span><span class=p>();</span>
+        <span class=n>s</span><span class=p>.</span><span class=na>method2</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>serviceConsumer</span><span class=p>(</span><span class=k>new</span> <span class=n>Service1Factory</span><span class=p>());</span>
+        <span class=c1>// Services are completely interchangeable:</span>
+        <span class=n>serviceConsumer</span><span class=p>(</span><span class=k>new</span> <span class=n>Service2Factory</span><span class=p>());</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>Service1 method1
+Service1 method2
+Service2 method1
+Service2 method2
+</code></pre></div> <p>如果没有工厂方法，代码就必须在某处指定将要创建的 <strong>Service</strong> 的确切类型，从而调用恰当的构造器。</p> <p>为什么要添加额外的间接层呢？一个常见的原因是创建框架。假设你正在创建一个游戏系统；例如，在相同的棋盘下国际象棋和西洋跳棋：</p> <div class=highlight><pre><span></span><code><span class=c1>// interfaces/Games.java</span>
+<span class=c1>// A Game framework using Factory Methods</span>
+<span class=kd>interface</span> <span class=nc>Game</span> <span class=p>{</span>
+    <span class=kt>boolean</span> <span class=nf>move</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>GameFactory</span> <span class=p>{</span>
+    <span class=n>Game</span> <span class=nf>getGame</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Checkers</span> <span class=kd>implements</span> <span class=n>Game</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kt>int</span> <span class=n>moves</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+    <span class=kd>private</span> <span class=kd>static</span> <span class=kd>final</span> <span class=kt>int</span> <span class=n>MOVES</span> <span class=o>=</span> <span class=mi>3</span><span class=p>;</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>boolean</span> <span class=nf>move</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Checkers move &quot;</span> <span class=o>+</span> <span class=n>moves</span><span class=p>);</span>
+        <span class=k>return</span> <span class=o>++</span><span class=n>moves</span> <span class=o>!=</span> <span class=n>MOVES</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>CheckersFactory</span> <span class=kd>implements</span> <span class=n>GameFactory</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>Game</span> <span class=nf>getGame</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>Checkers</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Chess</span> <span class=kd>implements</span> <span class=n>Game</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kt>int</span> <span class=n>moves</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+    <span class=kd>private</span> <span class=kd>static</span> <span class=kd>final</span> <span class=kt>int</span> <span class=n>MOVES</span> <span class=o>=</span> <span class=mi>4</span><span class=p>;</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>boolean</span> <span class=nf>move</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Chess move &quot;</span> <span class=o>+</span> <span class=n>moves</span><span class=p>);</span>
+        <span class=k>return</span> <span class=o>++</span><span class=n>moves</span> <span class=o>!=</span> <span class=n>MOVES</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>ChessFactory</span> <span class=kd>implements</span> <span class=n>GameFactory</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>Game</span> <span class=nf>getGame</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>Chess</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Games</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>playGame</span><span class=p>(</span><span class=n>GameFactory</span> <span class=n>factory</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Game</span> <span class=n>s</span> <span class=o>=</span> <span class=n>factory</span><span class=p>.</span><span class=na>getGame</span><span class=p>();</span>
+        <span class=k>while</span> <span class=p>(</span><span class=n>s</span><span class=p>.</span><span class=na>move</span><span class=p>())</span> <span class=p>{</span>
+            <span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>playGame</span><span class=p>(</span><span class=k>new</span> <span class=n>CheckersFactory</span><span class=p>());</span>
+        <span class=n>playGame</span><span class=p>(</span><span class=k>new</span> <span class=n>ChessFactory</span><span class=p>());</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出：</p> <div class=highlight><pre><span></span><code>Checkers move 0
+Checkers move 1
+Checkers move 2
+Chess move 0
+Chess move 1
+Chess move 2
+Chess move 3
+</code></pre></div> <p>如果类 <strong>Games</strong> 表示一段很复杂的代码，那么这种方式意味着你可以在不同类型的游戏里复用这段代码。你可以再想象一些能够从这个模式中受益的更加精巧的游戏。</p> <p>在下一章，你将会看到一种更加优雅的使用匿名内部类的工厂实现方式。</p> <!-- Summary --> <h2 id=_17>本章小结<a class=headerlink href=#_17 title="Permanent link">#</a></h2> <p>认为接口是好的选择，从而使用接口不用具体类，这具有诱惑性。几乎任何时候，创建类都可以替代为创建一个接口和工厂。</p> <p>很多人都掉进了这个陷阱，只要有可能就创建接口和工厂。这种逻辑看起来像是可能会使用不同的实现，所以总是添加这种抽象性。这变成了一种过早的设计优化。</p> <p>任何抽象性都应该是由真正的需求驱动的。当有必要时才应该使用接口进行重构，而不是到处添加额外的间接层，从而带来额外的复杂性。这种复杂性非常显著，如果你让某人去处理这种复杂性，只是因为你意识到“以防万一”而添加新接口，而没有其他具有说服力的原因——好吧，如果我碰上了这种设计，就会质疑此人所作的所有其他设计了。</p> <p>恰当的原则是优先使用类而不是接口。从类开始，如果使用接口的必要性变得很明确，那么就重构。接口是一个伟大的工具，但它们容易被滥用。</p> <!-- 分页 --> <div style="page-break-after: always;"></div> </article> </div> </div> </main> <footer class=md-footer> <div class=md-footer-nav> <nav class="md-footer-nav__inner md-grid"> <a href=../09-Polymorphism/ title="09 Polymorphism" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel=prev> <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i> </div> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis> <span class=md-footer-nav__direction> 上一页 </span> 09 Polymorphism </span> </div> </a> <a href=../11-Inner-Classes/ title="11 Inner Classes" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel=next> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis> <span class=md-footer-nav__direction> 下一页 </span> 11 Inner Classes </span> </div> <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i> </div> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> powered by <a href=https://www.mkdocs.org target=_blank rel=noopener>MkDocs</a> and <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs</a> </div> <div class=md-footer-social> <link rel=stylesheet href=../../../../../assets/fonts/font-awesome.css> <a href=https://leay.net target=_blank rel=noopener title=home class="md-footer-social__link fa fa-home"></a> <a href=https://github.com/hqweay target=_blank rel=noopener title=github class="md-footer-social__link fa fa-github"></a> </div> </div> </div> </footer> </div> <script src=../../../../../assets/javascripts/application.c33a9706.js></script> <script src=../../../../../assets/javascripts/lunr/lunr.stemmer.support.js></script> <script src=../../../../../assets/javascripts/lunr/tinyseg.js></script> <script src=../../../../../assets/javascripts/lunr/lunr.ja.js></script> <script src=../../../../../assets/javascripts/lunr/lunr.multi.js></script> <script>app.initialize({version:"1.1",url:{base:"../../../../.."}})</script> </body> </html>

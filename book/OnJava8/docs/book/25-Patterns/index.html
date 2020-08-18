@@ -1,0 +1,891 @@
+<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=description content="Thinking Drafts"><link href=https://wiki.leay.net/book/OnJava8/docs/book/25-Patterns/ rel=canonical><meta name=author content=hqweay><meta name=lang:clipboard.copy content=复制><meta name=lang:clipboard.copied content=已复制><meta name=lang:search.language content="en, ja"><meta name=lang:search.pipeline.stopwords content=True><meta name=lang:search.pipeline.trimmer content=True><meta name=lang:search.result.none content=没有找到符合条件的结果><meta name=lang:search.result.one content="找到 1 个符合条件的结果"><meta name=lang:search.result.other content="# 个符合条件的结果"><meta name=lang:search.tokenizer content=[\uff0c\u3002]+><link rel="shortcut icon" href=../../../../../img/favicon.ico><meta name=generator content="mkdocs-1.1, mkdocs-material-4.6.3"><title>25 Patterns - Hqweay's Wiki</title><link rel=stylesheet href=../../../../../assets/stylesheets/application.adb8469c.css><link rel=stylesheet href=../../../../../assets/stylesheets/application-palette.a8b3c06d.css><meta name=theme-color content=#3f51b5><script src=../../../../../assets/javascripts/modernizr.86422ebf.js></script><link href=https://fonts.gstatic.com rel=preconnect crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>body,input{font-family:"Noto Serif SC","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style><link rel=stylesheet href=../../../../../assets/fonts/material-icons.css><script>
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  }
+  ga.l = +new Date
+  /* Setup integration and send page view */
+  ga("create", "UA-105976066-3", "wiki.leay.net")
+  ga("set", "anonymizeIp", true)
+  ga("send", "pageview")
+  /* Register handler to log search on blur */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.forms.search) {
+      var query = document.forms.search.query
+      query.addEventListener("blur", function() {
+        if (this.value) {
+          var path = document.location.pathname;
+          ga("send", "pageview", path + "?q=" + this.value)
+        }
+      })
+    }
+  })
+</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-primary=indigo data-md-color-accent=indigo> <svg class=md-svg> <defs> <svg xmlns=http://www.w3.org/2000/svg width=416 height=448 viewbox="0 0 416 448" id=__github><path fill=currentColor d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg> </defs> </svg> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay data-md-component=overlay for=__drawer></label> <a href=#_1 tabindex=0 class=md-skip> 跳转至 </a> <header class=md-header data-md-component=header> <nav class="md-header-nav md-grid"> <div class=md-flex> <div class="md-flex__cell md-flex__cell--shrink"> <a href=https://wiki.leay.net/ title="Hqweay's Wiki" aria-label="Hqweay's Wiki" class="md-header-nav__button md-logo"> <i class=md-icon></i> </a> </div> <div class="md-flex__cell md-flex__cell--shrink"> <label class="md-icon md-icon--menu md-header-nav__button" for=__drawer></label> </div> <div class="md-flex__cell md-flex__cell--stretch"> <div class="md-flex__ellipsis md-header-nav__title" data-md-component=title> <span class=md-header-nav__topic> Hqweay's Wiki </span> <span class=md-header-nav__topic> 25 Patterns </span> </div> </div> <div class="md-flex__cell md-flex__cell--shrink"> <label class="md-icon md-icon--search md-header-nav__button" for=__search></label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input aria-label=search name=query placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=query data-md-state=active> <label class="md-icon md-search__icon" for=__search></label> <button type=reset class="md-icon md-search__icon" data-md-component=reset tabindex=-1> &#xE5CD; </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=result> <div class=md-search-result__meta> 键入以开始搜索 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> </div> <div class="md-flex__cell md-flex__cell--shrink"> <div class=md-header-nav__source> <a href=https://github.com/hqweay/my-mkdocs/ title="前往 Github 仓库" class=md-source data-md-source=github> <div class=md-source__icon> <svg viewbox="0 0 24 24" width=24 height=24> <use xlink:href=#__github width=24 height=24></use> </svg> </div> <div class=md-source__repository> hqweay/my-mkdocs </div> </a> </div> </div> </div> </nav> </header> <div class=md-container> <nav class="md-tabs md-tabs--active" data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../../../.. class=md-tabs__link> About </a> </li> <li class=md-tabs__item> <a href=../../../ class="md-tabs__link md-tabs__link--active"> Book </a> </li> <li class=md-tabs__item> <a href=../../../../../doc/ class=md-tabs__link> Doc </a> </li> <li class=md-tabs__item> <a href=../../../../../life/reading/ class=md-tabs__link> Life </a> </li> <li class=md-tabs__item> <a href=../../../../../study/draft/try-wiki/ class=md-tabs__link> Study </a> </li> <li class=md-tabs__item> <a href=../../../../../tech/code/frontend/2017-09-14-easy-web-test/ class=md-tabs__link> Tech </a> </li> </ul> </div> </nav> <main class=md-main role=main> <div class="md-main__inner md-grid" data-md-component=container> <div class="md-sidebar md-sidebar--primary" data-md-component=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary" data-md-level=0> <label class="md-nav__title md-nav__title--site" for=__drawer> <a href=https://wiki.leay.net/ title="Hqweay's Wiki" class="md-nav__button md-logo"> <i class=md-icon></i> </a> Hqweay's Wiki </label> <div class=md-nav__source> <a href=https://github.com/hqweay/my-mkdocs/ title="前往 Github 仓库" class=md-source data-md-source=github> <div class=md-source__icon> <svg viewbox="0 0 24 24" width=24 height=24> <use xlink:href=#__github width=24 height=24></use> </svg> </div> <div class=md-source__repository> hqweay/my-mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../.. title=About class=md-nav__link> About </a> </li> <li class=md-nav__item> <a href=../../../../../test/ title=特殊语法 class=md-nav__link> 特殊语法 </a> </li> <li class=md-nav__item> <a href=../../../../../web-page/ title=静态文档导航 class=md-nav__link> 静态文档导航 </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4 type=checkbox id=nav-4 checked> <label class=md-nav__link for=nav-4> Book </label> <nav class=md-nav data-md-component=collapsible data-md-level=1> <label class=md-nav__title for=nav-4> Book </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4-1 type=checkbox id=nav-4-1 checked> <label class=md-nav__link for=nav-4-1> OnJava8 </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-4-1> OnJava8 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../ title="《On Java 8》中文版" class=md-nav__link> 《On Java 8》中文版 </a> </li> <li class=md-nav__item> <a href=../../../CONTRIBUTING/ title=CONTRIBUTING class=md-nav__link> CONTRIBUTING </a> </li> <li class=md-nav__item> <a href=../../../SUMMARY/ title=Summary class=md-nav__link> Summary </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4-1-4 type=checkbox id=nav-4-1-4 checked> <label class=md-nav__link for=nav-4-1-4> Docs </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-4-1-4> Docs </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../ title=译者的话 class=md-nav__link> 译者的话 </a> </li> <li class=md-nav__item> <a href=../../_coverpage/ title=coverpage class=md-nav__link> coverpage </a> </li> <li class=md-nav__item> <a href=../../sidebar/ title=Sidebar class=md-nav__link> Sidebar </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4-1-4-4 type=checkbox id=nav-4-1-4-4> <label class=md-nav__link for=nav-4-1-4-4> style </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-4-1-4-4> style </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4-1-4-4-1 type=checkbox id=nav-4-1-4-4-1> <label class=md-nav__link for=nav-4-1-4-4-1> Prism master </label> <nav class=md-nav data-md-component=collapsible data-md-level=5> <label class=md-nav__title for=nav-4-1-4-4-1> Prism master </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../_style/prism-master/ title=[Prism](http://prismjs.com/) class=md-nav__link> [Prism](http://prismjs.com/) </a> </li> <li class=md-nav__item> <a href=../../_style/prism-master/CHANGELOG/ title="Prism Changelog" class=md-nav__link> Prism Changelog </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4-1-4-5 type=checkbox id=nav-4-1-4-5 checked> <label class=md-nav__link for=nav-4-1-4-5> Book </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-4-1-4-5> Book </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../00-Introduction/ title=简介 class=md-nav__link> 简介 </a> </li> <li class=md-nav__item> <a href=../00-On-Java-8/ title="00 On Java 8" class=md-nav__link> 00 On Java 8 </a> </li> <li class=md-nav__item> <a href=../00-Preface/ title=前言 class=md-nav__link> 前言 </a> </li> <li class=md-nav__item> <a href=../01-What-is-an-Object/ title="第一章 对象的概念" class=md-nav__link> 第一章 对象的概念 </a> </li> <li class=md-nav__item> <a href=../02-Installing-Java-and-the-Book-Examples/ title="02 Installing Java and the Book Examples" class=md-nav__link> 02 Installing Java and the Book Examples </a> </li> <li class=md-nav__item> <a href=../03-Objects-Everywhere/ title="03 Objects Everywhere" class=md-nav__link> 03 Objects Everywhere </a> </li> <li class=md-nav__item> <a href=../04-Operators/ title="04 Operators" class=md-nav__link> 04 Operators </a> </li> <li class=md-nav__item> <a href=../05-Control-Flow/ title="05 Control Flow" class=md-nav__link> 05 Control Flow </a> </li> <li class=md-nav__item> <a href=../06-Housekeeping/ title="06 Housekeeping" class=md-nav__link> 06 Housekeeping </a> </li> <li class=md-nav__item> <a href=../07-Implementation-Hiding/ title="07 Implementation Hiding" class=md-nav__link> 07 Implementation Hiding </a> </li> <li class=md-nav__item> <a href=../08-Reuse/ title="08 Reuse" class=md-nav__link> 08 Reuse </a> </li> <li class=md-nav__item> <a href=../09-Polymorphism/ title="09 Polymorphism" class=md-nav__link> 09 Polymorphism </a> </li> <li class=md-nav__item> <a href=../10-Interfaces/ title="10 Interfaces" class=md-nav__link> 10 Interfaces </a> </li> <li class=md-nav__item> <a href=../11-Inner-Classes/ title="11 Inner Classes" class=md-nav__link> 11 Inner Classes </a> </li> <li class=md-nav__item> <a href=../12-Collections/ title="12 Collections" class=md-nav__link> 12 Collections </a> </li> <li class=md-nav__item> <a href=../13-Functional-Programming/ title="13 Functional Programming" class=md-nav__link> 13 Functional Programming </a> </li> <li class=md-nav__item> <a href=../14-Streams/ title="14 Streams" class=md-nav__link> 14 Streams </a> </li> <li class=md-nav__item> <a href=../15-Exceptions/ title="15 Exceptions" class=md-nav__link> 15 Exceptions </a> </li> <li class=md-nav__item> <a href=../16-Validating-Your-Code/ title="16 Validating Your Code" class=md-nav__link> 16 Validating Your Code </a> </li> <li class=md-nav__item> <a href=../17-Files/ title="17 Files" class=md-nav__link> 17 Files </a> </li> <li class=md-nav__item> <a href=../18-Strings/ title="18 Strings" class=md-nav__link> 18 Strings </a> </li> <li class=md-nav__item> <a href=../19-Type-Information/ title="19 Type Information" class=md-nav__link> 19 Type Information </a> </li> <li class=md-nav__item> <a href=../20-Generics/ title="20 Generics" class=md-nav__link> 20 Generics </a> </li> <li class=md-nav__item> <a href=../21-Arrays/ title="21 Arrays" class=md-nav__link> 21 Arrays </a> </li> <li class=md-nav__item> <a href=../22-Enumerations/ title="22 Enumerations" class=md-nav__link> 22 Enumerations </a> </li> <li class=md-nav__item> <a href=../23-Annotations/ title="23 Annotations" class=md-nav__link> 23 Annotations </a> </li> <li class=md-nav__item> <a href=../24-Concurrent-Programming/ title="24 Concurrent Programming" class=md-nav__link> 24 Concurrent Programming </a> </li> <li class="md-nav__item md-nav__item--active"> <input class="md-toggle md-nav__toggle" data-md-toggle=toc type=checkbox id=__toc> <label class="md-nav__link md-nav__link--active" for=__toc> 25 Patterns </label> <a href=./ title="25 Patterns" class="md-nav__link md-nav__link--active"> 25 Patterns </a> <nav class="md-nav md-nav--secondary"> <label class=md-nav__title for=__toc>目录</label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=#_2 class=md-nav__link> 概念 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_3 class=md-nav__link> 单例模式 </a> </li> <li class=md-nav__item> <a href=#_4 class=md-nav__link> 模式分类 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_5 class=md-nav__link> 构建应用程序框架 </a> </li> <li class=md-nav__item> <a href=#_6 class=md-nav__link> 面向实现 </a> </li> <li class=md-nav__item> <a href=#_7 class=md-nav__link> 工厂模式 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_8 class=md-nav__link> 动态工厂 </a> </li> <li class=md-nav__item> <a href=#_9 class=md-nav__link> 多态工厂 </a> </li> <li class=md-nav__item> <a href=#_10 class=md-nav__link> 抽象工厂 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_11 class=md-nav__link> 函数对象 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_12 class=md-nav__link> 命令模式 </a> </li> <li class=md-nav__item> <a href=#_13 class=md-nav__link> 策略模式 </a> </li> <li class=md-nav__item> <a href=#_14 class=md-nav__link> 责任链模式 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_15 class=md-nav__link> 改变接口 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#adapter class=md-nav__link> 适配器模式（Adapter） </a> </li> <li class=md-nav__item> <a href=#facade class=md-nav__link> 外观模式（Façade） </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#package class=md-nav__link> 包（Package）作为外观模式的变体 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_16 class=md-nav__link> 解释器：运行时的弹性 </a> </li> <li class=md-nav__item> <a href=#_17 class=md-nav__link> 回调 </a> </li> <li class=md-nav__item> <a href=#_18 class=md-nav__link> 多次调度 </a> </li> <li class=md-nav__item> <a href=#_19 class=md-nav__link> 模式重构 </a> </li> <li class=md-nav__item> <a href=#_20 class=md-nav__link> 抽象用法 </a> </li> <li class=md-nav__item> <a href=#_21 class=md-nav__link> 多次派遣 </a> </li> <li class=md-nav__item> <a href=#_22 class=md-nav__link> 访问者模式 </a> </li> <li class=md-nav__item> <a href=#rtti class=md-nav__link> RTTI的优劣 </a> </li> <li class=md-nav__item> <a href=#_23 class=md-nav__link> 本章小结 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=../Appendix-Becoming-a-Programmer/ title="Appendix Becoming a Programmer" class=md-nav__link> Appendix Becoming a Programmer </a> </li> <li class=md-nav__item> <a href=../Appendix-Benefits-and-Costs-of-Static-Type-Checking/ title="Appendix Benefits and Costs of Static Type Checking" class=md-nav__link> Appendix Benefits and Costs of Static Type Checking </a> </li> <li class=md-nav__item> <a href=../Appendix-Collection-Topics/ title="Appendix Collection Topics" class=md-nav__link> Appendix Collection Topics </a> </li> <li class=md-nav__item> <a href=../Appendix-Data-Compression/ title="Appendix Data Compression" class=md-nav__link> Appendix Data Compression </a> </li> <li class=md-nav__item> <a href=../Appendix-IO-Streams/ title="Appendix IO Streams" class=md-nav__link> Appendix IO Streams </a> </li> <li class=md-nav__item> <a href=../Appendix-Javadoc/ title="Appendix Javadoc" class=md-nav__link> Appendix Javadoc </a> </li> <li class=md-nav__item> <a href=../Appendix-Low-Level-Concurrency/ title="Appendix Low Level Concurrency" class=md-nav__link> Appendix Low Level Concurrency </a> </li> <li class=md-nav__item> <a href=../Appendix-New-IO/ title="Appendix New IO" class=md-nav__link> Appendix New IO </a> </li> <li class=md-nav__item> <a href=../Appendix-Object-Serialization/ title="Appendix Object Serialization" class=md-nav__link> Appendix Object Serialization </a> </li> <li class=md-nav__item> <a href=../Appendix-Passing-and-Returning-Objects/ title="Appendix Passing and Returning Objects" class=md-nav__link> Appendix Passing and Returning Objects </a> </li> <li class=md-nav__item> <a href=../Appendix-Programming-Guidelines/ title="Appendix Programming Guidelines" class=md-nav__link> Appendix Programming Guidelines </a> </li> <li class=md-nav__item> <a href=../Appendix-Standard-IO/ title="Appendix Standard IO" class=md-nav__link> Appendix Standard IO </a> </li> <li class=md-nav__item> <a href=../Appendix-Supplements/ title="Appendix Supplements" class=md-nav__link> Appendix Supplements </a> </li> <li class=md-nav__item> <a href=../Appendix-The-Positive-Legacy-of-C-plus-plus-and-Java/ title="Appendix The Positive Legacy of C plus plus and Java" class=md-nav__link> Appendix The Positive Legacy of C plus plus and Java </a> </li> <li class=md-nav__item> <a href=../Appendix-Understanding-equals-and-hashCode/ title="Appendix Understanding equals and hashCode" class=md-nav__link> Appendix Understanding equals and hashCode </a> </li> <li class=md-nav__item> <a href=../GLOSSARY/ title=GLOSSARY class=md-nav__link> GLOSSARY </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5 type=checkbox id=nav-5> <label class=md-nav__link for=nav-5> Doc </label> <nav class=md-nav data-md-component=collapsible data-md-level=1> <label class=md-nav__title for=nav-5> Doc </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/ title=About class=md-nav__link> About </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2 type=checkbox id=nav-5-2> <label class=md-nav__link for=nav-5-2> English </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-5-2> English </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1 type=checkbox id=nav-5-2-1> <label class=md-nav__link for=nav-5-2-1> A Programmers Guide to English </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-5-2-1> A Programmers Guide to English </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/ title="A Programmer's Guide to English" class=md-nav__link> A Programmer's Guide to English </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/SUMMARY/ title=Summary class=md-nav__link> Summary </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1-3 type=checkbox id=nav-5-2-1-3> <label class=md-nav__link for=nav-5-2-1-3> Essence </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-1-3> Essence </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/essence/ title=语言学习的本质浅析 class=md-nav__link> 语言学习的本质浅析 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1-4 type=checkbox id=nav-5-2-1-4> <label class=md-nav__link for=nav-5-2-1-4> Make a program </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-1-4> Make a program </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/make-a-program/ title=如何构建一个识别英语的程序 class=md-nav__link> 如何构建一个识别英语的程序 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1-5 type=checkbox id=nav-5-2-1-5> <label class=md-nav__link for=nav-5-2-1-5> Qa </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-1-5> Qa </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/qa/ title="常见问题 QA" class=md-nav__link> 常见问题 QA </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/qa/WhyPTE/ title="为什么我选择 PTE 考试" class=md-nav__link> 为什么我选择 PTE 考试 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1-6 type=checkbox id=nav-5-2-1-6> <label class=md-nav__link for=nav-5-2-1-6> Resources </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-1-6> Resources </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/resources/ title=资料、工具推荐和扩展阅读 class=md-nav__link> 资料、工具推荐和扩展阅读 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1-7 type=checkbox id=nav-5-2-1-7> <label class=md-nav__link for=nav-5-2-1-7> Training </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-1-7> Training </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/training/ title=我的训练方法 class=md-nav__link> 我的训练方法 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/training/KnowledgeBase/ title=扩充语料库的训练方法 class=md-nav__link> 扩充语料库的训练方法 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/training/ListeningandSpeaking/ title=发音和听力训练方法 class=md-nav__link> 发音和听力训练方法 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/training/Thinking/ title=英语思维训练 class=md-nav__link> 英语思维训练 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-2 type=checkbox id=nav-5-2-2> <label class=md-nav__link for=nav-5-2-2> English level up tips for Chinese </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-5-2-2> English level up tips for Chinese </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/ title=English-level-up-tips-for-Chinese class=md-nav__link> English-level-up-tips-for-Chinese </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/SUMMARY/ title=Summary class=md-nav__link> Summary </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-2-3 type=checkbox id=nav-5-2-2-3> <label class=md-nav__link for=nav-5-2-2-3> Part 1 </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-2-3> Part 1 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-1/1-understanding/ title=认知篇 class=md-nav__link> 认知篇 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-1/2-vocabulary/ title=单词篇 class=md-nav__link> 单词篇 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-1/3-listening/ title=听力篇 class=md-nav__link> 听力篇 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-1/4-reading/ title=阅读篇 class=md-nav__link> 阅读篇 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-1/5-speaking/ title="5 speaking" class=md-nav__link> 5 speaking </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-2-4 type=checkbox id=nav-5-2-2-4> <label class=md-nav__link for=nav-5-2-2-4> Part 2 </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-2-4> Part 2 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-2/x-misc/ title=扯淡篇 class=md-nav__link> 扯淡篇 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-2-5 type=checkbox id=nav-5-2-2-5> <label class=md-nav__link for=nav-5-2-2-5> Word list </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-2-5> Word list </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/Go/ title=Go class=md-nav__link> Go </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/Java/ title=Java class=md-nav__link> Java </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/JavaScript/ title=JavaScript class=md-nav__link> JavaScript </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/PHP/ title=PHP class=md-nav__link> PHP </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/Python/ title=Python class=md-nav__link> Python </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/Swift/ title=Swift class=md-nav__link> Swift </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-3 type=checkbox id=nav-5-2-3> <label class=md-nav__link for=nav-5-2-3> Everyone can use english </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-5-2-3> Everyone can use english </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/ title=人人都能用英语 class=md-nav__link> 人人都能用英语 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter1/ title="第一章 起点" class=md-nav__link> 第一章 起点 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter2/ title="第二章 口语" class=md-nav__link> 第二章 口语 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter3/ title="第三章 语音" class=md-nav__link> 第三章 语音 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter4/ title="第四章 朗读" class=md-nav__link> 第四章 朗读 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter5/ title="第五章 词典" class=md-nav__link> 第五章 词典 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter6/ title="第六章 语法" class=md-nav__link> 第六章 语法 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter7/ title="第七章 精读" class=md-nav__link> 第七章 精读 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter8/ title="第八章 叮嘱" class=md-nav__link> 第八章 叮嘱 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/end/ title=后记 class=md-nav__link> 后记 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-3 type=checkbox id=nav-5-3> <label class=md-nav__link for=nav-5-3> Writing </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-5-3> Writing </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-3-1 type=checkbox id=nav-5-3-1> <label class=md-nav__link for=nav-5-3-1> Chinese copywriting guidelines </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-5-3-1> Chinese copywriting guidelines </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/writing/chinese-copywriting-guidelines/ title=中文文案排版指北 class=md-nav__link> 中文文案排版指北 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/chinese-copywriting-guidelines/CHANGELOG/ title=CHANGELOG class=md-nav__link> CHANGELOG </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/chinese-copywriting-guidelines/README.en-US/ title="Chinese Copywriting Guidelines" class=md-nav__link> Chinese Copywriting Guidelines </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/chinese-copywriting-guidelines/README.zh-CN/ title=中文文案排版指北 class=md-nav__link> 中文文案排版指北 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/chinese-copywriting-guidelines/README.zh-HK/ title=中文文案排版指北 class=md-nav__link> 中文文案排版指北 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-3-2 type=checkbox id=nav-5-3-2> <label class=md-nav__link for=nav-5-3-2> Document style guide </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-5-3-2> Document style guide </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/ title=Index class=md-nav__link> Index </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-3-2-2 type=checkbox id=nav-5-3-2-2> <label class=md-nav__link for=nav-5-3-2-2> Docs </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-3-2-2> Docs </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/marks/ title=标点符号 class=md-nav__link> 标点符号 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/number/ title=数值 class=md-nav__link> 数值 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/paragraph/ title=段落 class=md-nav__link> 段落 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/reference/ title=参考链接 class=md-nav__link> 参考链接 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/structure/ title=文档体系 class=md-nav__link> 文档体系 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/text/ title=文本 class=md-nav__link> 文本 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/title/ title=标题 class=md-nav__link> 标题 </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6 type=checkbox id=nav-6> <label class=md-nav__link for=nav-6> Life </label> <nav class=md-nav data-md-component=collapsible data-md-level=1> <label class=md-nav__title for=nav-6> Life </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6-1 type=checkbox id=nav-6-1> <label class=md-nav__link for=nav-6-1> Reading </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-6-1> Reading </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../life/reading/ title=阅读 class=md-nav__link> 阅读 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6-1-2 type=checkbox id=nav-6-1-2> <label class=md-nav__link for=nav-6-1-2> Mark </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-6-1-2> Mark </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../life/reading/mark/back-up/ title="2019 暑假备份" class=md-nav__link> 2019 暑假备份 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/back/ title=例行收集 class=md-nav__link> 例行收集 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/efficiency-time/ title=效率、时间、鸡汤 class=md-nav__link> 效率、时间、鸡汤 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/fiction/ title=小说 class=md-nav__link> 小说 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/films-remark/ title=影评、电影 class=md-nav__link> 影评、电影 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/fo/ title=佛 class=md-nav__link> 佛 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/hackers-others/ title=互联网、思维方式 class=md-nav__link> 互联网、思维方式 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/hooked-media/ title=媒介反思 class=md-nav__link> 媒介反思 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/isaka-kotaro/ title=伊坂幸太郎 class=md-nav__link> 伊坂幸太郎 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/knote/ title=整理 class=md-nav__link> 整理 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/mark-knote/ title=浪费时间 class=md-nav__link> 浪费时间 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/meaning/ title=思维方式 class=md-nav__link> 思维方式 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/morimi-tomihiko/ title=森见登美彦的文字好有趣啊! class=md-nav__link> 森见登美彦的文字好有趣啊! </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/murakamo-haruki/ title=村上春树 class=md-nav__link> 村上春树 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/no-fiction/ title=非虚构类 class=md-nav__link> 非虚构类 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/paper/ title=论文式总结 class=md-nav__link> 论文式总结 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/poem/ title=诗歌 class=md-nav__link> 诗歌 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/sence/ title=哲学相关通俗读物 class=md-nav__link> 哲学相关通俗读物 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/the-little-prince/ title="The Little Prince" class=md-nav__link> The Little Prince </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/universe/ title=物理科普读物 class=md-nav__link> 物理科普读物 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/utopia/ title=乌托邦小说世界关于书籍的冷幽默 class=md-nav__link> 乌托邦小说世界关于书籍的冷幽默 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/western-politics/ title=政哲 class=md-nav__link> 政哲 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/what-we-talk-about/ title=日本文学 class=md-nav__link> 日本文学 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/wuxia/ title=武侠 class=md-nav__link> 武侠 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/xiao-bo/ title=王小波 class=md-nav__link> 王小波 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6-1-3 type=checkbox id=nav-6-1-3> <label class=md-nav__link for=nav-6-1-3> Note </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-6-1-3> Note </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../life/reading/note/2017-09-02-book-JavaScript-DOM/ title="《JavaScript DOM 编程艺术》" class=md-nav__link> 《JavaScript DOM 编程艺术》 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/note/2017-09-09-coding-javascript-down/ title="尽量把 JavaScript 代码放到 HTML 网页底部" class=md-nav__link> 尽量把 JavaScript 代码放到 HTML 网页底部 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/note/2018-05-23-HTTP/ title="《HTTP 图解》" class=md-nav__link> 《HTTP 图解》 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/note/2018-06-07-computer/ title=计算机系统基础 class=md-nav__link> 计算机系统基础 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/note/2018-10-09-JVM/ title="JVM 笔记" class=md-nav__link> JVM 笔记 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/note/2018-11-25-computer/ title=计算机系统概论 class=md-nav__link> 计算机系统概论 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6-1-4 type=checkbox id=nav-6-1-4> <label class=md-nav__link for=nav-6-1-4> Review </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-6-1-4> Review </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../life/reading/review/2017-09-28-say-something/ title=听你吹牛的闲暇时光 class=md-nav__link> 听你吹牛的闲暇时光 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/review/2017-09-29-wuxia/ title="《流星 蝴蝶 剑》简记" class=md-nav__link> 《流星 蝴蝶 剑》简记 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/review/2017-12-30-xiao-bo/ title=波波老师 class=md-nav__link> 波波老师 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/review/2018-01-17-lai-zi-xin-shi-jie/ title=《来自新世界》 class=md-nav__link> 《来自新世界》 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/review/2018-10-06-October/ title=科普谈起 class=md-nav__link> 科普谈起 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/review/2019-09-07-story/ title=从网络小说谈起。 class=md-nav__link> 从网络小说谈起。 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6-2 type=checkbox id=nav-6-2> <label class=md-nav__link for=nav-6-2> Watching </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-6-2> Watching </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../life/watching/2017-08-29-watch-movies-rencently/ title=最近看的几部电影 class=md-nav__link> 最近看的几部电影 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2017-10-13-september-movies-record/ title=九月观影记录 class=md-nav__link> 九月观影记录 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2017-11-01-October-summary/ title=十月看片与非专业类阅读 class=md-nav__link> 十月看片与非专业类阅读 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2017-12-01-1112/ title=观影与阅读记录 class=md-nav__link> 观影与阅读记录 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2018-01-10-12/ title=最近看片与阅读 class=md-nav__link> 最近看片与阅读 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2018-02-06-january/ title=一月观影记录 class=md-nav__link> 一月观影记录 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2018-03-08-February/ title=二月至今观影记录 class=md-nav__link> 二月至今观影记录 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2018-03-31-March/ title=三月观影记录 class=md-nav__link> 三月观影记录 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2018-12-26-Smultronst%C3%A4llet/ title=野草莓 class=md-nav__link> 野草莓 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2019-10-10-October/ title=克服本能就是善良吗？（从十月新番胡扯……） class=md-nav__link> 克服本能就是善良吗？（从十月新番胡扯……） </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2019-11-04-bgm/ title=无人声环 class=md-nav__link> 无人声环 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2019-11-13-the-end-of-the-world/ title="The End of the Fucking World" class=md-nav__link> The End of the Fucking World </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-7 type=checkbox id=nav-7> <label class=md-nav__link for=nav-7> Study </label> <nav class=md-nav data-md-component=collapsible data-md-level=1> <label class=md-nav__title for=nav-7> Study </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-7-1 type=checkbox id=nav-7-1> <label class=md-nav__link for=nav-7-1> Draft </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-7-1> Draft </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../study/draft/try-wiki/ title="一些 Wiki 工具的尝试" class=md-nav__link> 一些 Wiki 工具的尝试 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-7-2 type=checkbox id=nav-7-2> <label class=md-nav__link for=nav-7-2> Language </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-7-2> Language </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../study/language/%E6%97%A5%E8%AF%AD%E5%85%A5%E9%97%A8/ title=日语入门 class=md-nav__link> 日语入门 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8 type=checkbox id=nav-8> <label class=md-nav__link for=nav-8> Tech </label> <nav class=md-nav data-md-component=collapsible data-md-level=1> <label class=md-nav__title for=nav-8> Tech </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1 type=checkbox id=nav-8-1> <label class=md-nav__link for=nav-8-1> Code </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-8-1> Code </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1-1 type=checkbox id=nav-8-1-1> <label class=md-nav__link for=nav-8-1-1> Frontend </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-1-1> Frontend </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/code/frontend/2017-09-14-easy-web-test/ title=大表哥的电商网页实战体验 class=md-nav__link> 大表哥的电商网页实战体验 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/frontend/2017-09-23-know-nothing/ title=知其然不知其所以然 class=md-nav__link> 知其然不知其所以然 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/frontend/2018-06-08-responsive/ title=大表哥的响应式设计 class=md-nav__link> 大表哥的响应式设计 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/frontend/zh-javascript-info/ title="现代 JavaScript 教程摘录" class=md-nav__link> 现代 JavaScript 教程摘录 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1-2 type=checkbox id=nav-8-1-2> <label class=md-nav__link for=nav-8-1-2> Go </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-1-2> Go </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/code/go/01/ title=01 class=md-nav__link> 01 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1-3 type=checkbox id=nav-8-1-3> <label class=md-nav__link for=nav-8-1-3> Java </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-1-3> Java </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/code/java/2017-12-30-Java%20Web/ title="从 url 访问服务器资源讨论 Java Web 中的 Servlet" class=md-nav__link> 从 url 访问服务器资源讨论 Java Web 中的 Servlet </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2018-11-23-ArrayList/ title=ArrayList class=md-nav__link> ArrayList </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-01-31-HashMap/ title=HashMap class=md-nav__link> HashMap </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-02-01-String/ title="String 分析(栈,堆,字符串常量池)" class=md-nav__link> String 分析(栈,堆,字符串常量池) </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-02-03-String/ title=String、StringBuffer、StingBuilder class=md-nav__link> String、StringBuffer、StingBuilder </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-02-06-Hashtable/ title=Hashtable class=md-nav__link> Hashtable </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-03-22-string-pool/ title=字符串常量池到底保存的是字符串对象还是字符串对象的引用? class=md-nav__link> 字符串常量池到底保存的是字符串对象还是字符串对象的引用? </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-03-23-Java-Thread-pool/ title="Java 线程池" class=md-nav__link> Java 线程池 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-03-29-Java%20Web/ title="Java Web 启动流程" class=md-nav__link> Java Web 启动流程 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-04-05-AQS-lock/ title="AQS 与 Java 锁的具体实现" class=md-nav__link> AQS 与 Java 锁的具体实现 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1-4 type=checkbox id=nav-8-1-4> <label class=md-nav__link for=nav-8-1-4> Projects </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-1-4> Projects </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/code/projects/2018-05-07-big-data/ title="大数据 Demo （采集、处理、应用）复盘" class=md-nav__link> 大数据 Demo （采集、处理、应用）复盘 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1-5 type=checkbox id=nav-8-1-5> <label class=md-nav__link for=nav-8-1-5> Spring </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-1-5> Spring </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/code/spring/2018-09-01-Spring%20Security/ title="Spring Boot 与 Spring Security" class=md-nav__link> Spring Boot 与 Spring Security </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/spring/2019-03-29-Spring-init/ title="Spring 启动流程与简单源码分析" class=md-nav__link> Spring 启动流程与简单源码分析 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/spring/2019-04-06-Spring-MVC/ title="Spring MVC 简单源码分析" class=md-nav__link> Spring MVC 简单源码分析 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-2 type=checkbox id=nav-8-2> <label class=md-nav__link for=nav-8-2> Config </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-8-2> Config </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-2-1 type=checkbox id=nav-8-2-1> <label class=md-nav__link for=nav-8-2-1> Git </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-2-1> Git </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/config/git/2018-02-01-git/ title="Git 的简单使用" class=md-nav__link> Git 的简单使用 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/git/2019-08-10-git-merge/ title="Git 协作管理项目时不可避免的 merge 操作" class=md-nav__link> Git 协作管理项目时不可避免的 merge 操作 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/git/submodule/ title=submodule class=md-nav__link> submodule </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-2-2 type=checkbox id=nav-8-2-2> <label class=md-nav__link for=nav-8-2-2> Linux </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-2-2> Linux </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/config/linux/2019-12-18-manjaro/ title="Manjaro 个人新装配置" class=md-nav__link> Manjaro 个人新装配置 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/linux/2020-02-23-archer-s-arch/ title="Archer`s Arch" class=md-nav__link> Archer`s Arch </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/linux/fontconfig/ title="Arch Emoji fontconfig" class=md-nav__link> Arch Emoji fontconfig </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/linux/softwares/ title=各种工具 class=md-nav__link> 各种工具 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-2-3 type=checkbox id=nav-8-2-3> <label class=md-nav__link for=nav-8-2-3> Tools </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-2-3> Tools </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/config/tools/cz-conventional-changelog/ title=cz-conventional-changelog class=md-nav__link> cz-conventional-changelog </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-2-4 type=checkbox id=nav-8-2-4> <label class=md-nav__link for=nav-8-2-4> Undefined </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-2-4> Undefined </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2018-03-31-Generator-SpringBoot-Gradle/ title="MyBatis Generator + Spring Boot + Gradle 配置" class=md-nav__link> MyBatis Generator + Spring Boot + Gradle 配置 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2018-06-25-VS-Code-Python/ title="VS Code 写 Python" class=md-nav__link> VS Code 写 Python </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2018-06-26-linux-kawa/ title="在 Linux 上使用 kawa" class=md-nav__link> 在 Linux 上使用 kawa </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2018-11-25-mysql/ title="【转】在 CentOS 上部署 MySQL 解压版" class=md-nav__link> 【转】在 CentOS 上部署 MySQL 解压版 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2019-04-03-Redis-lock/ title="Redis 的分布式锁实现" class=md-nav__link> Redis 的分布式锁实现 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2019-07-28-picGo/ title="Github + picGo ——有图床了" class=md-nav__link> Github + picGo ——有图床了 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2019-11-18-linux-mount/ title="Linux 挂载分区/磁盘" class=md-nav__link> Linux 挂载分区/磁盘 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-02-03-terminal-wifi/ title=把显卡驱动删了后在终端连热点 class=md-nav__link> 把显卡驱动删了后在终端连热点 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-02-12-css/ title=一个引号引发的惨案 class=md-nav__link> 一个引号引发的惨案 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-02-23-archer-s-arch/ title="Archer`s Arch" class=md-nav__link> Archer`s Arch </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-03-12-electron-vue/ title="用 Vue 写 Electron 的一次问题解决" class=md-nav__link> 用 Vue 写 Electron 的一次问题解决 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-03-12-ttrss/ title="部署 TTRSS 遇到的一些有趣的东西" class=md-nav__link> 部署 TTRSS 遇到的一些有趣的东西 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-04-02-hexo-asset-image/ title="hexo-next-theme 开启 lazyload 使用 hexo-asset-image 出问题了" class=md-nav__link> hexo-next-theme 开启 lazyload 使用 hexo-asset-image 出问题了 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-3 type=checkbox id=nav-8-3> <label class=md-nav__link for=nav-8-3> Project </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-8-3> Project </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/project/2017-12-21-xiao-zong-jie/ title=做个小小的总结 class=md-nav__link> 做个小小的总结 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2018-05-07-big-data/ title="大数据 Demo （采集、处理、应用）复盘" class=md-nav__link> 大数据 Demo （采集、处理、应用）复盘 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2018-06-25-tencent-news-spider-py/ title=腾讯新闻爬虫 class=md-nav__link> 腾讯新闻爬虫 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2018-09-13-lite-terminal-home-page/ title=简单的仿终端主页 class=md-nav__link> 简单的仿终端主页 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-01-11-tank/ title=花里胡哨的坦克大战 class=md-nav__link> 花里胡哨的坦克大战 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-02-05-new-year/ title=大年初一（爬取豆瓣条目及吐槽） class=md-nav__link> 大年初一（爬取豆瓣条目及吐槽） </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-04-03-blog-project/ title=写博客 class=md-nav__link> 写博客 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-06-17-nodejs/ title="MarkAll 导入豆瓣数据 —— NodeJS 写爬虫" class=md-nav__link> MarkAll 导入豆瓣数据 —— NodeJS 写爬虫 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-11-15-Autumn-Json/ title="Autumn-From-Spring 自定义 BeanDefinitionReader" class=md-nav__link> Autumn-From-Spring 自定义 BeanDefinitionReader </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-11-15-bookmarkdown/ title="Chrome 插件——书签转 MarkDown" class=md-nav__link> Chrome 插件——书签转 MarkDown </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-4 type=checkbox id=nav-8-4> <label class=md-nav__link for=nav-8-4> Undefined </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-8-4> Undefined </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/undefined/2017-08-10-then-start/ title=那就开始吧 class=md-nav__link> 那就开始吧 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2017-08-16-Writing-is%20the-reward-of-writing-itself/ title=写就是写本身的报酬 class=md-nav__link> 写就是写本身的报酬 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2017-11-19-change-my-blog/ title=【过时内容】嘿，我转移博客啦！ class=md-nav__link> 【过时内容】嘿，我转移博客啦！ </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2017-12-08-yao-guai-ji-yu-you-ren-bo/ title=妖怪唧唧与友人波波 class=md-nav__link> 妖怪唧唧与友人波波 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-01-01-ubuntu/ title="折腾 ubuntu 与 win10 共存" class=md-nav__link> 折腾 ubuntu 与 win10 共存 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-02-09-pc-system/ title="黑苹果与 Ubuntu 及 PC 折腾系统" class=md-nav__link> 黑苹果与 Ubuntu 及 PC 折腾系统 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-03-12-install-Vmware-on-linux/ title="deepin 安装 VMware" class=md-nav__link> deepin 安装 VMware </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-03-31-SQL/ title="Spring Boot 开发遇到一些 SQL 问题" class=md-nav__link> Spring Boot 开发遇到一些 SQL 问题 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-04-06-jquery-confrim/ title="JQuery-Confrim 的一点问题" class=md-nav__link> JQuery-Confrim 的一点问题 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-04-06-some-plugins/ title="ECharts + PageHelper + Bootstrap Table" class=md-nav__link> ECharts + PageHelper + Bootstrap Table </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-04-09-js-in-thymeleaf/ title="Thymeleaf 里使用 JavaScript 时的注意事项" class=md-nav__link> Thymeleaf 里使用 JavaScript 时的注意事项 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-04-09-spring-boot-gradle-yml-log4j2/ title="Spring Boot + Gradle + yml 配置 log4j2" class=md-nav__link> Spring Boot + Gradle + yml 配置 log4j2 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-05-09-softwares/ title="Linux 常用软件" class=md-nav__link> Linux 常用软件 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-05-30-hexo-image/ title="【可能过时】Hexo 一点问题（生成博文插入本地图片,修改文章路径）" class=md-nav__link> 【可能过时】Hexo 一点问题（生成博文插入本地图片,修改文章路径） </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-05-30-show/ title=如果给文章提供多种渲染方式 class=md-nav__link> 如果给文章提供多种渲染方式 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-08-30-vue-music/ title="简单的单页应用(Vue CLI2 的简单使用)" class=md-nav__link> 简单的单页应用(Vue CLI2 的简单使用) </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-09-23-word-count/ title="WordCount 项目总结" class=md-nav__link> WordCount 项目总结 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2020-02-06-markall-douban-backup/ title=豆瓣标记数据备份插件 class=md-nav__link> 豆瓣标记数据备份插件 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2020-02-07-markall-douban-backup-yes/ title=【过时】又一个——豆瓣标记数据备份插件 class=md-nav__link> 【过时】又一个——豆瓣标记数据备份插件 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2020-02-13-blog/ title=从分析本网站的网络请求谈起 class=md-nav__link> 从分析本网站的网络请求谈起 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/draft/ title=Draft class=md-nav__link> Draft </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary"> <label class=md-nav__title for=__toc>目录</label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=#_2 class=md-nav__link> 概念 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_3 class=md-nav__link> 单例模式 </a> </li> <li class=md-nav__item> <a href=#_4 class=md-nav__link> 模式分类 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_5 class=md-nav__link> 构建应用程序框架 </a> </li> <li class=md-nav__item> <a href=#_6 class=md-nav__link> 面向实现 </a> </li> <li class=md-nav__item> <a href=#_7 class=md-nav__link> 工厂模式 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_8 class=md-nav__link> 动态工厂 </a> </li> <li class=md-nav__item> <a href=#_9 class=md-nav__link> 多态工厂 </a> </li> <li class=md-nav__item> <a href=#_10 class=md-nav__link> 抽象工厂 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_11 class=md-nav__link> 函数对象 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_12 class=md-nav__link> 命令模式 </a> </li> <li class=md-nav__item> <a href=#_13 class=md-nav__link> 策略模式 </a> </li> <li class=md-nav__item> <a href=#_14 class=md-nav__link> 责任链模式 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_15 class=md-nav__link> 改变接口 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#adapter class=md-nav__link> 适配器模式（Adapter） </a> </li> <li class=md-nav__item> <a href=#facade class=md-nav__link> 外观模式（Façade） </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#package class=md-nav__link> 包（Package）作为外观模式的变体 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_16 class=md-nav__link> 解释器：运行时的弹性 </a> </li> <li class=md-nav__item> <a href=#_17 class=md-nav__link> 回调 </a> </li> <li class=md-nav__item> <a href=#_18 class=md-nav__link> 多次调度 </a> </li> <li class=md-nav__item> <a href=#_19 class=md-nav__link> 模式重构 </a> </li> <li class=md-nav__item> <a href=#_20 class=md-nav__link> 抽象用法 </a> </li> <li class=md-nav__item> <a href=#_21 class=md-nav__link> 多次派遣 </a> </li> <li class=md-nav__item> <a href=#_22 class=md-nav__link> 访问者模式 </a> </li> <li class=md-nav__item> <a href=#rtti class=md-nav__link> RTTI的优劣 </a> </li> <li class=md-nav__item> <a href=#_23 class=md-nav__link> 本章小结 </a> </li> </ul> </nav> </div> </div> </div> <div class=md-content> <article class="md-content__inner md-typeset"> <a href=https://github.com/hqweay/my-mkdocs/edit/master/docs/book/OnJava8/docs/book/25-Patterns.md title=编辑此页 class="md-icon md-content__icon">&#xE3C9;</a> <div class=toc> <ul> <li><a href=#_1>第二十五章 设计模式</a><ul> <li><a href=#_2>概念</a><ul> <li><a href=#_3>单例模式</a></li> <li><a href=#_4>模式分类</a></li> </ul> </li> <li><a href=#_5>构建应用程序框架</a></li> <li><a href=#_6>面向实现</a></li> <li><a href=#_7>工厂模式</a><ul> <li><a href=#_8>动态工厂</a></li> <li><a href=#_9>多态工厂</a></li> <li><a href=#_10>抽象工厂</a></li> </ul> </li> <li><a href=#_11>函数对象</a><ul> <li><a href=#_12>命令模式</a></li> <li><a href=#_13>策略模式</a></li> <li><a href=#_14>责任链模式</a></li> </ul> </li> <li><a href=#_15>改变接口</a><ul> <li><a href=#adapter>适配器模式（Adapter）</a></li> <li><a href=#facade>外观模式（Façade）</a><ul> <li><a href=#package>包（Package）作为外观模式的变体</a></li> </ul> </li> </ul> </li> <li><a href=#_16>解释器：运行时的弹性</a></li> <li><a href=#_17>回调</a></li> <li><a href=#_18>多次调度</a></li> <li><a href=#_19>模式重构</a></li> <li><a href=#_20>抽象用法</a></li> <li><a href=#_21>多次派遣</a></li> <li><a href=#_22>访问者模式</a></li> <li><a href=#rtti>RTTI的优劣</a></li> <li><a href=#_23>本章小结</a></li> </ul> </li> </ul> </div> <!-- Patterns --> <h1 id=_1>第二十五章 设计模式<a class=headerlink href=#_1 title="Permanent link">#</a></h1> <!-- The Pattern Concept --> <h2 id=_2>概念<a class=headerlink href=#_2 title="Permanent link">#</a></h2> <p>最初，你可以将模式视为解决特定类问题的一种特别巧妙且有深刻见解的方法。这就像前辈已经从所有角度去解决问题，并提出了最通用，最灵活的解决方案。问题可能是你之前看到并解决过的问题，但你的解决方案可能没有你在模式中体现的那种完整性。</p> <p>虽然它们被称为“设计模式”，但它们实际上并不与设计领域相关联。模式似乎与传统的分析、设计和实现的思维方式不同。相反，模式在程序中体现了一个完整的思想，因此它有时会出现在分析阶段或高级设计阶段。因为模式在代码中有一个直接的实现，所以你可能不会期望模式在低级设计或实现之前出现(而且通常在到达这些阶段之前，你不会意识到需要一个特定的模式)。</p> <p>模式的基本概念也可以看作是程序设计的基本概念:添加抽象层。当你抽象一些东西的时候，就像在剥离特定的细节，而这背后最重要的动机之一是:</p> <blockquote> <p><strong>将易变的事物与不变的事物分开</strong></p> </blockquote> <p>另一种方法是，一旦你发现程序的某些部分可能因某种原因而发生变化，你要保持这些变化不会引起整个代码中其他变化。 如果代码更容易理解，那么维护起来会更容易。</p> <p>通常，开发一个优雅且易维护设计中最困难的部分是发现我称之为变化的载体（也就是最易改变的地方）。这意味着找到系统中最重要的变化，换而言之，找到变化会导致最严重后果的地方。一旦发现变化载体，就可以围绕构建设计的焦点。</p> <p>因此，设计模式的目标是隔离代码中的更改。 如果以这种方式去看，你已经在本书中看到了设计模式。 例如，继承可以被认为是一种设计模式（虽然是由编译器实现的）。它允许你表达所有具有相同接口的对象（即保持相同的行为）中的行为差异（这就是变化的部分）。组合也可以被视为一种模式，因为它允许你动态或静态地更改实现类的对象，从而改变类的工作方式。</p> <p>你还看到了设计模式中出现的另一种模式：迭代器（Java 1.0和1.1随意地将其称为枚举; Java 2 集合才使用Iterator）。当你逐个选择元素时并逐步处理，这会隐藏集合的特定实现。迭代器允许你编写通用代码，该代码对序列中的所有元素执行操作，而不考虑序列的构建方式。因此，你的通用代码可以与任何可以生成迭代器的集合一起使用。</p> <p>即使模式是非常有用的，但有些人断言：</p> <blockquote> <p><strong>设计模式代表语言的失败。</strong></p> </blockquote> <p>这是一个非常重要的见解，因为一个模式在 C++ 有意义，可能在JAVA或者其他语言中就没有意义。出于这个原因，所以一个模式可能出现在设计模式书上，不意味着应用于你的编程语言是有用的。</p> <p>我认为“语言失败”这个观点是有道理的，但是我也认为这个观点过于简单化。如果你试图解决一个特定的问题，而你使用的语言没有直接提供支持你使用的技巧，你可以说这个是语言的失败。但是，你使用特定的技巧的频率的是多少呢？也许平衡是对的：当你使用特定的技巧的时候，你必须付出更多的努力，但是你又没有足够的理由去使得语言支持这个技术。另一方面，没有语言的支持，使用这种技术常常会很混乱，但是在语言支持下，你可能会改变编程方式（例如，Java 8流实现此目的）。</p> <h3 id=_3>单例模式<a class=headerlink href=#_3 title="Permanent link">#</a></h3> <p>也许单例模式是最简单的设计模式，它是一种提供一个且只有一个对象实例的方法。这在java库中使用，但是这有个更直接的示例：</p> <p><div class=highlight><pre><span></span><code><span class=c1>// patterns/SingletonPattern.java</span>
+<span class=kd>interface</span> <span class=nc>Resource</span> <span class=p>{</span>
+    <span class=kt>int</span> <span class=nf>getValue</span><span class=p>();</span>
+    <span class=kt>void</span> <span class=nf>setValue</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>);</span>
+<span class=p>}</span>
+
+<span class=cm>/*</span>
+<span class=cm>* 由于这不是从Cloneable基类继承而且没有添加可克隆性，</span>
+<span class=cm>* 因此将其设置为final可防止通过继承添加可克隆性。</span>
+<span class=cm>* 这也实现了线程安全的延迟初始化：</span>
+<span class=cm>*/</span>
+<span class=kd>final</span> <span class=kd>class</span> <span class=nc>Singleton</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kd>static</span> <span class=kd>final</span> <span class=kd>class</span> <span class=nc>ResourceImpl</span> <span class=kd>implements</span> <span class=n>Resource</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+        <span class=kd>private</span> <span class=nf>ResourceImpl</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+            <span class=k>this</span><span class=p>.</span><span class=na>i</span> <span class=o>=</span> <span class=n>i</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=kd>public</span> <span class=kd>synchronized</span> <span class=kt>int</span> <span class=nf>getValue</span><span class=p>()</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=n>i</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=kd>public</span> <span class=kd>synchronized</span> <span class=kt>void</span> <span class=nf>setValue</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+            <span class=n>i</span> <span class=o>=</span> <span class=n>x</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+
+    <span class=kd>private</span> <span class=kd>static</span> <span class=kd>class</span> <span class=nc>ResourceHolder</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=kd>static</span> <span class=n>Resource</span> <span class=n>resource</span> <span class=o>=</span> <span class=k>new</span> <span class=n>ResourceImpl</span><span class=p>(</span><span class=mi>47</span><span class=p>);</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=n>Resource</span> <span class=nf>getResource</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>ResourceHolder</span><span class=p>.</span><span class=na>resource</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>SingletonPattern</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Resource</span> <span class=n>r</span> <span class=o>=</span> <span class=n>Singleton</span><span class=p>.</span><span class=na>getResource</span><span class=p>();</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>r</span><span class=p>.</span><span class=na>getValue</span><span class=p>());</span>
+        <span class=n>Resource</span> <span class=n>s2</span> <span class=o>=</span> <span class=n>Singleton</span><span class=p>.</span><span class=na>getResource</span><span class=p>();</span>
+        <span class=n>s2</span><span class=p>.</span><span class=na>setValue</span><span class=p>(</span><span class=mi>9</span><span class=p>);</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>r</span><span class=p>.</span><span class=na>getValue</span><span class=p>());</span>
+        <span class=k>try</span> <span class=p>{</span>     
+             <span class=c1>// 不能这么做，会发生：compile-time error（编译时错误）.     </span>
+             <span class=c1>// Singleton s3 = (Singleton)s2.clone();    </span>
+             <span class=p>}</span> <span class=k>catch</span><span class=p>(</span><span class=n>Exception</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>      
+                 <span class=k>throw</span> <span class=k>new</span> <span class=n>RuntimeException</span><span class=p>(</span><span class=n>e</span><span class=p>);</span>    
+             <span class=p>}</span>  
+        <span class=p>}</span>
+<span class=p>}</span> <span class=cm>/* Output: 47 9 */</span>
+</code></pre></div> 创建单例的关键是防止客户端程序员直接创建对象。 在这里，这是通过在Singleton类中将Resource的实现作为私有类来实现的。</p> <p>此时，你将决定如何创建对象。在这里，它是按需创建的，在第一次访问的时候创建。 该对象是私有的，只能通过public getResource（）方法访问。</p> <p>懒惰地创建对象的原因是它嵌套的私有类resourceHolder在首次引用之前不会加载（在getResource（）中）。当Resource对象加载的时候，静态初始化块将被调用。由于JVM的工作方式，这种静态初始化是线程安全的。为保证线程安全，Resource中的getter和setter是同步的。</p> <h3 id=_4>模式分类<a class=headerlink href=#_4 title="Permanent link">#</a></h3> <p>“设计模式”一书讨论了23种不同的模式，分为以下三种类别（所有这些模式都围绕着可能变化的特定方面）。</p> <ol> <li> <p><strong>创建型</strong>：如何创建对象。 这通常涉及隔离对象创建的细节，这样你的代码就不依赖于具体的对象的类型，因此在添加新类型的对象时不会更改。单例模式（Singleton）被归类为创作模式，本章稍后你将看到Factory Method的示例。</p> </li> <li> <p><strong>构造型</strong>：设计对象以满足特定的项目约束。它们处理对象与其他对象连接的方式，以确保系统中的更改不需要更改这些连接。</p> </li> <li> <p><strong>行为型</strong>：处理程序中特定类型的操作的对象。这些封装要执行的过程，例如解释语言、实现请求、遍历序列(如在迭代器中)或实现算法。本章包含观察者和访问者模式的例子。</p> </li> </ol> <p>《设计模式》一书中每个设计模式都有单独的一个章节，每个章节都有一个或者多个例子，通常使用C++，但有时也使用SmallTalk。 本章不重复设计模式中显示的所有模式，因为该书独立存在，应单独研究。 相反，你会看到一些示例，可以为你提供关于模式的理解以及它们如此重要的原因。</p> <!-- Building Application Frameworks --> <h2 id=_5>构建应用程序框架<a class=headerlink href=#_5 title="Permanent link">#</a></h2> <p>应用程序框架允许您从一个类或一组类开始，创建一个新的应用程序，重用现有类中的大部分代码，并根据需要覆盖一个或多个方法来定制应用程序。</p> <p><strong>模板方法模式</strong></p> <p>应用程序框架中的一个基本概念是模板方法模式，它通常隐藏在底层，通过调用基类中的各种方法来驱动应用程序(为了创建应用程序，您已经覆盖了其中的一些方法)。</p> <p>模板方法模式的一个重要特性是它是在基类中定义的，并且不能更改。它有时是一个 <strong>private</strong> 方法，但实际上总是 <strong>final</strong>。它调用其他基类方法(您覆盖的那些)来完成它的工作,但是它通常只作为初始化过程的一部分被调用(因此框架使用者不一定能够直接调用它)。</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/TemplateMethod.java</span>
+<span class=c1>// Simple demonstration of Template Method</span>
+
+<span class=kd>abstract</span> <span class=kd>class</span> <span class=nc>ApplicationFramework</span> <span class=p>{</span>
+    <span class=n>ApplicationFramework</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>templateMethod</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>abstract</span> <span class=kt>void</span> <span class=nf>customize1</span><span class=p>();</span>
+
+    <span class=kd>abstract</span> <span class=kt>void</span> <span class=nf>customize2</span><span class=p>();</span> <span class=c1>// &quot;private&quot; means automatically &quot;final&quot;: private void templateMethod() { IntStream.range(0, 5).forEach( n -&gt; { customize1(); customize2(); }); }}// Create a new &quot;application&quot;: class MyApp extends ApplicationFramework { @Override void customize1() { System.out.print(&quot;Hello &quot;); }@Override</span>
+
+    <span class=kt>void</span> <span class=nf>customize2</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;World!&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>TemplateMethod</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>new</span> <span class=n>MyApp</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+<span class=cm>/*</span>
+<span class=cm>Output:</span>
+<span class=cm>Hello World!</span>
+<span class=cm>Hello World!</span>
+<span class=cm>Hello World!</span>
+<span class=cm>Hello World!</span>
+<span class=cm>Hello World!</span>
+<span class=cm>*/</span>
+</code></pre></div> <p>基类构造函数负责执行必要的初始化，然后启动运行应用程序的“engine”(模板方法模式)(在GUI应用程序中，这个“engine”是主事件循环)。框架使用者只提供 <strong>customize1()</strong> 和 <strong>customize2()</strong> 的定义，然后“应用程序”已经就绪运行。</p> <p><img alt src=images/designproxy.png></p> <!-- Fronting for an Implementation --> <h2 id=_6>面向实现<a class=headerlink href=#_6 title="Permanent link">#</a></h2> <p>代理模式和桥接模式都提供了在代码中使用的代理类;完成工作的真正类隐藏在这个代理类的后面。当您在代理中调用一个方法时，它只是反过来调用实现类中的方法。这两种模式非常相似，所以代理模式只是桥接模式的一种特殊情况。人们倾向于将两者合并,称为代理模式，但是术语“代理”有一个长期的和专门的含义，这可能解释了这两种模式不同的原因。基本思想很简单:从基类派生代理，同时派生一个或多个提供实现的类:创建代理对象时，给它一个可以调用实际工作类的方法的实现。</p> <p>在结构上，代理模式和桥接模式的区别很简单:代理模式只有一个实现，而桥接模式有多个实现。在设计模式中被认为是不同的:代理模式用于控制对其实现的访问，而桥接模式允许您动态更改实现。但是，如果您扩展了“控制对实现的访问”的概念，那么这两者就可以完美地结合在一起</p> <p><strong>代理模式</strong></p> <p>如果我们按照上面的关系图实现，它看起来是这样的:</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/ProxyDemo.java</span>
+<span class=c1>// Simple demonstration of the Proxy pattern</span>
+<span class=kd>interface</span> <span class=nc>ProxyBase</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>f</span><span class=p>();</span>
+
+    <span class=kt>void</span> <span class=nf>g</span><span class=p>();</span>
+
+    <span class=kt>void</span> <span class=nf>h</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Proxy</span> <span class=kd>implements</span> <span class=n>ProxyBase</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=n>ProxyBase</span> <span class=n>implementation</span><span class=p>;</span>
+
+    <span class=n>Proxy</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>implementation</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Implementation</span><span class=p>();</span>
+    <span class=p>}</span>
+    <span class=c1>// Pass method calls to the implementation:</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span> <span class=n>implementation</span><span class=p>.</span><span class=na>f</span><span class=p>();</span> <span class=p>}</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>g</span><span class=p>()</span> <span class=p>{</span> <span class=n>implementation</span><span class=p>.</span><span class=na>g</span><span class=p>();</span> <span class=p>}</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>h</span><span class=p>()</span> <span class=p>{</span> <span class=n>implementation</span><span class=p>.</span><span class=na>h</span><span class=p>();</span> <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Implementation</span> <span class=kd>implements</span> <span class=n>ProxyBase</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Implementation.f()&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>g</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Implementation.g()&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>h</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Implementation.h()&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>ProxyDemo</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Proxy</span> <span class=n>p</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Proxy</span><span class=p>();</span>
+        <span class=n>p</span><span class=p>.</span><span class=na>f</span><span class=p>();</span>
+        <span class=n>p</span><span class=p>.</span><span class=na>g</span><span class=p>();</span>
+        <span class=n>p</span><span class=p>.</span><span class=na>h</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+<span class=cm>/*</span>
+<span class=cm>Output:</span>
+<span class=cm>Implementation.f()</span>
+<span class=cm>Implementation.g()</span>
+<span class=cm>Implementation.h()</span>
+<span class=cm>*/</span>
+</code></pre></div> <p>具体实现不需要与代理对象具有相同的接口;只要代理对象以某种方式“代表具体实现的方法调用，那么基本思想就算实现了。然而，拥有一个公共接口是很方便的，因此具体实现必须实现代理对象调用的所有方法。</p> <p><strong>状态模式</strong></p> <p>状态模式向代理对象添加了更多的实现，以及在代理对象的生命周期内从一个实现切换到另一种实现的方法:</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/StateDemo.java // Simple demonstration of the State pattern</span>
+<span class=kd>interface</span> <span class=nc>StateBase</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>f</span><span class=p>();</span>
+
+    <span class=kt>void</span> <span class=nf>g</span><span class=p>();</span>
+
+    <span class=kt>void</span> <span class=nf>h</span><span class=p>();</span>
+
+    <span class=kt>void</span> <span class=nf>changeImp</span><span class=p>(</span><span class=n>StateBase</span> <span class=n>newImp</span><span class=p>);</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>State</span> <span class=kd>implements</span> <span class=n>StateBase</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=n>StateBase</span> <span class=n>implementation</span><span class=p>;</span>
+
+    <span class=n>State</span><span class=p>(</span><span class=n>StateBase</span> <span class=n>imp</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>implementation</span> <span class=o>=</span> <span class=n>imp</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>changeImp</span><span class=p>(</span><span class=n>StateBase</span> <span class=n>newImp</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>implementation</span> <span class=o>=</span> <span class=n>newImp</span><span class=p>;</span>
+    <span class=p>}</span><span class=c1>// Pass method calls to the implementation: @Override public void f() { implementation.f(); } @Override public void g() { implementation.g(); } @Override</span>
+
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>h</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>implementation</span><span class=p>.</span><span class=na>h</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Implementation1</span> <span class=kd>implements</span> <span class=n>StateBase</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Implementation1.f()&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>g</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Implementation1.g()&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>h</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Implementation1.h()&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>changeImp</span><span class=p>(</span><span class=n>StateBase</span> <span class=n>newImp</span><span class=p>)</span> <span class=p>{</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Implementation2</span> <span class=kd>implements</span> <span class=n>StateBase</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Implementation2.f()&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>g</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Implementation2.g()&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>h</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Implementation2.h()&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>changeImp</span><span class=p>(</span><span class=n>StateBase</span> <span class=n>newImp</span><span class=p>)</span> <span class=p>{</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>StateDemo</span> <span class=p>{</span>
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>test</span><span class=p>(</span><span class=n>StateBase</span> <span class=n>b</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>b</span><span class=p>.</span><span class=na>f</span><span class=p>();</span>
+        <span class=n>b</span><span class=p>.</span><span class=na>g</span><span class=p>();</span>
+        <span class=n>b</span><span class=p>.</span><span class=na>h</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>StateBase</span> <span class=n>b</span> <span class=o>=</span> <span class=k>new</span> <span class=n>State</span><span class=p>(</span><span class=k>new</span> <span class=n>Implementation1</span><span class=p>());</span>
+        <span class=n>test</span><span class=p>(</span><span class=n>b</span><span class=p>);</span>
+        <span class=n>b</span><span class=p>.</span><span class=na>changeImp</span><span class=p>(</span><span class=k>new</span> <span class=n>Implementation2</span><span class=p>());</span>
+        <span class=n>test</span><span class=p>(</span><span class=n>b</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+<span class=cm>/* Output:</span>
+<span class=cm>Implementation1.f()</span>
+<span class=cm>Implementation1.g()</span>
+<span class=cm>Implementation1.h()</span>
+<span class=cm>Implementation2.f()</span>
+<span class=cm>Implementation2.g()</span>
+<span class=cm>Implementation2.h()</span>
+<span class=cm>*/</span>
+</code></pre></div> <p>在main()中，首先使用第一个实现，然后改变成第二个实现。代理模式和状态模式的区别在于它们解决的问题。设计模式中描述的代理模式的常见用途如下:</p> <ol> <li> <p>远程代理。它在不同的地址空间中代理对象。远程方法调用(RMI)编译器rmic会自动为您创建一个远程代理。</p> </li> <li> <p>虚拟代理。这提供了“懒加载”来根据需要创建“昂贵”的对象。</p> </li> <li> <p>保护代理。当您希望对代理对象有权限访问控制时使用。</p> </li> <li> <p>智能引用。要在被代理的对象被访问时添加其他操作。例如，跟踪特定对象的引用数量，来实现写时复制用法，和防止对象别名。一个更简单的例子是跟踪特定方法的调用数量。您可以将Java引用视为一种保护代理，因为它控制在堆上实例对象的访问(例如，确保不使用空引用)。</p> </li> </ol> <p>在设计模式中，代理模式和桥接模式并不是相互关联的，因为它们被赋予(我认为是任意的)不同的结构。桥接模式,特别是使用一个单独的实现，但这似乎对我来说是不必要的,除非你确定该实现是你无法控制的(当然有可能，但是如果您编写所有代码，那么没有理由不从单基类的优雅中受益)。此外，只要代理对象控制对其“前置”对象的访问，代模式理就不需要为其实现使用相同的基类。不管具体情况如何，在代理模式和桥接模式中，代理对象都将方法调用传递给具体实现对象。</p> <p><strong>状态机</strong></p> <p>桥接模式允许程序员更改实现，状态机利用一个结构来自动地将实现更改到下一个。当前实现表示系统所处的状态，系统在不同状态下的行为不同(因为它使用桥接模式)。基本上，这是一个利用对象的“状态机”。将系统从一种状态移动到另一种状态的代码通常是模板方法模式，如下例所示:</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/state/StateMachineDemo.java</span>
+<span class=c1>// The StateMachine pattern and Template method</span>
+<span class=c1>// {java patterns.state.StateMachineDemo}</span>
+<span class=kn>package</span> <span class=nn>patterns.state</span><span class=p>;</span>
+
+<span class=kn>import</span> <span class=nn>onjava.Nap</span><span class=p>;</span>
+
+<span class=kd>interface</span> <span class=nc>State</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>run</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>abstract</span> <span class=kd>class</span> <span class=nc>StateMachine</span> <span class=p>{</span>
+    <span class=kd>protected</span> <span class=n>State</span> <span class=n>currentState</span><span class=p>;</span>
+
+    <span class=n>Nap</span><span class=p>(</span><span class=mf>0.5</span><span class=p>);</span>
+<span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Washing&quot;</span><span class=p>);</span> <span class=k>new</span>
+
+    <span class=kd>protected</span> <span class=kd>abstract</span> <span class=kt>boolean</span> <span class=nf>changeState</span><span class=p>();</span>
+
+    <span class=c1>// Template method:</span>
+    <span class=kd>protected</span> <span class=kd>final</span> <span class=kt>void</span> <span class=nf>runAll</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>while</span> <span class=p>(</span><span class=n>changeState</span><span class=p>())</span> <span class=c1>// Customizable</span>
+            <span class=n>currentState</span><span class=p>.</span><span class=na>run</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=c1>// A different subclass for each state:</span>
+<span class=kd>class</span> <span class=nc>Wash</span> <span class=kd>implements</span> <span class=n>State</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>run</span><span class=p>()</span> <span class=p>{</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Spin</span> <span class=kd>implements</span> <span class=n>State</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>run</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Spinning&quot;</span><span class=p>);</span>
+        <span class=k>new</span> <span class=n>Nap</span><span class=p>(</span><span class=mf>0.5</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Rinse</span> <span class=kd>implements</span> <span class=n>State</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>run</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Rinsing&quot;</span><span class=p>);</span>
+        <span class=k>new</span> <span class=n>Nap</span><span class=p>(</span><span class=mf>0.5</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Washer</span> <span class=kd>extends</span> <span class=n>StateMachine</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+
+    <span class=c1>// The state table:</span>
+    <span class=kd>private</span> <span class=n>State</span><span class=o>[]</span> <span class=n>states</span> <span class=o>=</span> <span class=p>{</span><span class=k>new</span> <span class=n>Wash</span><span class=p>(),</span> <span class=k>new</span> <span class=n>Spin</span><span class=p>(),</span> <span class=k>new</span> <span class=n>Rinse</span><span class=p>(),</span> <span class=k>new</span> <span class=n>Spin</span><span class=p>(),};</span>
+
+    <span class=n>Washer</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>runAll</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>boolean</span> <span class=nf>changeState</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>i</span> <span class=o>&lt;</span> <span class=n>states</span><span class=p>.</span><span class=na>length</span><span class=p>)</span> <span class=p>{</span>
+            <span class=c1>// Change the state by setting the</span>
+            <span class=c1>// surrogate reference to a new object:</span>
+            <span class=n>currentState</span> <span class=o>=</span> <span class=n>states</span><span class=o>[</span><span class=n>i</span><span class=o>++]</span><span class=p>;</span>
+            <span class=k>return</span> <span class=kc>true</span><span class=p>;</span>
+        <span class=p>}</span> <span class=k>else</span> <span class=k>return</span> <span class=kc>false</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>StateMachineDemo</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>new</span> <span class=n>Washer</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+<span class=cm>/*</span>
+<span class=cm>Output:</span>
+<span class=cm>Washing</span>
+<span class=cm>Spinning</span>
+<span class=cm>Rinsing</span>
+<span class=cm>Spinning</span>
+<span class=cm>*/</span>
+</code></pre></div> <p>在这里，控制状态的类(本例中是状态机)负责决定下一个状态。然而，状态对象本身也可以决定下一步移动到什么状态，通常基于系统的某种输入。这是更灵活的解决方案。</p> <!-- Factories: Encapsulating Object Creation --> <h2 id=_7>工厂模式<a class=headerlink href=#_7 title="Permanent link">#</a></h2> <p>当你发现必须将新类型添加到系统中时，合理的第一步是使用多态性为这些新类型创建一个通用接口。这会将你系统中的其余代码与要添加的特定类型的信息分开，使得可以在不改变现有代码的情况下添加新类型……或者看起来如此。起初，在这种设计中，似乎你必须更改代码的唯一地方就是你继承新类型的地方，但这并不是完全正确的。 你仍然必须创建新类型的对象，并且在创建时必须指定要使用的确切构造器。因此，如果创建对象的代码分布在整个应用程序中，那么在添加新类型时，你将遇到相同的问题——你仍然必须追查你代码中新类型碍事的所有地方。恰好是类型的创建碍事，而不是类型的使用（通过多态处理），但是效果是一样的：添加新类型可能会引起问题。</p> <p>解决方案是强制对象的创建都通过通用工厂进行，而不是允许创建代码在整个系统中传播。 如果你程序中的所有代码都必须执行通过该工厂创建你的一个对象，那么在添加新类时只需要修改工厂即可。</p> <p>由于每个面向对象的程序都会创建对象，并且很可能会通过添加新类型来扩展程序，因此工厂是最通用的设计模式之一。</p> <p>举例来说，让我们重新看一下<strong>Shape</strong>系统。 首先，我们需要一个用于所有示例的基本框架。 如果无法创建<strong>Shape</strong>对象，则需要抛出一个合适的异常：</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/shapes/BadShapeCreation.java package patterns.shapes;</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>BadShapeCreation</span> <span class=kd>extends</span> <span class=n>RuntimeException</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=nf>BadShapeCreation</span><span class=p>(</span><span class=n>String</span> <span class=n>msg</span><span class=p>)</span> <span class=p>{</span>
+        <span class=kd>super</span><span class=p>(</span><span class=n>msg</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>接下来，是一个<strong>Shape</strong>基类：</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/shapes/Shape.java</span>
+<span class=kn>package</span> <span class=nn>patterns.shapes</span><span class=p>;</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Shape</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kd>static</span> <span class=kt>int</span> <span class=n>counter</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+    <span class=kd>private</span> <span class=kt>int</span> <span class=n>id</span> <span class=o>=</span> <span class=n>counter</span><span class=o>++</span><span class=p>;</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>(){</span>
+        <span class=k>return</span> <span class=n>getClass</span><span class=p>().</span><span class=na>getSimpleName</span><span class=p>()</span> <span class=o>+</span> <span class=s>&quot;[&quot;</span> <span class=o>+</span> <span class=n>id</span> <span class=o>+</span> <span class=s>&quot;]&quot;</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>draw</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=k>this</span> <span class=o>+</span> <span class=s>&quot; draw&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>erase</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=k>this</span> <span class=o>+</span> <span class=s>&quot; erase&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>该类自动为每一个<strong>Shape</strong>对象创建一个唯一的<code>id</code>。</p> <p><code>toString()</code>使用运行期信息来发现特定的<strong>Shape</strong>子类的名字。</p> <p>现在我们能很快创建一些<strong>Shape</strong>子类了：</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/shapes/Circle.java</span>
+<span class=kn>package</span> <span class=nn>patterns.shapes</span><span class=p>;</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Circle</span> <span class=kd>extends</span> <span class=n>Shape</span> <span class=p>{}</span>
+</code></pre></div> <div class=highlight><pre><span></span><code><span class=c1>// patterns/shapes/Square.java</span>
+<span class=kn>package</span> <span class=nn>patterns.shapes</span><span class=p>;</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Square</span> <span class=kd>extends</span> <span class=n>Shape</span> <span class=p>{}</span>
+</code></pre></div> <div class=highlight><pre><span></span><code><span class=c1>// patterns/shapes/Triangle.java</span>
+<span class=kn>package</span> <span class=nn>patterns.shapes</span><span class=p>;</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Triangle</span> <span class=kd>extends</span> <span class=n>Shape</span> <span class=p>{}</span> 
+</code></pre></div> <p>工厂是具有能够创建对象的方法的类。 我们有几个示例版本，因此我们将定义一个接口：</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/shapes/FactoryMethod.java</span>
+<span class=kn>package</span> <span class=nn>patterns.shapes</span><span class=p>;</span>
+<span class=kd>public</span> <span class=kd>interface</span> <span class=nc>FactoryMethod</span> <span class=p>{</span>
+    <span class=n>Shape</span> <span class=nf>create</span><span class=p>(</span><span class=n>String</span> <span class=n>type</span><span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div> <p><code>create()</code>接收一个参数，这个参数使其决定要创建哪一种<strong>Shape</strong>对象，这里是<code>String</code>，但是它其实可以是任何数据集合。对象的初始化数据（这里是字符串）可能来自系统外部。 这个例子将测试工厂：</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/shapes/FactoryTest.java</span>
+<span class=kn>package</span> <span class=nn>patterns.shapes</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.stream.*</span><span class=p>;</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>FactoryTest</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>test</span><span class=p>(</span><span class=n>FactoryMethod</span> <span class=n>factory</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Stream</span><span class=p>.</span><span class=na>of</span><span class=p>(</span><span class=s>&quot;Circle&quot;</span><span class=p>,</span> <span class=s>&quot;Square&quot;</span><span class=p>,</span> <span class=s>&quot;Triangle&quot;</span><span class=p>,</span>
+                  <span class=s>&quot;Square&quot;</span><span class=p>,</span> <span class=s>&quot;Circle&quot;</span><span class=p>,</span> <span class=s>&quot;Circle&quot;</span><span class=p>,</span> <span class=s>&quot;Triangle&quot;</span><span class=p>)</span>
+        <span class=p>.</span><span class=na>map</span><span class=p>(</span><span class=n>factory</span><span class=p>::</span><span class=n>create</span><span class=p>)</span>
+        <span class=p>.</span><span class=na>peek</span><span class=p>(</span><span class=n>Shape</span><span class=p>::</span><span class=n>draw</span><span class=p>)</span>
+        <span class=p>.</span><span class=na>peek</span><span class=p>(</span><span class=n>Shape</span><span class=p>::</span><span class=n>erase</span><span class=p>)</span>
+        <span class=p>.</span><span class=na>count</span><span class=p>();</span> <span class=c1>// Terminal operation</span>
+    <span class=p>}</span>
+<span class=p>}</span> 
+</code></pre></div> <p>在主函数<code>main()</code>里，要记住除非你在最后使用了一个终结操作，否则<strong>Stream</strong>不会做任何事情。在这里，<code>count()</code>的值被丢弃了。</p> <p>创建工厂的一种方法是显式创建每种类型：</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/ShapeFactory1.java</span>
+<span class=c1>// A simple static factory method</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.stream.*</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>patterns.shapes.*</span><span class=p>;</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>ShapeFactory1</span> <span class=kd>implements</span> <span class=n>FactoryMethod</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=n>Shape</span> <span class=nf>create</span><span class=p>(</span><span class=n>String</span> <span class=n>type</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>switch</span><span class=p>(</span><span class=n>type</span><span class=p>)</span> <span class=p>{</span>
+            <span class=k>case</span> <span class=s>&quot;Circle&quot;</span><span class=p>:</span> <span class=k>return</span> <span class=k>new</span> <span class=n>Circle</span><span class=p>();</span>
+            <span class=k>case</span> <span class=s>&quot;Square&quot;</span><span class=p>:</span> <span class=k>return</span> <span class=k>new</span> <span class=n>Square</span><span class=p>();</span>
+            <span class=k>case</span> <span class=s>&quot;Triangle&quot;</span><span class=p>:</span> <span class=k>return</span> <span class=k>new</span> <span class=n>Triangle</span><span class=p>();</span>
+            <span class=k>default</span><span class=p>:</span> <span class=k>throw</span> <span class=k>new</span> <span class=n>BadShapeCreation</span><span class=p>(</span><span class=n>type</span><span class=p>);</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>FactoryTest</span><span class=p>.</span><span class=na>test</span><span class=p>(</span><span class=k>new</span> <span class=n>ShapeFactory1</span><span class=p>());</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出结果：</p> <div class=highlight><pre><span></span><code><span class=n>Circle</span><span class=o>[</span><span class=mi>0</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>0</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>Square</span><span class=o>[</span><span class=mi>1</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Square</span><span class=o>[</span><span class=mi>1</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>Triangle</span><span class=o>[</span><span class=mi>2</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Triangle</span><span class=o>[</span><span class=mi>2</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>Square</span><span class=o>[</span><span class=mi>3</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Square</span><span class=o>[</span><span class=mi>3</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>4</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>4</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>5</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>5</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>Triangle</span><span class=o>[</span><span class=mi>6</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Triangle</span><span class=o>[</span><span class=mi>6</span><span class=o>]</span> <span class=n>erase</span> 
+</code></pre></div> <p><code>create()</code>现在是添加新类型的Shape时系统中唯一需要更改的其他代码。</p> <h3 id=_8>动态工厂<a class=headerlink href=#_8 title="Permanent link">#</a></h3> <p>前面例子中的<strong>静态</strong><code>create()</code>方法强制所有创建操作都集中在一个位置，因此这是添加新类型的<strong>Shape</strong>时唯一必须更改代码的地方。这当然是一个合理的解决方案，因为它把创建对象的过程限制在一个框内。但是，如果你在添加新类时无需修改任何内容，那就太好了。 以下版本使用反射在首次需要时将<strong>Shape</strong>的构造器动态加载到工厂列表中：</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/ShapeFactory2.java</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.lang.reflect.*</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.stream.*</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>patterns.shapes.*</span><span class=p>;</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>ShapeFactory2</span> <span class=kd>implements</span> <span class=n>FactoryMethod</span> <span class=p>{</span>
+    <span class=n>Map</span><span class=o>&lt;</span><span class=n>String</span><span class=p>,</span> <span class=n>Constructor</span><span class=o>&gt;</span> <span class=n>factories</span> <span class=o>=</span> <span class=k>new</span> <span class=n>HashMap</span><span class=o>&lt;&gt;</span><span class=p>();</span>
+    <span class=kd>static</span> <span class=n>Constructor</span> <span class=nf>load</span><span class=p>(</span><span class=n>String</span> <span class=n>id</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;loading &quot;</span> <span class=o>+</span> <span class=n>id</span><span class=p>);</span>
+        <span class=k>try</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=n>Class</span><span class=p>.</span><span class=na>forName</span><span class=p>(</span><span class=s>&quot;patterns.shapes.&quot;</span> <span class=o>+</span> <span class=n>id</span><span class=p>)</span>
+                <span class=p>.</span><span class=na>getConstructor</span><span class=p>();</span>
+        <span class=p>}</span> <span class=k>catch</span><span class=p>(</span><span class=n>ClassNotFoundException</span> <span class=o>|</span>
+                <span class=n>NoSuchMethodException</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+            <span class=k>throw</span> <span class=k>new</span> <span class=n>BadShapeCreation</span><span class=p>(</span><span class=n>id</span><span class=p>);</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=n>Shape</span> <span class=nf>create</span><span class=p>(</span><span class=n>String</span> <span class=n>id</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>try</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=p>(</span><span class=n>Shape</span><span class=p>)</span><span class=n>factories</span>
+                <span class=p>.</span><span class=na>computeIfAbsent</span><span class=p>(</span><span class=n>id</span><span class=p>,</span> <span class=n>ShapeFactory2</span><span class=p>::</span><span class=n>load</span><span class=p>)</span>
+                <span class=p>.</span><span class=na>newInstance</span><span class=p>();</span>
+        <span class=p>}</span> <span class=k>catch</span><span class=p>(</span><span class=n>InstantiationException</span> <span class=o>|</span>
+                <span class=n>IllegalAccessException</span> <span class=o>|</span>
+                <span class=n>InvocationTargetException</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+            <span class=k>throw</span> <span class=k>new</span> <span class=n>BadShapeCreation</span><span class=p>(</span><span class=n>id</span><span class=p>);</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>FactoryTest</span><span class=p>.</span><span class=na>test</span><span class=p>(</span><span class=k>new</span> <span class=n>ShapeFactory2</span><span class=p>());</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出结果：</p> <div class=highlight><pre><span></span><code><span class=n>loading</span> <span class=n>Circle</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>0</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>0</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>loading</span> <span class=n>Square</span>
+<span class=n>Square</span><span class=o>[</span><span class=mi>1</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Square</span><span class=o>[</span><span class=mi>1</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>loading</span> <span class=n>Triangle</span>
+<span class=n>Triangle</span><span class=o>[</span><span class=mi>2</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Triangle</span><span class=o>[</span><span class=mi>2</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>Square</span><span class=o>[</span><span class=mi>3</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Square</span><span class=o>[</span><span class=mi>3</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>4</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>4</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>5</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>5</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>Triangle</span><span class=o>[</span><span class=mi>6</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Triangle</span><span class=o>[</span><span class=mi>6</span><span class=o>]</span> <span class=n>erase</span>
+</code></pre></div> <p>和之前一样，<code>create()</code>方法基于你传递给它的<strong>String</strong>参数生成新的<strong>Shape</strong>s，但是在这里，它是通过在<strong>HashMap</strong>中查找作为键的<strong>String</strong>来实现的。 返回的值是一个构造器，该构造器用于通过调用<code>newInstance()</code>创建新的<strong>Shape</strong>对象。</p> <p>然而，当你开始运行程序时，工厂的<code>map</code>为空。<code>create()</code>使用<code>map</code>的<code>computeIfAbsent()</code>方法来查找构造器（如果该构造器已存在于<code>map</code>中）。如果不存在则使用<code>load()</code>计算出该构造器，并将其插入到<code>map</code>中。 从输出中可以看到，每种特定类型的<strong>Shape</strong>都是在第一次请求时才加载的，然后只需要从<code>map</code>中检索它。</p> <h3 id=_9>多态工厂<a class=headerlink href=#_9 title="Permanent link">#</a></h3> <p>《设计模式》这本书强调指出，采用“工厂方法”模式的原因是可以从基本工厂中继承出不同类型的工厂。 再次修改示例，使工厂方法位于单独的类中：</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/ShapeFactory3.java</span>
+<span class=c1>// Polymorphic factory methods</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.function.*</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.stream.*</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>patterns.shapes.*</span><span class=p>;</span>
+<span class=kd>interface</span> <span class=nc>PolymorphicFactory</span> <span class=p>{</span>
+    <span class=n>Shape</span> <span class=nf>create</span><span class=p>();</span>
+<span class=p>}</span>
+<span class=kd>class</span> <span class=nc>RandomShapes</span> <span class=kd>implements</span> <span class=n>Supplier</span><span class=o>&lt;</span><span class=n>Shape</span><span class=o>&gt;</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kd>final</span> <span class=n>PolymorphicFactory</span><span class=o>[]</span> <span class=n>factories</span><span class=p>;</span>
+    <span class=kd>private</span> <span class=n>Random</span> <span class=n>rand</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Random</span><span class=p>(</span><span class=mi>42</span><span class=p>);</span>
+    <span class=n>RandomShapes</span><span class=p>(</span><span class=n>PolymorphicFactory</span><span class=p>...</span> <span class=n>factories</span><span class=p>){</span>
+        <span class=k>this</span><span class=p>.</span><span class=na>factories</span> <span class=o>=</span> <span class=n>factories</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=n>Shape</span> <span class=nf>get</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>factories</span><span class=o>[</span> <span class=n>rand</span><span class=p>.</span><span class=na>nextInt</span><span class=p>(</span><span class=n>factories</span><span class=p>.</span><span class=na>length</span><span class=p>)</span><span class=o>]</span><span class=p>.</span><span class=na>create</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>ShapeFactory3</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>RandomShapes</span> <span class=n>rs</span> <span class=o>=</span> <span class=k>new</span> <span class=n>RandomShapes</span><span class=p>(</span>
+            <span class=n>Circle</span><span class=p>::</span><span class=k>new</span><span class=p>,</span>
+            <span class=n>Square</span><span class=p>::</span><span class=k>new</span><span class=p>,</span>
+            <span class=n>Triangle</span><span class=p>::</span><span class=k>new</span><span class=p>);</span>
+        <span class=n>Stream</span><span class=p>.</span><span class=na>generate</span><span class=p>(</span><span class=n>rs</span><span class=p>)</span>
+            <span class=p>.</span><span class=na>limit</span><span class=p>(</span><span class=mi>6</span><span class=p>)</span>
+            <span class=p>.</span><span class=na>peek</span><span class=p>(</span><span class=n>Shape</span><span class=p>::</span><span class=n>draw</span><span class=p>)</span>
+            <span class=p>.</span><span class=na>peek</span><span class=p>(</span><span class=n>Shape</span><span class=p>::</span><span class=n>erase</span><span class=p>)</span>
+            <span class=p>.</span><span class=na>count</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出结果：</p> <div class=highlight><pre><span></span><code><span class=n>Triangle</span><span class=o>[</span><span class=mi>0</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Triangle</span><span class=o>[</span><span class=mi>0</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>1</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>1</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>2</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>2</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>Triangle</span><span class=o>[</span><span class=mi>3</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Triangle</span><span class=o>[</span><span class=mi>3</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>4</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Circle</span><span class=o>[</span><span class=mi>4</span><span class=o>]</span> <span class=n>erase</span>
+<span class=n>Square</span><span class=o>[</span><span class=mi>5</span><span class=o>]</span> <span class=n>draw</span>
+<span class=n>Square</span><span class=o>[</span><span class=mi>5</span><span class=o>]</span> <span class=n>erase</span> 
+</code></pre></div> <p><strong>RandomShapes</strong>实现了<strong>Supplier \<shape></strong>，因此可用于通过<code>Stream.generate()</code>创建<strong>Stream</strong>。 它的构造器采用<strong>PolymorphicFactory</strong>对象的可变参数列表。 变量参数列表以数组形式出现，因此列表是以数组形式在内部存储的。<code>get()</code>方法随机获取此数组中一个对象的索引，并在结果上调用<code>create()</code>以产生新的<strong>Shape</strong>对象。 添加新类型的<strong>Shape</strong>时，<strong>RandomShapes</strong>构造器是唯一需要更改的地方。 请注意，此构造器需要<strong>Supplier \<shape></strong>。 我们传递给其<strong>Shape</strong>构造器的方法引用，该引用可满足<strong>Supplier \<shape></strong>约定，因为Java 8支持结构一致性。</p> <p>鉴于<strong>ShapeFactory2.java</strong>可能会抛出异常，使用此方法则没有任何异常——它在编译时完全确定。</p> <h3 id=_10>抽象工厂<a class=headerlink href=#_10 title="Permanent link">#</a></h3> <p>抽象工厂模式看起来像我们之前所见的工厂对象，但拥有不是一个工厂方法而是几个工厂方法， 每个工厂方法都会创建不同种类的对象。 这个想法是在创建工厂对象时，你决定如何使用该工厂创建的所有对象。 《设计模式》中提供的示例实现了跨各种图形用户界面（GUI）的可移植性：你创建一个适合你正在使用的GUI的工厂对象，然后从中请求菜单，按钮，滑块等等，它将自动为GUI创建适合该项目版本的组件。 因此，你可以将从一个GUI更改为另一个所产生的影响隔离限制在一处。 作为另一个示例，假设你正在创建一个通用游戏环境来支持不同类型的游戏。 使用抽象工厂看起来就像下文那样：</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/abstractfactory/GameEnvironment.java</span>
+<span class=c1>// An example of the Abstract Factory pattern</span>
+<span class=c1>// {java patterns.abstractfactory.GameEnvironment}</span>
+<span class=kn>package</span> <span class=nn>patterns.abstractfactory</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.function.*</span><span class=p>;</span>
+<span class=kd>interface</span> <span class=nc>Obstacle</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>action</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>Player</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>interactWith</span><span class=p>(</span><span class=n>Obstacle</span> <span class=n>o</span><span class=p>);</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Kitty</span> <span class=kd>implements</span> <span class=n>Player</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>interactWith</span><span class=p>(</span><span class=n>Obstacle</span> <span class=n>ob</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>print</span><span class=p>(</span><span class=s>&quot;Kitty has encountered a &quot;</span><span class=p>);</span>
+        <span class=n>ob</span><span class=p>.</span><span class=na>action</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>KungFuGuy</span> <span class=kd>implements</span> <span class=n>Player</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>interactWith</span><span class=p>(</span><span class=n>Obstacle</span> <span class=n>ob</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>print</span><span class=p>(</span><span class=s>&quot;KungFuGuy now battles a &quot;</span><span class=p>);</span>
+        <span class=n>ob</span><span class=p>.</span><span class=na>action</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Puzzle</span> <span class=kd>implements</span> <span class=n>Obstacle</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>action</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Puzzle&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>NastyWeapon</span> <span class=kd>implements</span> <span class=n>Obstacle</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>action</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;NastyWeapon&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=c1>// The Abstract Factory:</span>
+<span class=kd>class</span> <span class=nc>GameElementFactory</span> <span class=p>{</span>
+    <span class=n>Supplier</span><span class=o>&lt;</span><span class=n>Player</span><span class=o>&gt;</span> <span class=n>player</span><span class=p>;</span>
+    <span class=n>Supplier</span><span class=o>&lt;</span><span class=n>Obstacle</span><span class=o>&gt;</span> <span class=n>obstacle</span><span class=p>;</span>
+<span class=p>}</span>
+
+<span class=c1>// Concrete factories:</span>
+<span class=kd>class</span> <span class=nc>KittiesAndPuzzles</span> <span class=kd>extends</span> <span class=n>GameElementFactory</span> <span class=p>{</span>
+    <span class=n>KittiesAndPuzzles</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>player</span> <span class=o>=</span> <span class=n>Kitty</span><span class=p>::</span><span class=k>new</span><span class=p>;</span>
+        <span class=n>obstacle</span> <span class=o>=</span> <span class=n>Puzzle</span><span class=p>::</span><span class=k>new</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>KillAndDismember</span> <span class=kd>extends</span> <span class=n>GameElementFactory</span> <span class=p>{</span>
+    <span class=n>KillAndDismember</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>player</span> <span class=o>=</span> <span class=n>KungFuGuy</span><span class=p>::</span><span class=k>new</span><span class=p>;</span>
+        <span class=n>obstacle</span> <span class=o>=</span> <span class=n>NastyWeapon</span><span class=p>::</span><span class=k>new</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>GameEnvironment</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=n>Player</span> <span class=n>p</span><span class=p>;</span>
+    <span class=kd>private</span> <span class=n>Obstacle</span> <span class=n>ob</span><span class=p>;</span>
+
+    <span class=kd>public</span> <span class=nf>GameEnvironment</span><span class=p>(</span><span class=n>GameElementFactory</span> <span class=n>factory</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>p</span> <span class=o>=</span> <span class=n>factory</span><span class=p>.</span><span class=na>player</span><span class=p>.</span><span class=na>get</span><span class=p>();</span>
+        <span class=n>ob</span> <span class=o>=</span> <span class=n>factory</span><span class=p>.</span><span class=na>obstacle</span><span class=p>.</span><span class=na>get</span><span class=p>();</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>play</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>p</span><span class=p>.</span><span class=na>interactWith</span><span class=p>(</span><span class=n>ob</span><span class=p>);</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>GameElementFactory</span> <span class=n>kp</span> <span class=o>=</span> <span class=k>new</span> <span class=n>KittiesAndPuzzles</span><span class=p>(),</span> <span class=n>kd</span> <span class=o>=</span> <span class=k>new</span> <span class=n>KillAndDismember</span><span class=p>();</span>
+        <span class=n>GameEnvironment</span> <span class=n>g1</span> <span class=o>=</span> <span class=k>new</span> <span class=n>GameEnvironment</span><span class=p>(</span><span class=n>kp</span><span class=p>),</span> <span class=n>g2</span> <span class=o>=</span> <span class=k>new</span> <span class=n>GameEnvironment</span><span class=p>(</span><span class=n>kd</span><span class=p>);</span>
+        <span class=n>g1</span><span class=p>.</span><span class=na>play</span><span class=p>();</span>
+        <span class=n>g2</span><span class=p>.</span><span class=na>play</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出结果：</p> <div class=highlight><pre><span></span><code><span class=n>Kitty</span> <span class=n>has</span> <span class=n>encountered</span> <span class=n>a</span> <span class=n>Puzzle</span>
+<span class=n>KungFuGuy</span> <span class=n>now</span> <span class=n>battles</span> <span class=n>a</span> <span class=n>NastyWeapon</span>
+</code></pre></div> <p>在这种环境中，<strong>Player</strong>对象与<strong>Obstacle</strong>对象进行交互，但是根据你所玩游戏的类型，存在不同类型的玩家和障碍物。 你可以通过选择特定的<strong>GameElementFactory</strong>来确定游戏的类型，然后<strong>GameEnvironment</strong>控制游戏的设置和玩法。 在此示例中，设置和玩法非常简单，但是这些活动（初始条件和状态变化）可以决定游戏的大部分结果。 这里，<strong>GameEnvironment</strong>不是为继承而设计的，尽管这样做很有意义。 它还包含“双重调度”和“工厂方法”的示例，稍后将对这两个示例进行说明。</p> <!-- Function Objects --> <h2 id=_11>函数对象<a class=headerlink href=#_11 title="Permanent link">#</a></h2> <p>一个 <em>函数对象</em> 封装了一个函数。其特点就是将被调用函数的选择与那个函数被调用的位置进行解耦。</p> <p><em>《设计模式》</em> 中也提到了这个术语，但是没有使用。然而，<em>函数对象</em> 的话题却在那本书的很多模式中被反复论及。</p> <h3 id=_12>命令模式<a class=headerlink href=#_12 title="Permanent link">#</a></h3> <p>从最直观的角度来看，<em>命令模式</em> 就是一个函数对象：一个作为对象的函数。我们可以将 <em>函数对象</em> 作为参数传递给其他方法或者对象，来执行特定的操作。</p> <p>在Java 8之前，想要产生单个函数的效果，我们必须明确将方法包含在对象中，而这需要太多的仪式了。而利用Java 8的lambda特性， <em>命令模式</em> 的实现将是微不足道的。</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/CommandPattern.java</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>CommandPattern</span> <span class=p>{</span>
+  <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>List</span><span class=o>&lt;</span><span class=n>Runnable</span><span class=o>&gt;</span> <span class=n>macro</span> <span class=o>=</span> <span class=n>Arrays</span><span class=p>.</span><span class=na>asList</span><span class=p>(</span>
+      <span class=p>()</span> <span class=o>-&gt;</span> <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>print</span><span class=p>(</span><span class=s>&quot;Hello &quot;</span><span class=p>),</span>
+      <span class=p>()</span> <span class=o>-&gt;</span> <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>print</span><span class=p>(</span><span class=s>&quot;World! &quot;</span><span class=p>),</span>
+      <span class=p>()</span> <span class=o>-&gt;</span> <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>print</span><span class=p>(</span><span class=s>&quot;I&#39;m the command pattern!&quot;</span><span class=p>)</span>
+    <span class=p>);</span>
+    <span class=n>macro</span><span class=p>.</span><span class=na>forEach</span><span class=p>(</span><span class=n>Runnable</span><span class=p>::</span><span class=n>run</span><span class=p>);</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+<span class=cm>/* Output:</span>
+<span class=cm>Hello World! I&#39;m the command pattern!</span>
+<span class=cm>*/</span>
+</code></pre></div> <p><em>命令模式</em> 的主要特点是允许向一个方法或者对象传递一个想要的动作。在上面的例子中，这个对象就是 <strong>macro</strong> ，而 <em>命令模式</em> 提供了将一系列需要一起执行的动作集进行排队的方法。在这里，<em>命令模式</em> 允许我们动态的创建新的行为，通常情况下我们需要编写新的代码才能完成这个功能，而在上面的例子中，我们可以通过解释运行一个脚本来完成这个功能（如果需要实现的东西很复杂请参考解释器模式）。</p> <p><em>《设计模式》</em> 认为“命令模式是回调的面向对象的替代品”。尽管如此，我认为"back"（回来）这个词是callback（回调）这一概念的基本要素。也就是说，我认为回调（callback）实际上是返回到回调的创建者所在的位置。另一方面，对于 <em>命令</em> 对象，通常只需创建它并将其交给某种方法或对象，而不是自始至终以其他方式联系命令对象。不管怎样，这就是我对它的看法。在本章的后面内容中，我将会把一组设计模式放在“回调”的标题下面。</p> <h3 id=_13>策略模式<a class=headerlink href=#_13 title="Permanent link">#</a></h3> <p><em>策略模式</em> 看起来像是从同一个基类继承而来的一系列 <em>命令</em> 类。但是仔细查看 <em>命令模式</em>，你就会发现它也具有同样的结构：一系列分层次的 <em>函数对象</em>。不同之处在于，这些函数对象的用法和策略模式不同。就像前面的 <code>io/DirList.java</code> 那个例子，使用 <em>命令</em> 是为了解决特定问题 -- 从一个列表中选择文件。“不变的部分”是被调用的那个方法，而变化的部分被分离出来放到 <em>函数对象</em> 中。我认为 <em>命令模式</em> 在编码阶段提供了灵活性，而 <em>策略模式</em> 的灵活性在运行时才会体现出来。尽管如此，这种区别却是非常模糊的。</p> <p>另外，<em>策略模式</em> 还可以添加一个“上下文（context）”，这个上下文（context）可以是一个代理类（surrogate class），用来控制对某个特定 <em>策略</em> 对象的选择和使用。就像 <em>桥接模式</em> 一样！下面我们来一探究竟：</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/strategy/StrategyPattern.java</span>
+<span class=c1>// {java patterns.strategy.StrategyPattern}</span>
+<span class=kn>package</span> <span class=nn>patterns.strategy</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.function.*</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+
+<span class=c1>// The common strategy base type:</span>
+<span class=kd>class</span> <span class=nc>FindMinima</span> <span class=p>{</span>
+  <span class=n>Function</span><span class=o>&lt;</span><span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span><span class=p>,</span> <span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;&gt;</span> <span class=n>algorithm</span><span class=p>;</span>
+<span class=p>}</span>
+
+<span class=c1>// The various strategies:</span>
+<span class=kd>class</span> <span class=nc>LeastSquares</span> <span class=kd>extends</span> <span class=n>FindMinima</span> <span class=p>{</span>
+  <span class=n>LeastSquares</span><span class=p>()</span> <span class=p>{</span>
+    <span class=c1>// Line is a sequence of points (Dummy data):</span>
+    <span class=n>algorithm</span> <span class=o>=</span> <span class=p>(</span><span class=n>line</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=n>Arrays</span><span class=p>.</span><span class=na>asList</span><span class=p>(</span><span class=mf>1.1</span><span class=p>,</span> <span class=mf>2.2</span><span class=p>);</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Perturbation</span> <span class=kd>extends</span> <span class=n>FindMinima</span> <span class=p>{</span>
+  <span class=n>Perturbation</span><span class=p>()</span> <span class=p>{</span>
+    <span class=n>algorithm</span> <span class=o>=</span> <span class=p>(</span><span class=n>line</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=n>Arrays</span><span class=p>.</span><span class=na>asList</span><span class=p>(</span><span class=mf>3.3</span><span class=p>,</span> <span class=mf>4.4</span><span class=p>);</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Bisection</span> <span class=kd>extends</span> <span class=n>FindMinima</span> <span class=p>{</span>
+  <span class=n>Bisection</span><span class=p>()</span> <span class=p>{</span>
+    <span class=n>algorithm</span> <span class=o>=</span> <span class=p>(</span><span class=n>line</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=n>Arrays</span><span class=p>.</span><span class=na>asList</span><span class=p>(</span><span class=mf>5.5</span><span class=p>,</span> <span class=mf>6.6</span><span class=p>);</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=c1>// The &quot;Context&quot; controls the strategy:</span>
+<span class=kd>class</span> <span class=nc>MinimaSolver</span> <span class=p>{</span>
+  <span class=kd>private</span> <span class=n>FindMinima</span> <span class=n>strategy</span><span class=p>;</span>
+  <span class=n>MinimaSolver</span><span class=p>(</span><span class=n>FindMinima</span> <span class=n>strat</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>strategy</span> <span class=o>=</span> <span class=n>strat</span><span class=p>;</span>
+  <span class=p>}</span>
+  <span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span> <span class=nf>minima</span><span class=p>(</span><span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span> <span class=n>line</span><span class=p>)</span> <span class=p>{</span>
+    <span class=k>return</span> <span class=n>strategy</span><span class=p>.</span><span class=na>algorithm</span><span class=p>.</span><span class=na>apply</span><span class=p>(</span><span class=n>line</span><span class=p>);</span>
+  <span class=p>}</span>
+  <span class=kt>void</span> <span class=nf>changeAlgorithm</span><span class=p>(</span><span class=n>FindMinima</span> <span class=n>newAlgorithm</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>strategy</span> <span class=o>=</span> <span class=n>newAlgorithm</span><span class=p>;</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>StrategyPattern</span> <span class=p>{</span>
+  <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>MinimaSolver</span> <span class=n>solver</span> <span class=o>=</span> 
+      <span class=k>new</span> <span class=n>MinimaSolver</span><span class=p>(</span><span class=k>new</span> <span class=n>LeastSquares</span><span class=p>());</span>
+    <span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span> <span class=n>line</span> <span class=o>=</span> <span class=n>Arrays</span><span class=p>.</span><span class=na>asList</span><span class=p>(</span>
+      <span class=mf>1.0</span><span class=p>,</span> <span class=mf>2.0</span><span class=p>,</span> <span class=mf>1.0</span><span class=p>,</span> <span class=mf>2.0</span><span class=p>,</span> <span class=o>-</span><span class=mf>1.0</span><span class=p>,</span>
+      <span class=mf>3.0</span><span class=p>,</span> <span class=mf>4.0</span><span class=p>,</span> <span class=mf>5.0</span><span class=p>,</span> <span class=mf>4.0</span> <span class=p>);</span>
+    <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>solver</span><span class=p>.</span><span class=na>minima</span><span class=p>(</span><span class=n>line</span><span class=p>));</span> 
+    <span class=n>solver</span><span class=p>.</span><span class=na>changeAlgorithm</span><span class=p>(</span><span class=k>new</span> <span class=n>Bisection</span><span class=p>());</span> 
+    <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>solver</span><span class=p>.</span><span class=na>minima</span><span class=p>(</span><span class=n>line</span><span class=p>));</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+<span class=cm>/* Output:</span>
+<span class=cm>[1.1, 2.2]</span>
+<span class=cm>[5.5, 6.6]</span>
+<span class=cm>*/</span>
+</code></pre></div> <p><code>MinimaSolver</code> 中的 <code>changeAlgorithm()</code> 方法将一个不同的策略插入到了 <code>私有</code> 域 <code>strategy</code> 中，这使得在调用 <code>minima()</code> 方法时，可以使用新的策略。</p> <p>我们可以通过将上下文注入到 <code>FindMinima</code> 中来简化我们的解决方法。</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/strategy/StrategyPattern2.java // {java patterns.strategy.StrategyPattern2}</span>
+<span class=kn>package</span> <span class=nn>patterns.strategy</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.function.*</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+
+<span class=c1>// &quot;Context&quot; is now incorporated:</span>
+<span class=kd>class</span> <span class=nc>FindMinima2</span> <span class=p>{</span>
+  <span class=n>Function</span><span class=o>&lt;</span><span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span><span class=p>,</span> <span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;&gt;</span> <span class=n>algorithm</span><span class=p>;</span>
+  <span class=n>FindMinima2</span><span class=p>()</span> <span class=p>{</span> <span class=n>leastSquares</span><span class=p>();</span> <span class=p>}</span> <span class=c1>// default</span>
+  <span class=c1>// The various strategies:</span>
+  <span class=kt>void</span> <span class=nf>leastSquares</span><span class=p>()</span> <span class=p>{</span>
+    <span class=n>algorithm</span> <span class=o>=</span> <span class=p>(</span><span class=n>line</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=n>Arrays</span><span class=p>.</span><span class=na>asList</span><span class=p>(</span><span class=mf>1.1</span><span class=p>,</span> <span class=mf>2.2</span><span class=p>);</span>
+  <span class=p>}</span>
+  <span class=kt>void</span> <span class=nf>perturbation</span><span class=p>()</span> <span class=p>{</span>
+    <span class=n>algorithm</span> <span class=o>=</span> <span class=p>(</span><span class=n>line</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=n>Arrays</span><span class=p>.</span><span class=na>asList</span><span class=p>(</span><span class=mf>3.3</span><span class=p>,</span> <span class=mf>4.4</span><span class=p>);</span>
+  <span class=p>}</span>
+  <span class=kt>void</span> <span class=nf>bisection</span><span class=p>()</span> <span class=p>{</span>
+    <span class=n>algorithm</span> <span class=o>=</span> <span class=p>(</span><span class=n>line</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=n>Arrays</span><span class=p>.</span><span class=na>asList</span><span class=p>(</span><span class=mf>5.5</span><span class=p>,</span> <span class=mf>6.6</span><span class=p>);</span>
+  <span class=p>}</span>
+  <span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span> <span class=nf>minima</span><span class=p>(</span><span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span> <span class=n>line</span><span class=p>)</span> <span class=p>{</span>
+    <span class=k>return</span> <span class=n>algorithm</span><span class=p>.</span><span class=na>apply</span><span class=p>(</span><span class=n>line</span><span class=p>);</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>StrategyPattern2</span> <span class=p>{</span>
+  <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>FindMinima2</span> <span class=n>solver</span> <span class=o>=</span> <span class=k>new</span> <span class=n>FindMinima2</span><span class=p>();</span>
+    <span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span> <span class=n>line</span> <span class=o>=</span> <span class=n>Arrays</span><span class=p>.</span><span class=na>asList</span><span class=p>(</span>
+      <span class=mf>1.0</span><span class=p>,</span> <span class=mf>2.0</span><span class=p>,</span> <span class=mf>1.0</span><span class=p>,</span> <span class=mf>2.0</span><span class=p>,</span> <span class=o>-</span><span class=mf>1.0</span><span class=p>,</span>
+      <span class=mf>3.0</span><span class=p>,</span> <span class=mf>4.0</span><span class=p>,</span> <span class=mf>5.0</span><span class=p>,</span> <span class=mf>4.0</span> <span class=p>);</span>
+    <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>solver</span><span class=p>.</span><span class=na>minima</span><span class=p>(</span><span class=n>line</span><span class=p>));</span>
+    <span class=n>solver</span><span class=p>.</span><span class=na>bisection</span><span class=p>();</span>
+    <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>solver</span><span class=p>.</span><span class=na>minima</span><span class=p>(</span><span class=n>line</span><span class=p>));</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+<span class=cm>/* Output:</span>
+<span class=cm>[1.1, 2.2]</span>
+<span class=cm>[5.5, 6.6]</span>
+<span class=cm>*/</span>
+</code></pre></div> <p><code>FindMinima2</code> 封装了不同的算法，也包含了“上下文”（Context），所以它便可以在一个单独的类中控制算法的选择了。</p> <h3 id=_14>责任链模式<a class=headerlink href=#_14 title="Permanent link">#</a></h3> <p><em>责任链模式</em> 也许可以被看作一个使用了 <em>策略</em> 对象的“递归的动态一般化”。此时我们进行一次调用，在一个链序列中的每个策略都试图满足这个调用。这个过程直到有一个策略成功满足该调用或者到达链序列的末尾才结束。在递归方法中，一个方法将反复调用它自身直至达到某个终止条件；使用责任链，一个方法会调用相同的基类方法（拥有不同的实现），这个基类方法将会调用基类方法的其他实现，如此反复直至达到某个终止条件。</p> <p>除了调用某个方法来满足某个请求以外，链中的多个方法都有机会满足这个请求，因此它有点专家系统的意味。由于责任链实际上就是一个链表，它能够动态创建，因此它可以看作是一个更一般的动态构建的 <code>switch</code> 语句。</p> <p>在上面的 <code>StrategyPattern.java</code> 例子中，我们可能想自动发现一个解决方法。而 <em>责任链</em> 就可以达到这个目的：</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/chain/ChainOfResponsibility.java</span>
+<span class=c1>// Using the Functional interface</span>
+<span class=c1>// {java patterns.chain.ChainOfResponsibility}</span>
+<span class=kn>package</span> <span class=nn>patterns.chain</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.function.*</span><span class=p>;</span>
+
+<span class=kd>class</span> <span class=nc>Result</span> <span class=p>{</span>
+  <span class=kt>boolean</span> <span class=n>success</span><span class=p>;</span>
+  <span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span> <span class=n>line</span><span class=p>;</span>
+  <span class=n>Result</span><span class=p>(</span><span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span> <span class=n>data</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>success</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
+    <span class=n>line</span> <span class=o>=</span> <span class=n>data</span><span class=p>;</span>
+  <span class=p>}</span>
+  <span class=n>Result</span><span class=p>()</span> <span class=p>{</span>
+    <span class=n>success</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+    <span class=n>line</span> <span class=o>=</span> <span class=n>Collections</span><span class=p>.</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span><span class=n>emptyList</span><span class=p>();</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>Fail</span> <span class=kd>extends</span> <span class=n>Result</span> <span class=p>{}</span>
+
+<span class=kd>interface</span> <span class=nc>Algorithm</span> <span class=p>{</span>
+  <span class=n>Result</span> <span class=nf>algorithm</span><span class=p>(</span><span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span> <span class=n>line</span><span class=p>);</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>FindMinima</span> <span class=p>{</span>
+  <span class=kd>public</span> <span class=kd>static</span> <span class=n>Result</span> <span class=nf>leastSquares</span><span class=p>(</span><span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span> <span class=n>line</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;LeastSquares.algorithm&quot;</span><span class=p>);</span>
+    <span class=kt>boolean</span> <span class=n>weSucceed</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+    <span class=k>if</span><span class=p>(</span><span class=n>weSucceed</span><span class=p>)</span> <span class=c1>// Actual test/calculation here</span>
+      <span class=k>return</span> <span class=k>new</span> <span class=n>Result</span><span class=p>(</span><span class=n>Arrays</span><span class=p>.</span><span class=na>asList</span><span class=p>(</span><span class=mf>1.1</span><span class=p>,</span> <span class=mf>2.2</span><span class=p>));</span>
+    <span class=k>else</span> <span class=c1>// Try the next one in the chain:</span>
+      <span class=k>return</span> <span class=k>new</span> <span class=n>Fail</span><span class=p>();</span>
+  <span class=p>}</span>
+  <span class=kd>public</span> <span class=kd>static</span> <span class=n>Result</span> <span class=nf>perturbation</span><span class=p>(</span><span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span> <span class=n>line</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Perturbation.algorithm&quot;</span><span class=p>);</span>
+    <span class=kt>boolean</span> <span class=n>weSucceed</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+    <span class=k>if</span><span class=p>(</span><span class=n>weSucceed</span><span class=p>)</span> <span class=c1>// Actual test/calculation here</span>
+      <span class=k>return</span> <span class=k>new</span> <span class=n>Result</span><span class=p>(</span><span class=n>Arrays</span><span class=p>.</span><span class=na>asList</span><span class=p>(</span><span class=mf>3.3</span><span class=p>,</span> <span class=mf>4.4</span><span class=p>));</span>
+    <span class=k>else</span>
+      <span class=k>return</span> <span class=k>new</span> <span class=n>Fail</span><span class=p>();</span>
+  <span class=p>}</span>
+  <span class=kd>public</span> <span class=kd>static</span> <span class=n>Result</span> <span class=nf>bisection</span><span class=p>(</span><span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span> <span class=n>line</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Bisection.algorithm&quot;</span><span class=p>);</span>
+    <span class=kt>boolean</span> <span class=n>weSucceed</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
+    <span class=k>if</span><span class=p>(</span><span class=n>weSucceed</span><span class=p>)</span> <span class=c1>// Actual test/calculation here</span>
+      <span class=k>return</span> <span class=k>new</span> <span class=n>Result</span><span class=p>(</span><span class=n>Arrays</span><span class=p>.</span><span class=na>asList</span><span class=p>(</span><span class=mf>5.5</span><span class=p>,</span> <span class=mf>6.6</span><span class=p>));</span>
+    <span class=k>else</span>
+      <span class=k>return</span> <span class=k>new</span> <span class=n>Fail</span><span class=p>();</span>
+    <span class=p>}</span>
+  <span class=kd>static</span> <span class=n>List</span><span class=o>&lt;</span><span class=n>Function</span><span class=o>&lt;</span><span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span><span class=p>,</span> <span class=n>Result</span><span class=o>&gt;&gt;</span>
+    <span class=n>algorithms</span> <span class=o>=</span> <span class=n>Arrays</span><span class=p>.</span><span class=na>asList</span><span class=p>(</span>
+      <span class=n>FindMinima</span><span class=p>::</span><span class=n>leastSquares</span><span class=p>,</span>
+      <span class=n>FindMinima</span><span class=p>::</span><span class=n>perturbation</span><span class=p>,</span>
+      <span class=n>FindMinima</span><span class=p>::</span><span class=n>bisection</span>
+    <span class=p>);</span>
+  <span class=kd>public</span> <span class=kd>static</span> <span class=n>Result</span> <span class=nf>minima</span><span class=p>(</span><span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span> <span class=n>line</span><span class=p>)</span> <span class=p>{</span>
+    <span class=k>for</span><span class=p>(</span><span class=n>Function</span><span class=o>&lt;</span><span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span><span class=p>,</span> <span class=n>Result</span><span class=o>&gt;</span> <span class=n>alg</span> <span class=p>:</span>
+        <span class=n>algorithms</span><span class=p>)</span> <span class=p>{</span>
+      <span class=n>Result</span> <span class=n>result</span> <span class=o>=</span> <span class=n>alg</span><span class=p>.</span><span class=na>apply</span><span class=p>(</span><span class=n>line</span><span class=p>);</span>
+      <span class=k>if</span><span class=p>(</span><span class=n>result</span><span class=p>.</span><span class=na>success</span><span class=p>)</span>
+        <span class=k>return</span> <span class=n>result</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=k>return</span> <span class=k>new</span> <span class=n>Fail</span><span class=p>();</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>ChainOfResponsibility</span> <span class=p>{</span>
+  <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>FindMinima</span> <span class=n>solver</span> <span class=o>=</span> <span class=k>new</span> <span class=n>FindMinima</span><span class=p>();</span>
+    <span class=n>List</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span> <span class=n>line</span> <span class=o>=</span> <span class=n>Arrays</span><span class=p>.</span><span class=na>asList</span><span class=p>(</span>
+      <span class=mf>1.0</span><span class=p>,</span> <span class=mf>2.0</span><span class=p>,</span> <span class=mf>1.0</span><span class=p>,</span> <span class=mf>2.0</span><span class=p>,</span> <span class=o>-</span><span class=mf>1.0</span><span class=p>,</span>
+      <span class=mf>3.0</span><span class=p>,</span> <span class=mf>4.0</span><span class=p>,</span> <span class=mf>5.0</span><span class=p>,</span> <span class=mf>4.0</span><span class=p>);</span>
+    <span class=n>Result</span> <span class=n>result</span> <span class=o>=</span> <span class=n>solver</span><span class=p>.</span><span class=na>minima</span><span class=p>(</span><span class=n>line</span><span class=p>);</span>
+    <span class=k>if</span><span class=p>(</span><span class=n>result</span><span class=p>.</span><span class=na>success</span><span class=p>)</span>
+      <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>result</span><span class=p>.</span><span class=na>line</span><span class=p>);</span>
+    <span class=k>else</span>
+      <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;No algorithm found&quot;</span><span class=p>);</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+<span class=cm>/* Output:</span>
+<span class=cm>LeastSquares.algorithm</span>
+<span class=cm>Perturbation.algorithm</span>
+<span class=cm>Bisection.algorithm</span>
+<span class=cm>[5.5, 6.6]</span>
+<span class=cm>*/</span>
+</code></pre></div> <p>我们从定义一个 <code>Result</code> 类开始，这个类包含一个 <code>success</code> 标志，因此接收者就可以知道算法是否成功执行，而 <code>line</code> 变量保存了真实的数据。当算法执行失败时， <code>Fail</code> 类可以作为返回值。要注意的是，当算法执行失败时，返回一个 <code>Result</code> 对象要比抛出一个异常更加合适，因为我们有时可能并不打算解决这个问题，而是希望程序继续执行下去。</p> <p>每一个 <code>Algorithm</code> 接口的实现，都实现了不同的 <code>algorithm()</code> 方法。在 <code>FindMinama</code> 中，将会创建一个算法的列表（这就是所谓的“链”），而 <code>minima()</code> 方法只是遍历这个列表，然后找到能够成功执行的算法而已。</p> <!-- Changing the Interface --> <h2 id=_15>改变接口<a class=headerlink href=#_15 title="Permanent link">#</a></h2> <p>有时候我们需要解决的问题很简单，仅仅是“我没有需要的接口”而已。有两种设计模式用来解决这个问题：<em>适配器模式</em> 接受一种类型并且提供一个对其他类型的接口。<em>外观模式</em> 为一组类创建了一个接口，这样做只是为了提供一种更方便的方法来处理库或资源。</p> <h3 id=adapter>适配器模式（Adapter）<a class=headerlink href=#adapter title="Permanent link">#</a></h3> <p>当我们手头有某个类，而我们需要的却是另外一个类，我们就可以通过 <em>适配器模式</em> 来解决问题。唯一需要做的就是产生出我们需要的那个类，有许多种方法可以完成这种适配。</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/adapt/Adapter.java</span>
+<span class=c1>// Variations on the Adapter pattern</span>
+<span class=c1>// {java patterns.adapt.Adapter}</span>
+<span class=kn>package</span> <span class=nn>patterns.adapt</span><span class=p>;</span>
+
+<span class=kd>class</span> <span class=nc>WhatIHave</span> <span class=p>{</span>
+  <span class=kd>public</span> <span class=kt>void</span> <span class=nf>g</span><span class=p>()</span> <span class=p>{}</span>
+  <span class=kd>public</span> <span class=kt>void</span> <span class=nf>h</span><span class=p>()</span> <span class=p>{}</span>
+<span class=p>}</span>
+
+<span class=kd>interface</span> <span class=nc>WhatIWant</span> <span class=p>{</span>
+  <span class=kt>void</span> <span class=nf>f</span><span class=p>();</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>ProxyAdapter</span> <span class=kd>implements</span> <span class=n>WhatIWant</span> <span class=p>{</span>
+  <span class=n>WhatIHave</span> <span class=n>whatIHave</span><span class=p>;</span>
+  <span class=n>ProxyAdapter</span><span class=p>(</span><span class=n>WhatIHave</span> <span class=n>wih</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>whatIHave</span> <span class=o>=</span> <span class=n>wih</span><span class=p>;</span>
+  <span class=p>}</span>
+  <span class=nd>@Override</span>
+  <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span>
+    <span class=c1>// Implement behavior using</span>
+    <span class=c1>// methods in WhatIHave:</span>
+    <span class=n>whatIHave</span><span class=p>.</span><span class=na>g</span><span class=p>();</span>
+    <span class=n>whatIHave</span><span class=p>.</span><span class=na>h</span><span class=p>();</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>WhatIUse</span> <span class=p>{</span>
+  <span class=kd>public</span> <span class=kt>void</span> <span class=nf>op</span><span class=p>(</span><span class=n>WhatIWant</span> <span class=n>wiw</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>wiw</span><span class=p>.</span><span class=na>f</span><span class=p>();</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=c1>// Approach 2: build adapter use into op():</span>
+<span class=kd>class</span> <span class=nc>WhatIUse2</span> <span class=kd>extends</span> <span class=n>WhatIUse</span> <span class=p>{</span>
+  <span class=kd>public</span> <span class=kt>void</span> <span class=nf>op</span><span class=p>(</span><span class=n>WhatIHave</span> <span class=n>wih</span><span class=p>)</span> <span class=p>{</span>
+    <span class=k>new</span> <span class=n>ProxyAdapter</span><span class=p>(</span><span class=n>wih</span><span class=p>).</span><span class=na>f</span><span class=p>();</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=c1>// Approach 3: build adapter into WhatIHave:</span>
+<span class=kd>class</span> <span class=nc>WhatIHave2</span> <span class=kd>extends</span> <span class=n>WhatIHave</span> <span class=kd>implements</span> <span class=n>WhatIWant</span> <span class=p>{</span>
+  <span class=nd>@Override</span>
+  <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span>
+    <span class=n>g</span><span class=p>();</span>
+    <span class=n>h</span><span class=p>();</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=c1>// Approach 4: use an inner class:</span>
+<span class=kd>class</span> <span class=nc>WhatIHave3</span> <span class=kd>extends</span> <span class=n>WhatIHave</span> <span class=p>{</span>
+  <span class=kd>private</span> <span class=kd>class</span> <span class=nc>InnerAdapter</span> <span class=kd>implements</span> <span class=n>WhatIWant</span> <span class=p>{</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span>
+      <span class=n>g</span><span class=p>();</span>
+      <span class=n>h</span><span class=p>();</span>
+    <span class=p>}</span>
+  <span class=p>}</span>
+  <span class=kd>public</span> <span class=n>WhatIWant</span> <span class=nf>whatIWant</span><span class=p>()</span> <span class=p>{</span>
+    <span class=k>return</span> <span class=k>new</span> <span class=n>InnerAdapter</span><span class=p>();</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Adapter</span> <span class=p>{</span>
+  <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>WhatIUse</span> <span class=n>whatIUse</span> <span class=o>=</span> <span class=k>new</span> <span class=n>WhatIUse</span><span class=p>();</span>
+    <span class=n>WhatIHave</span> <span class=n>whatIHave</span> <span class=o>=</span> <span class=k>new</span> <span class=n>WhatIHave</span><span class=p>();</span>
+    <span class=n>WhatIWant</span> <span class=n>adapt</span><span class=o>=</span> <span class=k>new</span> <span class=n>ProxyAdapter</span><span class=p>(</span><span class=n>whatIHave</span><span class=p>);</span>
+    <span class=n>whatIUse</span><span class=p>.</span><span class=na>op</span><span class=p>(</span><span class=n>adapt</span><span class=p>);</span>
+    <span class=c1>// Approach 2:</span>
+    <span class=n>WhatIUse2</span> <span class=n>whatIUse2</span> <span class=o>=</span> <span class=k>new</span> <span class=n>WhatIUse2</span><span class=p>();</span>
+    <span class=n>whatIUse2</span><span class=p>.</span><span class=na>op</span><span class=p>(</span><span class=n>whatIHave</span><span class=p>);</span>
+    <span class=c1>// Approach 3:</span>
+    <span class=n>WhatIHave2</span> <span class=n>whatIHave2</span> <span class=o>=</span> <span class=k>new</span> <span class=n>WhatIHave2</span><span class=p>();</span>
+    <span class=n>whatIUse</span><span class=p>.</span><span class=na>op</span><span class=p>(</span><span class=n>whatIHave2</span><span class=p>);</span>
+    <span class=c1>// Approach 4:</span>
+    <span class=n>WhatIHave3</span> <span class=n>whatIHave3</span> <span class=o>=</span> <span class=k>new</span> <span class=n>WhatIHave3</span><span class=p>();</span>
+    <span class=n>whatIUse</span><span class=p>.</span><span class=na>op</span><span class=p>(</span><span class=n>whatIHave3</span><span class=p>.</span><span class=na>whatIWant</span><span class=p>());</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>我想冒昧的借用一下术语“proxy”（代理），因为在 <em>《设计模式》</em> 里，他们坚持认为一个代理（proxy）必须拥有和它所代理的对象一模一样的接口。但是，如果把这两个词一起使用，叫做“代理适配器（proxy adapter）”，似乎更合理一些。</p> <h3 id=facade>外观模式（Façade）<a class=headerlink href=#facade title="Permanent link">#</a></h3> <p>当我想方设法试图将需求初步（first-cut）转化成对象的时候，通常我使用的原则是：</p> <blockquote> <p>“把所有丑陋的东西都隐藏到对象里去”。</p> </blockquote> <p>基本上说，<em>外观模式</em> 干的就是这个事情。如果我们有一堆让人头晕的类以及交互（Interactions），而它们又不是客户端程序员必须了解的，那我们就可以为客户端程序员创建一个接口只提供那些必要的功能。</p> <p>外观模式经常被实现为一个符合单例模式（Singleton）的抽象工厂（abstract factory）。当然，你可以通过创建包含 <strong>静态</strong> 工厂方法（static factory methods）的类来达到上述效果。</p> <div class=highlight><pre><span></span><code><span class=c1>// patterns/Facade.java</span>
+
+<span class=kd>class</span> <span class=nc>A</span> <span class=p>{</span> <span class=n>A</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>)</span> <span class=p>{}</span> <span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>B</span> <span class=p>{</span> <span class=n>B</span><span class=p>(</span><span class=kt>long</span> <span class=n>x</span><span class=p>)</span> <span class=p>{}</span> <span class=p>}</span>
+
+<span class=kd>class</span> <span class=nc>C</span> <span class=p>{</span> <span class=n>C</span><span class=p>(</span><span class=kt>double</span> <span class=n>x</span><span class=p>)</span> <span class=p>{}</span> <span class=p>}</span>
+
+<span class=c1>// Other classes that aren&#39;t exposed by the</span>
+<span class=c1>// facade go here ...</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Facade</span> <span class=p>{</span>
+  <span class=kd>static</span> <span class=n>A</span> <span class=nf>makeA</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=k>new</span> <span class=n>A</span><span class=p>(</span><span class=n>x</span><span class=p>);</span> <span class=p>}</span>
+  <span class=kd>static</span> <span class=n>B</span> <span class=nf>makeB</span><span class=p>(</span><span class=kt>long</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=k>new</span> <span class=n>B</span><span class=p>(</span><span class=n>x</span><span class=p>);</span> <span class=p>}</span>
+  <span class=kd>static</span> <span class=n>C</span> <span class=nf>makeC</span><span class=p>(</span><span class=kt>double</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=k>new</span> <span class=n>C</span><span class=p>(</span><span class=n>x</span><span class=p>);</span> <span class=p>}</span>
+  <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+    <span class=c1>// The client programmer gets the objects</span>
+    <span class=c1>// by calling the static methods:</span>
+    <span class=n>A</span> <span class=n>a</span> <span class=o>=</span> <span class=n>Facade</span><span class=p>.</span><span class=na>makeA</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span>
+    <span class=n>B</span> <span class=n>b</span> <span class=o>=</span> <span class=n>Facade</span><span class=p>.</span><span class=na>makeB</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span>
+    <span class=n>C</span> <span class=n>c</span> <span class=o>=</span> <span class=n>Facade</span><span class=p>.</span><span class=na>makeC</span><span class=p>(</span><span class=mf>1.0</span><span class=p>);</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>《设计模式》给出的例子并不是真正的 <em>外观模式</em> ，而仅仅是一个类使用了其他的类而已。</p> <h4 id=package>包（Package）作为外观模式的变体<a class=headerlink href=#package title="Permanent link">#</a></h4> <p>我感觉，<em>外观模式</em> 更倾向于“过程式的（procedural）”，也就是非面向对象的（non-object-oriented）：我们是通过调用某些函数才得到对象。它和抽象工厂（Abstract factory）到底有多大差别呢？<em>外观模式</em> 关键的一点是隐藏某个库的一部分类（以及它们的交互），使它们对于客户端程序员不可见，这样那些类的接口就更加简练和易于理解了。</p> <p>其实，这也正是 Java 的 packaging（包）的功能所完成的事情：在库以外，我们只能创建和使用被声明为公共（public）的那些类；所有非公共（non-public）的类只能被同一 package 的类使用。看起来，<em>外观模式</em> 似乎是 Java 内嵌的一个功能。</p> <p>公平起见，<em>《设计模式》</em> 主要是写给 C++ 读者的。尽管 C++ 有命名空间（namespaces）机制来防止全局变量和类名称之间的冲突，但它并没有提供类隐藏的机制，而在 Java 里我们可以通过声明 non-public 类来实现这一点。我认为，大多数情况下 Java 的 package 功能就足以解决针对 <em>外观模式</em> 的问题了。</p> <!-- Interpreter: Run-Time Flexibility --> <h2 id=_16>解释器：运行时的弹性<a class=headerlink href=#_16 title="Permanent link">#</a></h2> <p>如果程序的用户需要更好的运行时弹性，例如创建脚本来增加需要的系统功能，你就能使用解释器设计模式。这个模式下，你可以创建一个语言解释器并将它嵌入你的程序内。</p> <p>在开发程序的过程中，设计自己的语言并为它构建一个解释器是一件让人分心且耗时的事。最好的解决方案就是复用代码：使用一个已经构建好并被调试过的解释器。Python 语言可以免费地嵌入营利性的应用中而不需要任何的协议许可、授权费或者是任何的声明。此外，有一个完全使用 Java 字节码实现的 Python 版本（叫做 Jython）， 能够轻易地合并到 Java 程序中。Python 是一门非常易学习的脚本语言，代码的读写很有逻辑性。它支持函数与对象，有大量的可用库，并且可运行在所有的平台上。你可以在 <a href=https://www.python.org/ >www.Python.org</a> 上下载 Python 并了解更多信息。</p> <!-- Callbacks --> <h2 id=_17>回调<a class=headerlink href=#_17 title="Permanent link">#</a></h2> <!-- Multiple Dispatching --> <h2 id=_18>多次调度<a class=headerlink href=#_18 title="Permanent link">#</a></h2> <!-- Pattern Refactoring --> <h2 id=_19>模式重构<a class=headerlink href=#_19 title="Permanent link">#</a></h2> <!-- Abstracting Usage --> <h2 id=_20>抽象用法<a class=headerlink href=#_20 title="Permanent link">#</a></h2> <!-- Multiple Dispatching --> <h2 id=_21>多次派遣<a class=headerlink href=#_21 title="Permanent link">#</a></h2> <!-- The Visitor Pattern --> <h2 id=_22>访问者模式<a class=headerlink href=#_22 title="Permanent link">#</a></h2> <!-- RTTI Considered Harmful? --> <h2 id=rtti>RTTI的优劣<a class=headerlink href=#rtti title="Permanent link">#</a></h2> <!-- Summary --> <h2 id=_23>本章小结<a class=headerlink href=#_23 title="Permanent link">#</a></h2> <!-- 分页 --> <div style="page-break-after: always;"></div> </article> </div> </div> </main> <footer class=md-footer> <div class=md-footer-nav> <nav class="md-footer-nav__inner md-grid"> <a href=../24-Concurrent-Programming/ title="24 Concurrent Programming" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel=prev> <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i> </div> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis> <span class=md-footer-nav__direction> 上一页 </span> 24 Concurrent Programming </span> </div> </a> <a href=../Appendix-Becoming-a-Programmer/ title="Appendix Becoming a Programmer" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel=next> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis> <span class=md-footer-nav__direction> 下一页 </span> Appendix Becoming a Programmer </span> </div> <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i> </div> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> powered by <a href=https://www.mkdocs.org target=_blank rel=noopener>MkDocs</a> and <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs</a> </div> <div class=md-footer-social> <link rel=stylesheet href=../../../../../assets/fonts/font-awesome.css> <a href=https://leay.net target=_blank rel=noopener title=home class="md-footer-social__link fa fa-home"></a> <a href=https://github.com/hqweay target=_blank rel=noopener title=github class="md-footer-social__link fa fa-github"></a> </div> </div> </div> </footer> </div> <script src=../../../../../assets/javascripts/application.c33a9706.js></script> <script src=../../../../../assets/javascripts/lunr/lunr.stemmer.support.js></script> <script src=../../../../../assets/javascripts/lunr/tinyseg.js></script> <script src=../../../../../assets/javascripts/lunr/lunr.ja.js></script> <script src=../../../../../assets/javascripts/lunr/lunr.multi.js></script> <script>app.initialize({version:"1.1",url:{base:"../../../../.."}})</script> </body> </html>

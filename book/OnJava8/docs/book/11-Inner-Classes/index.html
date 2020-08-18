@@ -1,0 +1,986 @@
+<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=description content="Thinking Drafts"><link href=https://wiki.leay.net/book/OnJava8/docs/book/11-Inner-Classes/ rel=canonical><meta name=author content=hqweay><meta name=lang:clipboard.copy content=复制><meta name=lang:clipboard.copied content=已复制><meta name=lang:search.language content="en, ja"><meta name=lang:search.pipeline.stopwords content=True><meta name=lang:search.pipeline.trimmer content=True><meta name=lang:search.result.none content=没有找到符合条件的结果><meta name=lang:search.result.one content="找到 1 个符合条件的结果"><meta name=lang:search.result.other content="# 个符合条件的结果"><meta name=lang:search.tokenizer content=[\uff0c\u3002]+><link rel="shortcut icon" href=../../../../../img/favicon.ico><meta name=generator content="mkdocs-1.1, mkdocs-material-4.6.3"><title>11 Inner Classes - Hqweay's Wiki</title><link rel=stylesheet href=../../../../../assets/stylesheets/application.adb8469c.css><link rel=stylesheet href=../../../../../assets/stylesheets/application-palette.a8b3c06d.css><meta name=theme-color content=#3f51b5><script src=../../../../../assets/javascripts/modernizr.86422ebf.js></script><link href=https://fonts.gstatic.com rel=preconnect crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>body,input{font-family:"Noto Serif SC","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style><link rel=stylesheet href=../../../../../assets/fonts/material-icons.css><script>
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  }
+  ga.l = +new Date
+  /* Setup integration and send page view */
+  ga("create", "UA-105976066-3", "wiki.leay.net")
+  ga("set", "anonymizeIp", true)
+  ga("send", "pageview")
+  /* Register handler to log search on blur */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.forms.search) {
+      var query = document.forms.search.query
+      query.addEventListener("blur", function() {
+        if (this.value) {
+          var path = document.location.pathname;
+          ga("send", "pageview", path + "?q=" + this.value)
+        }
+      })
+    }
+  })
+</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-primary=indigo data-md-color-accent=indigo> <svg class=md-svg> <defs> <svg xmlns=http://www.w3.org/2000/svg width=416 height=448 viewbox="0 0 416 448" id=__github><path fill=currentColor d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg> </defs> </svg> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay data-md-component=overlay for=__drawer></label> <a href=#_1 tabindex=0 class=md-skip> 跳转至 </a> <header class=md-header data-md-component=header> <nav class="md-header-nav md-grid"> <div class=md-flex> <div class="md-flex__cell md-flex__cell--shrink"> <a href=https://wiki.leay.net/ title="Hqweay's Wiki" aria-label="Hqweay's Wiki" class="md-header-nav__button md-logo"> <i class=md-icon></i> </a> </div> <div class="md-flex__cell md-flex__cell--shrink"> <label class="md-icon md-icon--menu md-header-nav__button" for=__drawer></label> </div> <div class="md-flex__cell md-flex__cell--stretch"> <div class="md-flex__ellipsis md-header-nav__title" data-md-component=title> <span class=md-header-nav__topic> Hqweay's Wiki </span> <span class=md-header-nav__topic> 11 Inner Classes </span> </div> </div> <div class="md-flex__cell md-flex__cell--shrink"> <label class="md-icon md-icon--search md-header-nav__button" for=__search></label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input aria-label=search name=query placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=query data-md-state=active> <label class="md-icon md-search__icon" for=__search></label> <button type=reset class="md-icon md-search__icon" data-md-component=reset tabindex=-1> &#xE5CD; </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=result> <div class=md-search-result__meta> 键入以开始搜索 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> </div> <div class="md-flex__cell md-flex__cell--shrink"> <div class=md-header-nav__source> <a href=https://github.com/hqweay/my-mkdocs/ title="前往 Github 仓库" class=md-source data-md-source=github> <div class=md-source__icon> <svg viewbox="0 0 24 24" width=24 height=24> <use xlink:href=#__github width=24 height=24></use> </svg> </div> <div class=md-source__repository> hqweay/my-mkdocs </div> </a> </div> </div> </div> </nav> </header> <div class=md-container> <nav class="md-tabs md-tabs--active" data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../../../.. class=md-tabs__link> About </a> </li> <li class=md-tabs__item> <a href=../../../ class="md-tabs__link md-tabs__link--active"> Book </a> </li> <li class=md-tabs__item> <a href=../../../../../doc/ class=md-tabs__link> Doc </a> </li> <li class=md-tabs__item> <a href=../../../../../life/reading/ class=md-tabs__link> Life </a> </li> <li class=md-tabs__item> <a href=../../../../../study/draft/try-wiki/ class=md-tabs__link> Study </a> </li> <li class=md-tabs__item> <a href=../../../../../tech/code/frontend/2017-09-14-easy-web-test/ class=md-tabs__link> Tech </a> </li> </ul> </div> </nav> <main class=md-main role=main> <div class="md-main__inner md-grid" data-md-component=container> <div class="md-sidebar md-sidebar--primary" data-md-component=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary" data-md-level=0> <label class="md-nav__title md-nav__title--site" for=__drawer> <a href=https://wiki.leay.net/ title="Hqweay's Wiki" class="md-nav__button md-logo"> <i class=md-icon></i> </a> Hqweay's Wiki </label> <div class=md-nav__source> <a href=https://github.com/hqweay/my-mkdocs/ title="前往 Github 仓库" class=md-source data-md-source=github> <div class=md-source__icon> <svg viewbox="0 0 24 24" width=24 height=24> <use xlink:href=#__github width=24 height=24></use> </svg> </div> <div class=md-source__repository> hqweay/my-mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../.. title=About class=md-nav__link> About </a> </li> <li class=md-nav__item> <a href=../../../../../test/ title=特殊语法 class=md-nav__link> 特殊语法 </a> </li> <li class=md-nav__item> <a href=../../../../../web-page/ title=静态文档导航 class=md-nav__link> 静态文档导航 </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4 type=checkbox id=nav-4 checked> <label class=md-nav__link for=nav-4> Book </label> <nav class=md-nav data-md-component=collapsible data-md-level=1> <label class=md-nav__title for=nav-4> Book </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4-1 type=checkbox id=nav-4-1 checked> <label class=md-nav__link for=nav-4-1> OnJava8 </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-4-1> OnJava8 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../ title="《On Java 8》中文版" class=md-nav__link> 《On Java 8》中文版 </a> </li> <li class=md-nav__item> <a href=../../../CONTRIBUTING/ title=CONTRIBUTING class=md-nav__link> CONTRIBUTING </a> </li> <li class=md-nav__item> <a href=../../../SUMMARY/ title=Summary class=md-nav__link> Summary </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4-1-4 type=checkbox id=nav-4-1-4 checked> <label class=md-nav__link for=nav-4-1-4> Docs </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-4-1-4> Docs </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../ title=译者的话 class=md-nav__link> 译者的话 </a> </li> <li class=md-nav__item> <a href=../../_coverpage/ title=coverpage class=md-nav__link> coverpage </a> </li> <li class=md-nav__item> <a href=../../sidebar/ title=Sidebar class=md-nav__link> Sidebar </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4-1-4-4 type=checkbox id=nav-4-1-4-4> <label class=md-nav__link for=nav-4-1-4-4> style </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-4-1-4-4> style </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4-1-4-4-1 type=checkbox id=nav-4-1-4-4-1> <label class=md-nav__link for=nav-4-1-4-4-1> Prism master </label> <nav class=md-nav data-md-component=collapsible data-md-level=5> <label class=md-nav__title for=nav-4-1-4-4-1> Prism master </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../_style/prism-master/ title=[Prism](http://prismjs.com/) class=md-nav__link> [Prism](http://prismjs.com/) </a> </li> <li class=md-nav__item> <a href=../../_style/prism-master/CHANGELOG/ title="Prism Changelog" class=md-nav__link> Prism Changelog </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-4-1-4-5 type=checkbox id=nav-4-1-4-5 checked> <label class=md-nav__link for=nav-4-1-4-5> Book </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-4-1-4-5> Book </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../00-Introduction/ title=简介 class=md-nav__link> 简介 </a> </li> <li class=md-nav__item> <a href=../00-On-Java-8/ title="00 On Java 8" class=md-nav__link> 00 On Java 8 </a> </li> <li class=md-nav__item> <a href=../00-Preface/ title=前言 class=md-nav__link> 前言 </a> </li> <li class=md-nav__item> <a href=../01-What-is-an-Object/ title="第一章 对象的概念" class=md-nav__link> 第一章 对象的概念 </a> </li> <li class=md-nav__item> <a href=../02-Installing-Java-and-the-Book-Examples/ title="02 Installing Java and the Book Examples" class=md-nav__link> 02 Installing Java and the Book Examples </a> </li> <li class=md-nav__item> <a href=../03-Objects-Everywhere/ title="03 Objects Everywhere" class=md-nav__link> 03 Objects Everywhere </a> </li> <li class=md-nav__item> <a href=../04-Operators/ title="04 Operators" class=md-nav__link> 04 Operators </a> </li> <li class=md-nav__item> <a href=../05-Control-Flow/ title="05 Control Flow" class=md-nav__link> 05 Control Flow </a> </li> <li class=md-nav__item> <a href=../06-Housekeeping/ title="06 Housekeeping" class=md-nav__link> 06 Housekeeping </a> </li> <li class=md-nav__item> <a href=../07-Implementation-Hiding/ title="07 Implementation Hiding" class=md-nav__link> 07 Implementation Hiding </a> </li> <li class=md-nav__item> <a href=../08-Reuse/ title="08 Reuse" class=md-nav__link> 08 Reuse </a> </li> <li class=md-nav__item> <a href=../09-Polymorphism/ title="09 Polymorphism" class=md-nav__link> 09 Polymorphism </a> </li> <li class=md-nav__item> <a href=../10-Interfaces/ title="10 Interfaces" class=md-nav__link> 10 Interfaces </a> </li> <li class="md-nav__item md-nav__item--active"> <input class="md-toggle md-nav__toggle" data-md-toggle=toc type=checkbox id=__toc> <label class="md-nav__link md-nav__link--active" for=__toc> 11 Inner Classes </label> <a href=./ title="11 Inner Classes" class="md-nav__link md-nav__link--active"> 11 Inner Classes </a> <nav class="md-nav md-nav--secondary"> <label class=md-nav__title for=__toc>目录</label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=#_2 class=md-nav__link> 创建内部类 </a> </li> <li class=md-nav__item> <a href=#_3 class=md-nav__link> 链接外部类 </a> </li> <li class=md-nav__item> <a href=#this-new class=md-nav__link> 使用 .this 和 .new </a> </li> <li class=md-nav__item> <a href=#_4 class=md-nav__link> 内部类与向上转型 </a> </li> <li class=md-nav__item> <a href=#_5 class=md-nav__link> 内部类方法和作用域 </a> </li> <li class=md-nav__item> <a href=#_6 class=md-nav__link> 匿名内部类 </a> </li> <li class=md-nav__item> <a href=#_7 class=md-nav__link> 嵌套类 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_8 class=md-nav__link> 接口内部的类 </a> </li> <li class=md-nav__item> <a href=#_9 class=md-nav__link> 从多层嵌套类中访问外部类的成员 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_10 class=md-nav__link> 为什么需要内部类 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_11 class=md-nav__link> 闭包与回调 </a> </li> <li class=md-nav__item> <a href=#_12 class=md-nav__link> 内部类与控制框架 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_13 class=md-nav__link> 继承内部类 </a> </li> <li class=md-nav__item> <a href=#_14 class=md-nav__link> 内部类可以被覆盖么？ </a> </li> <li class=md-nav__item> <a href=#_15 class=md-nav__link> 局部内部类 </a> </li> <li class=md-nav__item> <a href=#_16 class=md-nav__link> 内部类标识符 </a> </li> <li class=md-nav__item> <a href=#_17 class=md-nav__link> 本章小结 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=../12-Collections/ title="12 Collections" class=md-nav__link> 12 Collections </a> </li> <li class=md-nav__item> <a href=../13-Functional-Programming/ title="13 Functional Programming" class=md-nav__link> 13 Functional Programming </a> </li> <li class=md-nav__item> <a href=../14-Streams/ title="14 Streams" class=md-nav__link> 14 Streams </a> </li> <li class=md-nav__item> <a href=../15-Exceptions/ title="15 Exceptions" class=md-nav__link> 15 Exceptions </a> </li> <li class=md-nav__item> <a href=../16-Validating-Your-Code/ title="16 Validating Your Code" class=md-nav__link> 16 Validating Your Code </a> </li> <li class=md-nav__item> <a href=../17-Files/ title="17 Files" class=md-nav__link> 17 Files </a> </li> <li class=md-nav__item> <a href=../18-Strings/ title="18 Strings" class=md-nav__link> 18 Strings </a> </li> <li class=md-nav__item> <a href=../19-Type-Information/ title="19 Type Information" class=md-nav__link> 19 Type Information </a> </li> <li class=md-nav__item> <a href=../20-Generics/ title="20 Generics" class=md-nav__link> 20 Generics </a> </li> <li class=md-nav__item> <a href=../21-Arrays/ title="21 Arrays" class=md-nav__link> 21 Arrays </a> </li> <li class=md-nav__item> <a href=../22-Enumerations/ title="22 Enumerations" class=md-nav__link> 22 Enumerations </a> </li> <li class=md-nav__item> <a href=../23-Annotations/ title="23 Annotations" class=md-nav__link> 23 Annotations </a> </li> <li class=md-nav__item> <a href=../24-Concurrent-Programming/ title="24 Concurrent Programming" class=md-nav__link> 24 Concurrent Programming </a> </li> <li class=md-nav__item> <a href=../25-Patterns/ title="25 Patterns" class=md-nav__link> 25 Patterns </a> </li> <li class=md-nav__item> <a href=../Appendix-Becoming-a-Programmer/ title="Appendix Becoming a Programmer" class=md-nav__link> Appendix Becoming a Programmer </a> </li> <li class=md-nav__item> <a href=../Appendix-Benefits-and-Costs-of-Static-Type-Checking/ title="Appendix Benefits and Costs of Static Type Checking" class=md-nav__link> Appendix Benefits and Costs of Static Type Checking </a> </li> <li class=md-nav__item> <a href=../Appendix-Collection-Topics/ title="Appendix Collection Topics" class=md-nav__link> Appendix Collection Topics </a> </li> <li class=md-nav__item> <a href=../Appendix-Data-Compression/ title="Appendix Data Compression" class=md-nav__link> Appendix Data Compression </a> </li> <li class=md-nav__item> <a href=../Appendix-IO-Streams/ title="Appendix IO Streams" class=md-nav__link> Appendix IO Streams </a> </li> <li class=md-nav__item> <a href=../Appendix-Javadoc/ title="Appendix Javadoc" class=md-nav__link> Appendix Javadoc </a> </li> <li class=md-nav__item> <a href=../Appendix-Low-Level-Concurrency/ title="Appendix Low Level Concurrency" class=md-nav__link> Appendix Low Level Concurrency </a> </li> <li class=md-nav__item> <a href=../Appendix-New-IO/ title="Appendix New IO" class=md-nav__link> Appendix New IO </a> </li> <li class=md-nav__item> <a href=../Appendix-Object-Serialization/ title="Appendix Object Serialization" class=md-nav__link> Appendix Object Serialization </a> </li> <li class=md-nav__item> <a href=../Appendix-Passing-and-Returning-Objects/ title="Appendix Passing and Returning Objects" class=md-nav__link> Appendix Passing and Returning Objects </a> </li> <li class=md-nav__item> <a href=../Appendix-Programming-Guidelines/ title="Appendix Programming Guidelines" class=md-nav__link> Appendix Programming Guidelines </a> </li> <li class=md-nav__item> <a href=../Appendix-Standard-IO/ title="Appendix Standard IO" class=md-nav__link> Appendix Standard IO </a> </li> <li class=md-nav__item> <a href=../Appendix-Supplements/ title="Appendix Supplements" class=md-nav__link> Appendix Supplements </a> </li> <li class=md-nav__item> <a href=../Appendix-The-Positive-Legacy-of-C-plus-plus-and-Java/ title="Appendix The Positive Legacy of C plus plus and Java" class=md-nav__link> Appendix The Positive Legacy of C plus plus and Java </a> </li> <li class=md-nav__item> <a href=../Appendix-Understanding-equals-and-hashCode/ title="Appendix Understanding equals and hashCode" class=md-nav__link> Appendix Understanding equals and hashCode </a> </li> <li class=md-nav__item> <a href=../GLOSSARY/ title=GLOSSARY class=md-nav__link> GLOSSARY </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5 type=checkbox id=nav-5> <label class=md-nav__link for=nav-5> Doc </label> <nav class=md-nav data-md-component=collapsible data-md-level=1> <label class=md-nav__title for=nav-5> Doc </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/ title=About class=md-nav__link> About </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2 type=checkbox id=nav-5-2> <label class=md-nav__link for=nav-5-2> English </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-5-2> English </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1 type=checkbox id=nav-5-2-1> <label class=md-nav__link for=nav-5-2-1> A Programmers Guide to English </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-5-2-1> A Programmers Guide to English </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/ title="A Programmer's Guide to English" class=md-nav__link> A Programmer's Guide to English </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/SUMMARY/ title=Summary class=md-nav__link> Summary </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1-3 type=checkbox id=nav-5-2-1-3> <label class=md-nav__link for=nav-5-2-1-3> Essence </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-1-3> Essence </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/essence/ title=语言学习的本质浅析 class=md-nav__link> 语言学习的本质浅析 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1-4 type=checkbox id=nav-5-2-1-4> <label class=md-nav__link for=nav-5-2-1-4> Make a program </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-1-4> Make a program </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/make-a-program/ title=如何构建一个识别英语的程序 class=md-nav__link> 如何构建一个识别英语的程序 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1-5 type=checkbox id=nav-5-2-1-5> <label class=md-nav__link for=nav-5-2-1-5> Qa </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-1-5> Qa </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/qa/ title="常见问题 QA" class=md-nav__link> 常见问题 QA </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/qa/WhyPTE/ title="为什么我选择 PTE 考试" class=md-nav__link> 为什么我选择 PTE 考试 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1-6 type=checkbox id=nav-5-2-1-6> <label class=md-nav__link for=nav-5-2-1-6> Resources </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-1-6> Resources </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/resources/ title=资料、工具推荐和扩展阅读 class=md-nav__link> 资料、工具推荐和扩展阅读 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-1-7 type=checkbox id=nav-5-2-1-7> <label class=md-nav__link for=nav-5-2-1-7> Training </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-1-7> Training </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/training/ title=我的训练方法 class=md-nav__link> 我的训练方法 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/training/KnowledgeBase/ title=扩充语料库的训练方法 class=md-nav__link> 扩充语料库的训练方法 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/training/ListeningandSpeaking/ title=发音和听力训练方法 class=md-nav__link> 发音和听力训练方法 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/A-Programmers-Guide-to-English/training/Thinking/ title=英语思维训练 class=md-nav__link> 英语思维训练 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-2 type=checkbox id=nav-5-2-2> <label class=md-nav__link for=nav-5-2-2> English level up tips for Chinese </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-5-2-2> English level up tips for Chinese </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/ title=English-level-up-tips-for-Chinese class=md-nav__link> English-level-up-tips-for-Chinese </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/SUMMARY/ title=Summary class=md-nav__link> Summary </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-2-3 type=checkbox id=nav-5-2-2-3> <label class=md-nav__link for=nav-5-2-2-3> Part 1 </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-2-3> Part 1 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-1/1-understanding/ title=认知篇 class=md-nav__link> 认知篇 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-1/2-vocabulary/ title=单词篇 class=md-nav__link> 单词篇 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-1/3-listening/ title=听力篇 class=md-nav__link> 听力篇 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-1/4-reading/ title=阅读篇 class=md-nav__link> 阅读篇 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-1/5-speaking/ title="5 speaking" class=md-nav__link> 5 speaking </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-2-4 type=checkbox id=nav-5-2-2-4> <label class=md-nav__link for=nav-5-2-2-4> Part 2 </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-2-4> Part 2 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/part-2/x-misc/ title=扯淡篇 class=md-nav__link> 扯淡篇 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-2-5 type=checkbox id=nav-5-2-2-5> <label class=md-nav__link for=nav-5-2-2-5> Word list </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-2-2-5> Word list </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/Go/ title=Go class=md-nav__link> Go </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/Java/ title=Java class=md-nav__link> Java </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/JavaScript/ title=JavaScript class=md-nav__link> JavaScript </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/PHP/ title=PHP class=md-nav__link> PHP </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/Python/ title=Python class=md-nav__link> Python </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/English-level-up-tips-for-Chinese/word-list/Swift/ title=Swift class=md-nav__link> Swift </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-2-3 type=checkbox id=nav-5-2-3> <label class=md-nav__link for=nav-5-2-3> Everyone can use english </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-5-2-3> Everyone can use english </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/ title=人人都能用英语 class=md-nav__link> 人人都能用英语 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter1/ title="第一章 起点" class=md-nav__link> 第一章 起点 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter2/ title="第二章 口语" class=md-nav__link> 第二章 口语 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter3/ title="第三章 语音" class=md-nav__link> 第三章 语音 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter4/ title="第四章 朗读" class=md-nav__link> 第四章 朗读 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter5/ title="第五章 词典" class=md-nav__link> 第五章 词典 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter6/ title="第六章 语法" class=md-nav__link> 第六章 语法 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter7/ title="第七章 精读" class=md-nav__link> 第七章 精读 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/chapter8/ title="第八章 叮嘱" class=md-nav__link> 第八章 叮嘱 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/english/everyone-can-use-english/end/ title=后记 class=md-nav__link> 后记 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-3 type=checkbox id=nav-5-3> <label class=md-nav__link for=nav-5-3> Writing </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-5-3> Writing </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-3-1 type=checkbox id=nav-5-3-1> <label class=md-nav__link for=nav-5-3-1> Chinese copywriting guidelines </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-5-3-1> Chinese copywriting guidelines </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/writing/chinese-copywriting-guidelines/ title=中文文案排版指北 class=md-nav__link> 中文文案排版指北 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/chinese-copywriting-guidelines/CHANGELOG/ title=CHANGELOG class=md-nav__link> CHANGELOG </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/chinese-copywriting-guidelines/README.en-US/ title="Chinese Copywriting Guidelines" class=md-nav__link> Chinese Copywriting Guidelines </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/chinese-copywriting-guidelines/README.zh-CN/ title=中文文案排版指北 class=md-nav__link> 中文文案排版指北 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/chinese-copywriting-guidelines/README.zh-HK/ title=中文文案排版指北 class=md-nav__link> 中文文案排版指北 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-3-2 type=checkbox id=nav-5-3-2> <label class=md-nav__link for=nav-5-3-2> Document style guide </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-5-3-2> Document style guide </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/ title=Index class=md-nav__link> Index </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-5-3-2-2 type=checkbox id=nav-5-3-2-2> <label class=md-nav__link for=nav-5-3-2-2> Docs </label> <nav class=md-nav data-md-component=collapsible data-md-level=4> <label class=md-nav__title for=nav-5-3-2-2> Docs </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/marks/ title=标点符号 class=md-nav__link> 标点符号 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/number/ title=数值 class=md-nav__link> 数值 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/paragraph/ title=段落 class=md-nav__link> 段落 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/reference/ title=参考链接 class=md-nav__link> 参考链接 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/structure/ title=文档体系 class=md-nav__link> 文档体系 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/text/ title=文本 class=md-nav__link> 文本 </a> </li> <li class=md-nav__item> <a href=../../../../../doc/writing/document-style-guide/docs/title/ title=标题 class=md-nav__link> 标题 </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6 type=checkbox id=nav-6> <label class=md-nav__link for=nav-6> Life </label> <nav class=md-nav data-md-component=collapsible data-md-level=1> <label class=md-nav__title for=nav-6> Life </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6-1 type=checkbox id=nav-6-1> <label class=md-nav__link for=nav-6-1> Reading </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-6-1> Reading </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../life/reading/ title=阅读 class=md-nav__link> 阅读 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6-1-2 type=checkbox id=nav-6-1-2> <label class=md-nav__link for=nav-6-1-2> Mark </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-6-1-2> Mark </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../life/reading/mark/back-up/ title="2019 暑假备份" class=md-nav__link> 2019 暑假备份 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/back/ title=例行收集 class=md-nav__link> 例行收集 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/efficiency-time/ title=效率、时间、鸡汤 class=md-nav__link> 效率、时间、鸡汤 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/fiction/ title=小说 class=md-nav__link> 小说 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/films-remark/ title=影评、电影 class=md-nav__link> 影评、电影 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/fo/ title=佛 class=md-nav__link> 佛 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/hackers-others/ title=互联网、思维方式 class=md-nav__link> 互联网、思维方式 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/hooked-media/ title=媒介反思 class=md-nav__link> 媒介反思 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/isaka-kotaro/ title=伊坂幸太郎 class=md-nav__link> 伊坂幸太郎 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/knote/ title=整理 class=md-nav__link> 整理 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/mark-knote/ title=浪费时间 class=md-nav__link> 浪费时间 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/meaning/ title=思维方式 class=md-nav__link> 思维方式 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/morimi-tomihiko/ title=森见登美彦的文字好有趣啊! class=md-nav__link> 森见登美彦的文字好有趣啊! </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/murakamo-haruki/ title=村上春树 class=md-nav__link> 村上春树 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/no-fiction/ title=非虚构类 class=md-nav__link> 非虚构类 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/paper/ title=论文式总结 class=md-nav__link> 论文式总结 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/poem/ title=诗歌 class=md-nav__link> 诗歌 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/sence/ title=哲学相关通俗读物 class=md-nav__link> 哲学相关通俗读物 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/the-little-prince/ title="The Little Prince" class=md-nav__link> The Little Prince </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/universe/ title=物理科普读物 class=md-nav__link> 物理科普读物 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/utopia/ title=乌托邦小说世界关于书籍的冷幽默 class=md-nav__link> 乌托邦小说世界关于书籍的冷幽默 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/western-politics/ title=政哲 class=md-nav__link> 政哲 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/what-we-talk-about/ title=日本文学 class=md-nav__link> 日本文学 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/wuxia/ title=武侠 class=md-nav__link> 武侠 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/mark/xiao-bo/ title=王小波 class=md-nav__link> 王小波 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6-1-3 type=checkbox id=nav-6-1-3> <label class=md-nav__link for=nav-6-1-3> Note </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-6-1-3> Note </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../life/reading/note/2017-09-02-book-JavaScript-DOM/ title="《JavaScript DOM 编程艺术》" class=md-nav__link> 《JavaScript DOM 编程艺术》 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/note/2017-09-09-coding-javascript-down/ title="尽量把 JavaScript 代码放到 HTML 网页底部" class=md-nav__link> 尽量把 JavaScript 代码放到 HTML 网页底部 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/note/2018-05-23-HTTP/ title="《HTTP 图解》" class=md-nav__link> 《HTTP 图解》 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/note/2018-06-07-computer/ title=计算机系统基础 class=md-nav__link> 计算机系统基础 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/note/2018-10-09-JVM/ title="JVM 笔记" class=md-nav__link> JVM 笔记 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/note/2018-11-25-computer/ title=计算机系统概论 class=md-nav__link> 计算机系统概论 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6-1-4 type=checkbox id=nav-6-1-4> <label class=md-nav__link for=nav-6-1-4> Review </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-6-1-4> Review </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../life/reading/review/2017-09-28-say-something/ title=听你吹牛的闲暇时光 class=md-nav__link> 听你吹牛的闲暇时光 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/review/2017-09-29-wuxia/ title="《流星 蝴蝶 剑》简记" class=md-nav__link> 《流星 蝴蝶 剑》简记 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/review/2017-12-30-xiao-bo/ title=波波老师 class=md-nav__link> 波波老师 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/review/2018-01-17-lai-zi-xin-shi-jie/ title=《来自新世界》 class=md-nav__link> 《来自新世界》 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/review/2018-10-06-October/ title=科普谈起 class=md-nav__link> 科普谈起 </a> </li> <li class=md-nav__item> <a href=../../../../../life/reading/review/2019-09-07-story/ title=从网络小说谈起。 class=md-nav__link> 从网络小说谈起。 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-6-2 type=checkbox id=nav-6-2> <label class=md-nav__link for=nav-6-2> Watching </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-6-2> Watching </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../life/watching/2017-08-29-watch-movies-rencently/ title=最近看的几部电影 class=md-nav__link> 最近看的几部电影 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2017-10-13-september-movies-record/ title=九月观影记录 class=md-nav__link> 九月观影记录 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2017-11-01-October-summary/ title=十月看片与非专业类阅读 class=md-nav__link> 十月看片与非专业类阅读 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2017-12-01-1112/ title=观影与阅读记录 class=md-nav__link> 观影与阅读记录 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2018-01-10-12/ title=最近看片与阅读 class=md-nav__link> 最近看片与阅读 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2018-02-06-january/ title=一月观影记录 class=md-nav__link> 一月观影记录 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2018-03-08-February/ title=二月至今观影记录 class=md-nav__link> 二月至今观影记录 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2018-03-31-March/ title=三月观影记录 class=md-nav__link> 三月观影记录 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2018-12-26-Smultronst%C3%A4llet/ title=野草莓 class=md-nav__link> 野草莓 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2019-10-10-October/ title=克服本能就是善良吗？（从十月新番胡扯……） class=md-nav__link> 克服本能就是善良吗？（从十月新番胡扯……） </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2019-11-04-bgm/ title=无人声环 class=md-nav__link> 无人声环 </a> </li> <li class=md-nav__item> <a href=../../../../../life/watching/2019-11-13-the-end-of-the-world/ title="The End of the Fucking World" class=md-nav__link> The End of the Fucking World </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-7 type=checkbox id=nav-7> <label class=md-nav__link for=nav-7> Study </label> <nav class=md-nav data-md-component=collapsible data-md-level=1> <label class=md-nav__title for=nav-7> Study </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-7-1 type=checkbox id=nav-7-1> <label class=md-nav__link for=nav-7-1> Draft </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-7-1> Draft </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../study/draft/try-wiki/ title="一些 Wiki 工具的尝试" class=md-nav__link> 一些 Wiki 工具的尝试 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-7-2 type=checkbox id=nav-7-2> <label class=md-nav__link for=nav-7-2> Language </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-7-2> Language </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../study/language/%E6%97%A5%E8%AF%AD%E5%85%A5%E9%97%A8/ title=日语入门 class=md-nav__link> 日语入门 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8 type=checkbox id=nav-8> <label class=md-nav__link for=nav-8> Tech </label> <nav class=md-nav data-md-component=collapsible data-md-level=1> <label class=md-nav__title for=nav-8> Tech </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1 type=checkbox id=nav-8-1> <label class=md-nav__link for=nav-8-1> Code </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-8-1> Code </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1-1 type=checkbox id=nav-8-1-1> <label class=md-nav__link for=nav-8-1-1> Frontend </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-1-1> Frontend </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/code/frontend/2017-09-14-easy-web-test/ title=大表哥的电商网页实战体验 class=md-nav__link> 大表哥的电商网页实战体验 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/frontend/2017-09-23-know-nothing/ title=知其然不知其所以然 class=md-nav__link> 知其然不知其所以然 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/frontend/2018-06-08-responsive/ title=大表哥的响应式设计 class=md-nav__link> 大表哥的响应式设计 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/frontend/zh-javascript-info/ title="现代 JavaScript 教程摘录" class=md-nav__link> 现代 JavaScript 教程摘录 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1-2 type=checkbox id=nav-8-1-2> <label class=md-nav__link for=nav-8-1-2> Go </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-1-2> Go </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/code/go/01/ title=01 class=md-nav__link> 01 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1-3 type=checkbox id=nav-8-1-3> <label class=md-nav__link for=nav-8-1-3> Java </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-1-3> Java </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/code/java/2017-12-30-Java%20Web/ title="从 url 访问服务器资源讨论 Java Web 中的 Servlet" class=md-nav__link> 从 url 访问服务器资源讨论 Java Web 中的 Servlet </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2018-11-23-ArrayList/ title=ArrayList class=md-nav__link> ArrayList </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-01-31-HashMap/ title=HashMap class=md-nav__link> HashMap </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-02-01-String/ title="String 分析(栈,堆,字符串常量池)" class=md-nav__link> String 分析(栈,堆,字符串常量池) </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-02-03-String/ title=String、StringBuffer、StingBuilder class=md-nav__link> String、StringBuffer、StingBuilder </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-02-06-Hashtable/ title=Hashtable class=md-nav__link> Hashtable </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-03-22-string-pool/ title=字符串常量池到底保存的是字符串对象还是字符串对象的引用? class=md-nav__link> 字符串常量池到底保存的是字符串对象还是字符串对象的引用? </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-03-23-Java-Thread-pool/ title="Java 线程池" class=md-nav__link> Java 线程池 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-03-29-Java%20Web/ title="Java Web 启动流程" class=md-nav__link> Java Web 启动流程 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/java/2019-04-05-AQS-lock/ title="AQS 与 Java 锁的具体实现" class=md-nav__link> AQS 与 Java 锁的具体实现 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1-4 type=checkbox id=nav-8-1-4> <label class=md-nav__link for=nav-8-1-4> Projects </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-1-4> Projects </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/code/projects/2018-05-07-big-data/ title="大数据 Demo （采集、处理、应用）复盘" class=md-nav__link> 大数据 Demo （采集、处理、应用）复盘 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-1-5 type=checkbox id=nav-8-1-5> <label class=md-nav__link for=nav-8-1-5> Spring </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-1-5> Spring </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/code/spring/2018-09-01-Spring%20Security/ title="Spring Boot 与 Spring Security" class=md-nav__link> Spring Boot 与 Spring Security </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/spring/2019-03-29-Spring-init/ title="Spring 启动流程与简单源码分析" class=md-nav__link> Spring 启动流程与简单源码分析 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/code/spring/2019-04-06-Spring-MVC/ title="Spring MVC 简单源码分析" class=md-nav__link> Spring MVC 简单源码分析 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-2 type=checkbox id=nav-8-2> <label class=md-nav__link for=nav-8-2> Config </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-8-2> Config </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-2-1 type=checkbox id=nav-8-2-1> <label class=md-nav__link for=nav-8-2-1> Git </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-2-1> Git </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/config/git/2018-02-01-git/ title="Git 的简单使用" class=md-nav__link> Git 的简单使用 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/git/2019-08-10-git-merge/ title="Git 协作管理项目时不可避免的 merge 操作" class=md-nav__link> Git 协作管理项目时不可避免的 merge 操作 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/git/submodule/ title=submodule class=md-nav__link> submodule </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-2-2 type=checkbox id=nav-8-2-2> <label class=md-nav__link for=nav-8-2-2> Linux </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-2-2> Linux </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/config/linux/2019-12-18-manjaro/ title="Manjaro 个人新装配置" class=md-nav__link> Manjaro 个人新装配置 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/linux/2020-02-23-archer-s-arch/ title="Archer`s Arch" class=md-nav__link> Archer`s Arch </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/linux/fontconfig/ title="Arch Emoji fontconfig" class=md-nav__link> Arch Emoji fontconfig </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/linux/softwares/ title=各种工具 class=md-nav__link> 各种工具 </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-2-3 type=checkbox id=nav-8-2-3> <label class=md-nav__link for=nav-8-2-3> Tools </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-2-3> Tools </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/config/tools/cz-conventional-changelog/ title=cz-conventional-changelog class=md-nav__link> cz-conventional-changelog </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-2-4 type=checkbox id=nav-8-2-4> <label class=md-nav__link for=nav-8-2-4> Undefined </label> <nav class=md-nav data-md-component=collapsible data-md-level=3> <label class=md-nav__title for=nav-8-2-4> Undefined </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2018-03-31-Generator-SpringBoot-Gradle/ title="MyBatis Generator + Spring Boot + Gradle 配置" class=md-nav__link> MyBatis Generator + Spring Boot + Gradle 配置 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2018-06-25-VS-Code-Python/ title="VS Code 写 Python" class=md-nav__link> VS Code 写 Python </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2018-06-26-linux-kawa/ title="在 Linux 上使用 kawa" class=md-nav__link> 在 Linux 上使用 kawa </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2018-11-25-mysql/ title="【转】在 CentOS 上部署 MySQL 解压版" class=md-nav__link> 【转】在 CentOS 上部署 MySQL 解压版 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2019-04-03-Redis-lock/ title="Redis 的分布式锁实现" class=md-nav__link> Redis 的分布式锁实现 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2019-07-28-picGo/ title="Github + picGo ——有图床了" class=md-nav__link> Github + picGo ——有图床了 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2019-11-18-linux-mount/ title="Linux 挂载分区/磁盘" class=md-nav__link> Linux 挂载分区/磁盘 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-02-03-terminal-wifi/ title=把显卡驱动删了后在终端连热点 class=md-nav__link> 把显卡驱动删了后在终端连热点 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-02-12-css/ title=一个引号引发的惨案 class=md-nav__link> 一个引号引发的惨案 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-02-23-archer-s-arch/ title="Archer`s Arch" class=md-nav__link> Archer`s Arch </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-03-12-electron-vue/ title="用 Vue 写 Electron 的一次问题解决" class=md-nav__link> 用 Vue 写 Electron 的一次问题解决 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-03-12-ttrss/ title="部署 TTRSS 遇到的一些有趣的东西" class=md-nav__link> 部署 TTRSS 遇到的一些有趣的东西 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/config/undefined/2020-04-02-hexo-asset-image/ title="hexo-next-theme 开启 lazyload 使用 hexo-asset-image 出问题了" class=md-nav__link> hexo-next-theme 开启 lazyload 使用 hexo-asset-image 出问题了 </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-3 type=checkbox id=nav-8-3> <label class=md-nav__link for=nav-8-3> Project </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-8-3> Project </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/project/2017-12-21-xiao-zong-jie/ title=做个小小的总结 class=md-nav__link> 做个小小的总结 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2018-05-07-big-data/ title="大数据 Demo （采集、处理、应用）复盘" class=md-nav__link> 大数据 Demo （采集、处理、应用）复盘 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2018-06-25-tencent-news-spider-py/ title=腾讯新闻爬虫 class=md-nav__link> 腾讯新闻爬虫 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2018-09-13-lite-terminal-home-page/ title=简单的仿终端主页 class=md-nav__link> 简单的仿终端主页 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-01-11-tank/ title=花里胡哨的坦克大战 class=md-nav__link> 花里胡哨的坦克大战 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-02-05-new-year/ title=大年初一（爬取豆瓣条目及吐槽） class=md-nav__link> 大年初一（爬取豆瓣条目及吐槽） </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-04-03-blog-project/ title=写博客 class=md-nav__link> 写博客 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-06-17-nodejs/ title="MarkAll 导入豆瓣数据 —— NodeJS 写爬虫" class=md-nav__link> MarkAll 导入豆瓣数据 —— NodeJS 写爬虫 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-11-15-Autumn-Json/ title="Autumn-From-Spring 自定义 BeanDefinitionReader" class=md-nav__link> Autumn-From-Spring 自定义 BeanDefinitionReader </a> </li> <li class=md-nav__item> <a href=../../../../../tech/project/2019-11-15-bookmarkdown/ title="Chrome 插件——书签转 MarkDown" class=md-nav__link> Chrome 插件——书签转 MarkDown </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-toggle md-nav__toggle" data-md-toggle=nav-8-4 type=checkbox id=nav-8-4> <label class=md-nav__link for=nav-8-4> Undefined </label> <nav class=md-nav data-md-component=collapsible data-md-level=2> <label class=md-nav__title for=nav-8-4> Undefined </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../tech/undefined/2017-08-10-then-start/ title=那就开始吧 class=md-nav__link> 那就开始吧 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2017-08-16-Writing-is%20the-reward-of-writing-itself/ title=写就是写本身的报酬 class=md-nav__link> 写就是写本身的报酬 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2017-11-19-change-my-blog/ title=【过时内容】嘿，我转移博客啦！ class=md-nav__link> 【过时内容】嘿，我转移博客啦！ </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2017-12-08-yao-guai-ji-yu-you-ren-bo/ title=妖怪唧唧与友人波波 class=md-nav__link> 妖怪唧唧与友人波波 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-01-01-ubuntu/ title="折腾 ubuntu 与 win10 共存" class=md-nav__link> 折腾 ubuntu 与 win10 共存 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-02-09-pc-system/ title="黑苹果与 Ubuntu 及 PC 折腾系统" class=md-nav__link> 黑苹果与 Ubuntu 及 PC 折腾系统 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-03-12-install-Vmware-on-linux/ title="deepin 安装 VMware" class=md-nav__link> deepin 安装 VMware </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-03-31-SQL/ title="Spring Boot 开发遇到一些 SQL 问题" class=md-nav__link> Spring Boot 开发遇到一些 SQL 问题 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-04-06-jquery-confrim/ title="JQuery-Confrim 的一点问题" class=md-nav__link> JQuery-Confrim 的一点问题 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-04-06-some-plugins/ title="ECharts + PageHelper + Bootstrap Table" class=md-nav__link> ECharts + PageHelper + Bootstrap Table </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-04-09-js-in-thymeleaf/ title="Thymeleaf 里使用 JavaScript 时的注意事项" class=md-nav__link> Thymeleaf 里使用 JavaScript 时的注意事项 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-04-09-spring-boot-gradle-yml-log4j2/ title="Spring Boot + Gradle + yml 配置 log4j2" class=md-nav__link> Spring Boot + Gradle + yml 配置 log4j2 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-05-09-softwares/ title="Linux 常用软件" class=md-nav__link> Linux 常用软件 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-05-30-hexo-image/ title="【可能过时】Hexo 一点问题（生成博文插入本地图片,修改文章路径）" class=md-nav__link> 【可能过时】Hexo 一点问题（生成博文插入本地图片,修改文章路径） </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-05-30-show/ title=如果给文章提供多种渲染方式 class=md-nav__link> 如果给文章提供多种渲染方式 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-08-30-vue-music/ title="简单的单页应用(Vue CLI2 的简单使用)" class=md-nav__link> 简单的单页应用(Vue CLI2 的简单使用) </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2018-09-23-word-count/ title="WordCount 项目总结" class=md-nav__link> WordCount 项目总结 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2020-02-06-markall-douban-backup/ title=豆瓣标记数据备份插件 class=md-nav__link> 豆瓣标记数据备份插件 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2020-02-07-markall-douban-backup-yes/ title=【过时】又一个——豆瓣标记数据备份插件 class=md-nav__link> 【过时】又一个——豆瓣标记数据备份插件 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/2020-02-13-blog/ title=从分析本网站的网络请求谈起 class=md-nav__link> 从分析本网站的网络请求谈起 </a> </li> <li class=md-nav__item> <a href=../../../../../tech/undefined/draft/ title=Draft class=md-nav__link> Draft </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary"> <label class=md-nav__title for=__toc>目录</label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=#_2 class=md-nav__link> 创建内部类 </a> </li> <li class=md-nav__item> <a href=#_3 class=md-nav__link> 链接外部类 </a> </li> <li class=md-nav__item> <a href=#this-new class=md-nav__link> 使用 .this 和 .new </a> </li> <li class=md-nav__item> <a href=#_4 class=md-nav__link> 内部类与向上转型 </a> </li> <li class=md-nav__item> <a href=#_5 class=md-nav__link> 内部类方法和作用域 </a> </li> <li class=md-nav__item> <a href=#_6 class=md-nav__link> 匿名内部类 </a> </li> <li class=md-nav__item> <a href=#_7 class=md-nav__link> 嵌套类 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_8 class=md-nav__link> 接口内部的类 </a> </li> <li class=md-nav__item> <a href=#_9 class=md-nav__link> 从多层嵌套类中访问外部类的成员 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_10 class=md-nav__link> 为什么需要内部类 </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_11 class=md-nav__link> 闭包与回调 </a> </li> <li class=md-nav__item> <a href=#_12 class=md-nav__link> 内部类与控制框架 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_13 class=md-nav__link> 继承内部类 </a> </li> <li class=md-nav__item> <a href=#_14 class=md-nav__link> 内部类可以被覆盖么？ </a> </li> <li class=md-nav__item> <a href=#_15 class=md-nav__link> 局部内部类 </a> </li> <li class=md-nav__item> <a href=#_16 class=md-nav__link> 内部类标识符 </a> </li> <li class=md-nav__item> <a href=#_17 class=md-nav__link> 本章小结 </a> </li> </ul> </nav> </div> </div> </div> <div class=md-content> <article class="md-content__inner md-typeset"> <a href=https://github.com/hqweay/my-mkdocs/edit/master/docs/book/OnJava8/docs/book/11-Inner-Classes.md title=编辑此页 class="md-icon md-content__icon">&#xE3C9;</a> <div class=toc> <ul> <li><a href=#_1>第十一章 内部类</a><ul> <li><a href=#_2>创建内部类</a></li> <li><a href=#_3>链接外部类</a></li> <li><a href=#this-new>使用 .this 和 .new</a></li> <li><a href=#_4>内部类与向上转型</a></li> <li><a href=#_5>内部类方法和作用域</a></li> <li><a href=#_6>匿名内部类</a></li> <li><a href=#_7>嵌套类</a><ul> <li><a href=#_8>接口内部的类</a></li> <li><a href=#_9>从多层嵌套类中访问外部类的成员</a></li> </ul> </li> <li><a href=#_10>为什么需要内部类</a><ul> <li><a href=#_11>闭包与回调</a></li> <li><a href=#_12>内部类与控制框架</a></li> </ul> </li> <li><a href=#_13>继承内部类</a></li> <li><a href=#_14>内部类可以被覆盖么？</a></li> <li><a href=#_15>局部内部类</a></li> <li><a href=#_16>内部类标识符</a></li> <li><a href=#_17>本章小结</a></li> </ul> </li> </ul> </div> <!-- Inner Classes --> <h1 id=_1>第十一章 内部类<a class=headerlink href=#_1 title="Permanent link">#</a></h1> <blockquote> <p>一个定义在另一个类中的类，叫作内部类。</p> </blockquote> <p>内部类是一种非常有用的特性，因为它允许你把一些逻辑相关的类组织在一起，并控制位于内部的类的可见性。然而必须要了解，内部类与组合是完全不同的概念，这一点很重要。在最初，内部类看起来就像是一种代码隐藏机制：将类置于其他类的内部。但是，你将会了解到，内部类远不止如此，它了解外部类，并能与之通信，而且你用内部类写出的代码更加优雅而清晰，尽管并不总是这样（而且 Java 8 的 Lambda 表达式和方法引用减少了编写内部类的需求）。</p> <p>最初，内部类可能看起来有些奇怪，而且要花些时间才能在设计中轻松地使用它们。对内部类的需求并非总是很明显的，但是在描述完内部类的基本语法与语义之后，"Why inner classes?"就应该使得内部类的益处明确显现了。</p> <p>本章剩余部分包含了对内部类语法更加详尽的探索，这些特性是为了语言的完备性而设计的，但是你也许不需要使用它们，至少一开始不需要。因此，本章最初的部分也许就是你现在所需的全部，你可以将更详尽的探索当作参考资料。</p> <!-- Creating Inner Classes --> <h2 id=_2>创建内部类<a class=headerlink href=#_2 title="Permanent link">#</a></h2> <p>创建内部类的方式就如同你想的一样——把类的定义置于外部类的里面：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Parcel1.java</span>
+<span class=c1>// Creating inner classes</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Parcel1</span> <span class=p>{</span>
+    <span class=kd>class</span> <span class=nc>Contents</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>11</span><span class=p>;</span>
+
+        <span class=kd>public</span> <span class=kt>int</span> <span class=nf>value</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>i</span><span class=p>;</span> <span class=p>}</span>
+    <span class=p>}</span>
+
+    <span class=kd>class</span> <span class=nc>Destination</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=n>String</span> <span class=n>label</span><span class=p>;</span>
+
+        <span class=n>Destination</span><span class=p>(</span><span class=n>String</span> <span class=n>whereTo</span><span class=p>)</span> <span class=p>{</span>
+            <span class=n>label</span> <span class=o>=</span> <span class=n>whereTo</span><span class=p>;</span>
+        <span class=p>}</span>
+
+        <span class=n>String</span> <span class=nf>readLabel</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>label</span><span class=p>;</span> <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=c1>// Using inner classes looks just like</span>
+    <span class=c1>// using any other class, within Parcel1:</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>ship</span><span class=p>(</span><span class=n>String</span> <span class=n>dest</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Contents</span> <span class=n>c</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Contents</span><span class=p>();</span>
+        <span class=n>Destination</span> <span class=n>d</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Destination</span><span class=p>(</span><span class=n>dest</span><span class=p>);</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>d</span><span class=p>.</span><span class=na>readLabel</span><span class=p>());</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Parcel1</span> <span class=n>p</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Parcel1</span><span class=p>();</span>
+        <span class=n>p</span><span class=p>.</span><span class=na>ship</span><span class=p>(</span><span class=s>&quot;Tasmania&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出为：</p> <div class=highlight><pre><span></span><code>Tasmania
+</code></pre></div> <p>当我们在 <code>ship()</code> 方法里面使用内部类的时候，与使用普通类没什么不同。在这里，明显的区别只是内部类的名字是嵌套在 <strong>Parcel1</strong> 里面的。</p> <p>更典型的情况是，外部类将有一个方法，该方法返回一个指向内部类的引用，就像在 <code>to()</code> 和 <code>contents()</code> 方法中看到的那样：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Parcel2.java</span>
+<span class=c1>// Returning a reference to an inner class</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Parcel2</span> <span class=p>{</span>
+    <span class=kd>class</span> <span class=nc>Contents</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>11</span><span class=p>;</span>
+
+        <span class=kd>public</span> <span class=kt>int</span> <span class=nf>value</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>i</span><span class=p>;</span> <span class=p>}</span>
+    <span class=p>}</span>
+
+    <span class=kd>class</span> <span class=nc>Destination</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=n>String</span> <span class=n>label</span><span class=p>;</span>
+
+        <span class=n>Destination</span><span class=p>(</span><span class=n>String</span> <span class=n>whereTo</span><span class=p>)</span> <span class=p>{</span>
+            <span class=n>label</span> <span class=o>=</span> <span class=n>whereTo</span><span class=p>;</span>
+        <span class=p>}</span>
+
+        <span class=n>String</span> <span class=nf>readLabel</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>label</span><span class=p>;</span> <span class=p>}</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=n>Destination</span> <span class=nf>to</span><span class=p>(</span><span class=n>String</span> <span class=n>s</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>Destination</span><span class=p>(</span><span class=n>s</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=n>Contents</span> <span class=nf>contents</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>Contents</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>ship</span><span class=p>(</span><span class=n>String</span> <span class=n>dest</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Contents</span> <span class=n>c</span> <span class=o>=</span> <span class=n>contents</span><span class=p>();</span>
+        <span class=n>Destination</span> <span class=n>d</span> <span class=o>=</span> <span class=n>to</span><span class=p>(</span><span class=n>dest</span><span class=p>);</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>d</span><span class=p>.</span><span class=na>readLabel</span><span class=p>());</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Parcel2</span> <span class=n>p</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Parcel2</span><span class=p>();</span>
+        <span class=n>p</span><span class=p>.</span><span class=na>ship</span><span class=p>(</span><span class=s>&quot;Tasmania&quot;</span><span class=p>);</span>
+        <span class=n>Parcel2</span> <span class=n>q</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Parcel2</span><span class=p>();</span>
+        <span class=c1>// Defining references to inner classes:</span>
+        <span class=n>Parcel2</span><span class=p>.</span><span class=na>Contents</span> <span class=n>c</span> <span class=o>=</span> <span class=n>q</span><span class=p>.</span><span class=na>contents</span><span class=p>();</span>
+        <span class=n>Parcel2</span><span class=p>.</span><span class=na>Destination</span> <span class=n>d</span> <span class=o>=</span> <span class=n>q</span><span class=p>.</span><span class=na>to</span><span class=p>(</span><span class=s>&quot;Borneo&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出为：</p> <div class=highlight><pre><span></span><code>Tasmania
+</code></pre></div> <p>如果想从外部类的非静态方法之外的任意位置创建某个内部类的对象，那么必须像在 <code>main()</code> 方法中那样，具体地指明这个对象的类型：<em>OuterClassName.InnerClassName</em>。(译者注：在外部类的静态方法中也可以直接指明类型 <em>InnerClassName</em>，在其他类中需要指明 <em>OuterClassName.InnerClassName</em>。)</p> <!-- The Link to the Outer Class --> <h2 id=_3>链接外部类<a class=headerlink href=#_3 title="Permanent link">#</a></h2> <p>到目前为止，内部类似乎还只是一种名字隐藏和组织代码的模式。这些是很有用，但还不是最引人注目的，它还有其他的用途。当生成一个内部类的对象时，此对象与制造它的外部对象（enclosing object）之间就有了一种联系，所以它能访问其外部对象的所有成员，而不需要任何特殊条件。此外，内部类还拥有其外部类的所有元素的访问权。</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Sequence.java</span>
+<span class=c1>// Holds a sequence of Objects</span>
+<span class=kd>interface</span> <span class=nc>Selector</span> <span class=p>{</span>
+    <span class=kt>boolean</span> <span class=nf>end</span><span class=p>();</span>
+    <span class=n>Object</span> <span class=nf>current</span><span class=p>();</span>
+    <span class=kt>void</span> <span class=nf>next</span><span class=p>();</span>
+<span class=p>}</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Sequence</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=n>Object</span><span class=o>[]</span> <span class=n>items</span><span class=p>;</span>
+    <span class=kd>private</span> <span class=kt>int</span> <span class=n>next</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+    <span class=kd>public</span> <span class=nf>Sequence</span><span class=p>(</span><span class=kt>int</span> <span class=n>size</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>items</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Object</span><span class=o>[</span><span class=n>size</span><span class=o>]</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>add</span><span class=p>(</span><span class=n>Object</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>if</span><span class=p>(</span><span class=n>next</span> <span class=o>&lt;</span> <span class=n>items</span><span class=p>.</span><span class=na>length</span><span class=p>)</span>
+            <span class=n>items</span><span class=o>[</span><span class=n>next</span><span class=o>++]</span> <span class=o>=</span> <span class=n>x</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=kd>private</span> <span class=kd>class</span> <span class=nc>SequenceSelector</span> <span class=kd>implements</span> <span class=n>Selector</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>boolean</span> <span class=nf>end</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>i</span> <span class=o>==</span> <span class=n>items</span><span class=p>.</span><span class=na>length</span><span class=p>;</span> <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=n>Object</span> <span class=nf>current</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>items</span><span class=o>[</span><span class=n>i</span><span class=o>]</span><span class=p>;</span> <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>next</span><span class=p>()</span> <span class=p>{</span> <span class=k>if</span><span class=p>(</span><span class=n>i</span> <span class=o>&lt;</span> <span class=n>items</span><span class=p>.</span><span class=na>length</span><span class=p>)</span> <span class=n>i</span><span class=o>++</span><span class=p>;</span> <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=n>Selector</span> <span class=nf>selector</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>SequenceSelector</span><span class=p>();</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Sequence</span> <span class=n>sequence</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Sequence</span><span class=p>(</span><span class=mi>10</span><span class=p>);</span>
+        <span class=k>for</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>10</span><span class=p>;</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span>
+            <span class=n>sequence</span><span class=p>.</span><span class=na>add</span><span class=p>(</span><span class=n>Integer</span><span class=p>.</span><span class=na>toString</span><span class=p>(</span><span class=n>i</span><span class=p>));</span>
+        <span class=n>Selector</span> <span class=n>selector</span> <span class=o>=</span> <span class=n>sequence</span><span class=p>.</span><span class=na>selector</span><span class=p>();</span>
+        <span class=k>while</span><span class=p>(</span><span class=o>!</span><span class=n>selector</span><span class=p>.</span><span class=na>end</span><span class=p>())</span> <span class=p>{</span>
+            <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>print</span><span class=p>(</span><span class=n>selector</span><span class=p>.</span><span class=na>current</span><span class=p>()</span> <span class=o>+</span> <span class=s>&quot; &quot;</span><span class=p>);</span>
+            <span class=n>selector</span><span class=p>.</span><span class=na>next</span><span class=p>();</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出为：</p> <div class=highlight><pre><span></span><code>0 1 2 3 4 5 6 7 8 9
+</code></pre></div> <p><strong>Sequence</strong> 类只是一个固定大小的 <strong>Object</strong> 的数组，以类的形式包装了起来。可以调用 <code>add()</code> 在序列末尾增加新的 <strong>Object</strong>（只要还有空间），要获取 <strong>Sequence</strong> 中的每一个对象，可以使用 <strong>Selector</strong> 接口。这是“迭代器”设计模式的一个例子，在本书稍后的部分将更多地学习它。<strong>Selector</strong> 允许你检查序列是否到末尾了（<code>end()</code>），访问当前对象（<code>current()</code>），以及移到序列中的下一个对象（<code>next()</code>）。因为 <strong>Selector</strong> 是一个接口，所以别的类可以按它们自己的方式来实现这个接口，并且其他方法能以此接口为参数，来生成更加通用的代码。</p> <p>这里，<strong>SequenceSelector</strong> 是提供 <strong>Selector</strong> 功能的 <strong>private</strong> 类。可以看到，在 <code>main()</code> 中创建了一个 <strong>Sequence</strong>，并向其中添加了一些 <strong>String</strong> 对象。然后通过调用 <code>selector()</code> 获取一个 <strong>Selector</strong>，并用它在 <strong>Sequence</strong> 中移动和选择每一个元素。 最初看到 <strong>SequenceSelector</strong>，可能会觉得它只不过是另一个内部类罢了。但请仔细观察它，注意方法 <code>end()</code>，<code>current()</code> 和 <code>next()</code> 都用到了 <strong>items</strong>，这是一个引用，它并不是 <strong>SequenceSelector</strong> 的一部分，而是外部类中的一个 <strong>private</strong> 字段。然而内部类可以访问其外部类的方法和字段，就像自己拥有它们似的，这带来了很大的方便，就如前面的例子所示。</p> <p>所以内部类自动拥有对其外部类所有成员的访问权。这是如何做到的呢？当某个外部类的对象创建了一个内部类对象时，此内部类对象必定会秘密地捕获一个指向那个外部类对象的引用。然后，在你访问此外部类的成员时，就是用那个引用来选择外部类的成员。幸运的是，编译器会帮你处理所有的细节，但你现在可以看到：内部类的对象只能在与其外部类的对象相关联的情况下才能被创建（就像你应该看到的，内部类是非 <strong>static</strong> 类时）。构建内部类对象时，需要一个指向其外部类对象的引用，如果编译器访问不到这个引用就会报错。不过绝大多数时候这都无需程序员操心。</p> <!-- Using .this and .new --> <h2 id=this-new>使用 .this 和 .new<a class=headerlink href=#this-new title="Permanent link">#</a></h2> <p>如果你需要生成对外部类对象的引用，可以使用外部类的名字后面紧跟圆点和 <strong>this</strong>。这样产生的引用自动地具有正确的类型，这一点在编译期就被知晓并受到检查，因此没有任何运行时开销。下面的示例展示了如何使用 <strong>.this</strong>：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/DotThis.java</span>
+<span class=c1>// Accessing the outer-class object</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>DotThis</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span> <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;DotThis.f()&quot;</span><span class=p>);</span> <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>Inner</span> <span class=p>{</span>
+        <span class=kd>public</span> <span class=n>DotThis</span> <span class=nf>outer</span><span class=p>()</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=n>DotThis</span><span class=p>.</span><span class=na>this</span><span class=p>;</span>
+            <span class=c1>// A plain &quot;this&quot; would be Inner&#39;s &quot;this&quot;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=n>Inner</span> <span class=nf>inner</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=k>new</span> <span class=n>Inner</span><span class=p>();</span> <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>DotThis</span> <span class=n>dt</span> <span class=o>=</span> <span class=k>new</span> <span class=n>DotThis</span><span class=p>();</span>
+        <span class=n>DotThis</span><span class=p>.</span><span class=na>Inner</span> <span class=n>dti</span> <span class=o>=</span> <span class=n>dt</span><span class=p>.</span><span class=na>inner</span><span class=p>();</span>
+        <span class=n>dti</span><span class=p>.</span><span class=na>outer</span><span class=p>().</span><span class=na>f</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出为：</p> <div class=highlight><pre><span></span><code>DotThis.f()
+</code></pre></div> <p>有时你可能想要告知某些其他对象，去创建其某个内部类的对象。要实现此目的，你必须在 <strong>new</strong> 表达式中提供对其他外部类对象的引用，这是需要使用 <strong>.new</strong> 语法，就像下面这样：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/DotNew.java</span>
+<span class=c1>// Creating an inner class directly using .new syntax</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>DotNew</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>Inner</span> <span class=p>{}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>DotNew</span> <span class=n>dn</span> <span class=o>=</span> <span class=k>new</span> <span class=n>DotNew</span><span class=p>();</span>
+        <span class=n>DotNew</span><span class=p>.</span><span class=na>Inner</span> <span class=n>dni</span> <span class=o>=</span> <span class=n>dn</span><span class=p>.</span><span class=na>new</span> <span class=nf>Inner</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>要想直接创建内部类的对象，你不能按照你想象的方式，去引用外部类的名字 <strong>DotNew</strong>，而是必须使用外部类的对象来创建该内部类对象，就像在上面的程序中所看到的那样。这也解决了内部类名字作用域的问题，因此你不必声明（实际上你不能声明）dn.new DotNew.Inner。</p> <p>下面你可以看到将 <strong>.new</strong> 应用于 Parcel 的示例：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Parcel3.java</span>
+<span class=c1>// Using .new to create instances of inner classes</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Parcel3</span> <span class=p>{</span>
+    <span class=kd>class</span> <span class=nc>Contents</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>11</span><span class=p>;</span>
+        <span class=kd>public</span> <span class=kt>int</span> <span class=nf>value</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>i</span><span class=p>;</span> <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>class</span> <span class=nc>Destination</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=n>String</span> <span class=n>label</span><span class=p>;</span>
+        <span class=n>Destination</span><span class=p>(</span><span class=n>String</span> <span class=n>whereTo</span><span class=p>)</span> <span class=p>{</span> <span class=n>label</span> <span class=o>=</span> <span class=n>whereTo</span><span class=p>;</span> <span class=p>}</span>
+        <span class=n>String</span> <span class=nf>readLabel</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>label</span><span class=p>;</span> <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Parcel3</span> <span class=n>p</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Parcel3</span><span class=p>();</span>
+        <span class=c1>// Must use instance of outer class</span>
+        <span class=c1>// to create an instance of the inner class:</span>
+        <span class=n>Parcel3</span><span class=p>.</span><span class=na>Contents</span> <span class=n>c</span> <span class=o>=</span> <span class=n>p</span><span class=p>.</span><span class=na>new</span> <span class=nf>Contents</span><span class=p>();</span>
+        <span class=n>Parcel3</span><span class=p>.</span><span class=na>Destination</span> <span class=n>d</span> <span class=o>=</span>
+                <span class=n>p</span><span class=p>.</span><span class=na>new</span> <span class=nf>Destination</span><span class=p>(</span><span class=s>&quot;Tasmania&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>在拥有外部类对象之前是不可能创建内部类对象的。这是因为内部类对象会暗暗地连接到建它的外部类对象上。但是，如果你创建的是嵌套类（静态内部类），那么它就不需要对外部类对象的引用。</p> <!-- Inner Classes and Upcasting --> <h2 id=_4>内部类与向上转型<a class=headerlink href=#_4 title="Permanent link">#</a></h2> <p>当将内部类向上转型为其基类，尤其是转型为一个接口的时候，内部类就有了用武之地。（从实现了某个接口的对象，得到对此接口的引用，与向上转型为这个对象的基类，实质上效果是一样的。）这是因为此内部类-某个接口的实现-能够完全不可见，并且不可用。所得到的只是指向基类或接口的引用，所以能够很方便地隐藏实现细节。</p> <p>我们可以创建前一个示例的接口：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Destination.java</span>
+<span class=kd>public</span> <span class=kd>interface</span> <span class=nc>Destination</span> <span class=p>{</span>
+    <span class=n>String</span> <span class=nf>readLabel</span><span class=p>();</span>
+<span class=p>}</span>
+</code></pre></div> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Contents.java</span>
+<span class=kd>public</span> <span class=kd>interface</span> <span class=nc>Contents</span> <span class=p>{</span>
+    <span class=kt>int</span> <span class=nf>value</span><span class=p>();</span>
+<span class=p>}</span>
+</code></pre></div> <p>现在 <strong>Contents</strong> 和 <strong>Destination</strong> 表示客户端程序员可用的接口。记住，接口的所有成员自动被设置为 <strong>public</strong>。</p> <p>当取得了一个指向基类或接口的引用时，甚至可能无法找出它确切的类型，看下面的例子：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/TestParcel.java</span>
+<span class=kd>class</span> <span class=nc>Parcel4</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kd>class</span> <span class=nc>PContents</span> <span class=kd>implements</span> <span class=n>Contents</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>11</span><span class=p>;</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>int</span> <span class=nf>value</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>i</span><span class=p>;</span> <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>protected</span> <span class=kd>final</span> <span class=kd>class</span> <span class=nc>PDestination</span> <span class=kd>implements</span> <span class=n>Destination</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=n>String</span> <span class=n>label</span><span class=p>;</span>
+        <span class=kd>private</span> <span class=nf>PDestination</span><span class=p>(</span><span class=n>String</span> <span class=n>whereTo</span><span class=p>)</span> <span class=p>{</span>
+            <span class=n>label</span> <span class=o>=</span> <span class=n>whereTo</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=n>String</span> <span class=nf>readLabel</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>label</span><span class=p>;</span> <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=n>Destination</span> <span class=nf>destination</span><span class=p>(</span><span class=n>String</span> <span class=n>s</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>PDestination</span><span class=p>(</span><span class=n>s</span><span class=p>);</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=n>Contents</span> <span class=nf>contents</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>PContents</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>TestParcel</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Parcel4</span> <span class=n>p</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Parcel4</span><span class=p>();</span>
+        <span class=n>Contents</span> <span class=n>c</span> <span class=o>=</span> <span class=n>p</span><span class=p>.</span><span class=na>contents</span><span class=p>();</span>
+        <span class=n>Destination</span> <span class=n>d</span> <span class=o>=</span> <span class=n>p</span><span class=p>.</span><span class=na>destination</span><span class=p>(</span><span class=s>&quot;Tasmania&quot;</span><span class=p>);</span>
+        <span class=c1>// Illegal -- can&#39;t access private class:</span>
+        <span class=c1>//- Parcel4.PContents pc = p.new PContents();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>在 <strong>Parcel4</strong> 中，内部类 <strong>PContents</strong> 是 <strong>private</strong>，所以除了 <strong>Parcel4</strong>，没有人能访问它。普通（非内部）类的访问权限不能被设为 <strong>private</strong> 或者 <strong>protected</strong>；他们只能设置为 <strong>public</strong> 或 <strong>package</strong> 访问权限。</p> <p><strong>PDestination</strong> 是 <strong>protected</strong>，所以只有 <strong>Parcel4</strong> 及其子类、还有与 <strong>Parcel4</strong> 同一个包中的类（因为 <strong>protected</strong> 也给予了包访问权）能访问 <strong>PDestination</strong>，其他类都不能访问 <strong>PDestination</strong>，这意味着，如果客户端程序员想了解或访问这些成员，那是要受到限制的。实际上，甚至不能向下转型成 <strong>private</strong> 内部类（或 <strong>protected</strong> 内部类，除非是继承自它的子类），因为不能访问其名字，就像在 <strong>TestParcel</strong> 类中看到的那样。</p> <p><strong>private</strong> 内部类给类的设计者提供了一种途径，通过这种方式可以完全阻止任何依赖于类型的编码，并且完全隐藏了实现的细节。此外，从客户端程序员的角度来看，由于不能访问任何新增加的、原本不属于公共接口的方法，所以扩展接口是没有价值的。这也给 Java 编译器提供了生成高效代码的机会。</p> <!-- Inner Classes in Methods and Scopes --> <h2 id=_5>内部类方法和作用域<a class=headerlink href=#_5 title="Permanent link">#</a></h2> <p>到目前为止，读者所看到的只是内部类的典型用途。通常，如果所读、写的代码包含了内部类，那么它们都是“平凡的”内部类，简单并且容易理解。然而，内部类的语法覆盖了大量其他的更加难以理解的技术。例如，可以在一个方法里面或者在任意的作用域内定义内部类。</p> <p>这么做有两个理由：</p> <ol> <li>如前所示，你实现了某类型的接口，于是可以创建并返回对其的引用。</li> <li>你要解决一个复杂的问题，想创建一个类来辅助你的解决方案，但是又不希望这个类是公共可用的。</li> </ol> <p>在后面的例子中，先前的代码将被修改，以用来实现：</p> <ol> <li>一个定义在方法中的类。</li> <li>一个定义在作用域内的类，此作用域在方法的内部。</li> <li>一个实现了接口的匿名类。</li> <li>一个匿名类，它扩展了没有默认构造器的类。</li> <li>一个匿名类，它执行字段初始化。</li> <li>一个匿名类，它通过实例初始化实现构造（匿名内部类不可能有构造器）。</li> </ol> <p>第一个例子展示了在方法的作用域内（而不是在其他类的作用域内）创建一个完整的类。这被称作局部内部类：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Parcel5.java</span>
+<span class=c1>// Nesting a class within a method</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Parcel5</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=n>Destination</span> <span class=nf>destination</span><span class=p>(</span><span class=n>String</span> <span class=n>s</span><span class=p>)</span> <span class=p>{</span>
+        <span class=kd>final</span> <span class=kd>class</span> <span class=nc>PDestination</span> <span class=kd>implements</span> <span class=n>Destination</span> <span class=p>{</span>
+            <span class=kd>private</span> <span class=n>String</span> <span class=n>label</span><span class=p>;</span>
+
+            <span class=kd>private</span> <span class=nf>PDestination</span><span class=p>(</span><span class=n>String</span> <span class=n>whereTo</span><span class=p>)</span> <span class=p>{</span>
+                <span class=n>label</span> <span class=o>=</span> <span class=n>whereTo</span><span class=p>;</span>
+            <span class=p>}</span>
+
+            <span class=nd>@Override</span>
+            <span class=kd>public</span> <span class=n>String</span> <span class=nf>readLabel</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>label</span><span class=p>;</span> <span class=p>}</span>
+        <span class=p>}</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>PDestination</span><span class=p>(</span><span class=n>s</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Parcel5</span> <span class=n>p</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Parcel5</span><span class=p>();</span>
+        <span class=n>Destination</span> <span class=n>d</span> <span class=o>=</span> <span class=n>p</span><span class=p>.</span><span class=na>destination</span><span class=p>(</span><span class=s>&quot;Tasmania&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p><strong>PDestination</strong> 类是 <code>destination()</code> 方法的一部分，而不是 <strong>Parcel5</strong> 的一部分。所以，在 <code>destination()</code> 之外不能访问 <strong>PDestination</strong>，注意出现在 <strong>return</strong> 语句中的向上转型-返回的是 <strong>Destination</strong> 的引用，它是 <strong>PDestination</strong> 的基类。当然，在 <code>destination()</code> 中定义了内部类 <strong>PDestination</strong>，并不意味着一旦 <code>destination()</code> 方法执行完毕，<strong>PDestination</strong> 就不可用了。</p> <p>你可以在同一个子目录下的任意类中对某个内部类使用类标识符 <strong>PDestination</strong>，这并不会有命名冲突。</p> <p>下面的例子展示了如何在任意的作用域内嵌入一个内部类：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Parcel6.java</span>
+<span class=c1>// Nesting a class within a scope</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Parcel6</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kt>void</span> <span class=nf>internalTracking</span><span class=p>(</span><span class=kt>boolean</span> <span class=n>b</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>if</span><span class=p>(</span><span class=n>b</span><span class=p>)</span> <span class=p>{</span>
+            <span class=kd>class</span> <span class=nc>TrackingSlip</span> <span class=p>{</span>
+                <span class=kd>private</span> <span class=n>String</span> <span class=n>id</span><span class=p>;</span>
+                <span class=n>TrackingSlip</span><span class=p>(</span><span class=n>String</span> <span class=n>s</span><span class=p>)</span> <span class=p>{</span>
+                    <span class=n>id</span> <span class=o>=</span> <span class=n>s</span><span class=p>;</span>
+                <span class=p>}</span>
+                <span class=n>String</span> <span class=nf>getSlip</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>id</span><span class=p>;</span> <span class=p>}</span>
+            <span class=p>}</span>
+            <span class=n>TrackingSlip</span> <span class=n>ts</span> <span class=o>=</span> <span class=k>new</span> <span class=n>TrackingSlip</span><span class=p>(</span><span class=s>&quot;slip&quot;</span><span class=p>);</span>
+            <span class=n>String</span> <span class=n>s</span> <span class=o>=</span> <span class=n>ts</span><span class=p>.</span><span class=na>getSlip</span><span class=p>();</span>
+        <span class=p>}</span>
+        <span class=c1>// Can&#39;t use it here! Out of scope:</span>
+        <span class=c1>//- TrackingSlip ts = new TrackingSlip(&quot;x&quot;);</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>track</span><span class=p>()</span> <span class=p>{</span> <span class=n>internalTracking</span><span class=p>(</span><span class=kc>true</span><span class=p>);</span> <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Parcel6</span> <span class=n>p</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Parcel6</span><span class=p>();</span>
+        <span class=n>p</span><span class=p>.</span><span class=na>track</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p><strong>TrackingSlip</strong> 类被嵌入在 <strong>if</strong> 语句的作用域内，这并不是说该类的创建是有条件的，它其实与别的类一起编译过了。然而，在定义 <strong>Trackingslip</strong> 的作用域之外，它是不可用的，除此之外，它与普通的类一样。</p> <!-- Anonymous Inner Classes --> <h2 id=_6>匿名内部类<a class=headerlink href=#_6 title="Permanent link">#</a></h2> <p>下面的例子看起来有点奇怪：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Parcel7.java</span>
+<span class=c1>// Returning an instance of an anonymous inner class</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Parcel7</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=n>Contents</span> <span class=nf>contents</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>Contents</span><span class=p>()</span> <span class=p>{</span> <span class=c1>// Insert class definition</span>
+            <span class=kd>private</span> <span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>11</span><span class=p>;</span>
+
+            <span class=nd>@Override</span>
+            <span class=kd>public</span> <span class=kt>int</span> <span class=nf>value</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>i</span><span class=p>;</span> <span class=p>}</span>
+        <span class=p>};</span> <span class=c1>// Semicolon required</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Parcel7</span> <span class=n>p</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Parcel7</span><span class=p>();</span>
+        <span class=n>Contents</span> <span class=n>c</span> <span class=o>=</span> <span class=n>p</span><span class=p>.</span><span class=na>contents</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p><code>contents()</code> 方法将返回值的生成与表示这个返回值的类的定义结合在一起！另外，这个类是匿名的，它没有名字。更糟的是，看起来似乎是你正要创建一个 <strong>Contents</strong> 对象。但是然后（在到达语句结束的分号之前）你却说：“等一等，我想在这里插入一个类的定义。”</p> <p>这种奇怪的语法指的是：“创建一个继承自 <strong>Contents</strong> 的匿名类的对象。”通过 <strong>new</strong> 表达式返回的引用被自动向上转型为对 <strong>Contents</strong> 的引用。上述匿名内部类的语法是下述形式的简化形式：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Parcel7b.java</span>
+<span class=c1>// Expanded version of Parcel7.java</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Parcel7b</span> <span class=p>{</span>
+    <span class=kd>class</span> <span class=nc>MyContents</span> <span class=kd>implements</span> <span class=n>Contents</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>11</span><span class=p>;</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>int</span> <span class=nf>value</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>i</span><span class=p>;</span> <span class=p>}</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=n>Contents</span> <span class=nf>contents</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>MyContents</span><span class=p>();</span>
+    <span class=p>}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Parcel7b</span> <span class=n>p</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Parcel7b</span><span class=p>();</span>
+        <span class=n>Contents</span> <span class=n>c</span> <span class=o>=</span> <span class=n>p</span><span class=p>.</span><span class=na>contents</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>在这个匿名内部类中，使用了默认的构造器来生成 <strong>Contents</strong>。下面的代码展示的是，如果你的基类需要一个有参数的构造器，应该怎么办：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Parcel8.java</span>
+<span class=c1>// Calling the base-class constructor</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Parcel8</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=n>Wrapping</span> <span class=nf>wrapping</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+        <span class=c1>// Base constructor call:</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>Wrapping</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=p>{</span> <span class=c1>// [1]</span>
+            <span class=nd>@Override</span>
+            <span class=kd>public</span> <span class=kt>int</span> <span class=nf>value</span><span class=p>()</span> <span class=p>{</span>
+                <span class=k>return</span> <span class=kd>super</span><span class=p>.</span><span class=na>value</span><span class=p>()</span> <span class=o>*</span> <span class=mi>47</span><span class=p>;</span>
+            <span class=p>}</span>
+        <span class=p>};</span> <span class=c1>// [2]</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Parcel8</span> <span class=n>p</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Parcel8</span><span class=p>();</span>
+        <span class=n>Wrapping</span> <span class=n>w</span> <span class=o>=</span> <span class=n>p</span><span class=p>.</span><span class=na>wrapping</span><span class=p>(</span><span class=mi>10</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <ul> <li>[1] 将合适的参数传递给基类的构造器。</li> <li>[2] 在匿名内部类末尾的分号，并不是用来标记此内部类结束的。实际上，它标记的是表达式的结束，只不过这个表达式正巧包含了匿名内部类罢了。因此，这与别的地方使用的分号是一致的。</li> </ul> <p>尽管 <strong>Wrapping</strong> 只是一个具有具体实现的普通类，但它还是被导出类当作公共“接口”来使用。</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Wrapping.java</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Wrapping</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+    <span class=kd>public</span> <span class=nf>Wrapping</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span> <span class=n>i</span> <span class=o>=</span> <span class=n>x</span><span class=p>;</span> <span class=p>}</span>
+    <span class=kd>public</span> <span class=kt>int</span> <span class=nf>value</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>i</span><span class=p>;</span> <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>为了多样性，<strong>Wrapping</strong> 拥有一个要求传递一个参数的构造器。</p> <p>在匿名类中定义字段时，还能够对其执行初始化操作：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Parcel9.java</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Parcel9</span> <span class=p>{</span>
+    <span class=c1>// Argument must be final or &quot;effectively final&quot;</span>
+    <span class=c1>// to use within the anonymous inner class:</span>
+    <span class=kd>public</span> <span class=n>Destination</span> <span class=nf>destination</span><span class=p>(</span><span class=kd>final</span> <span class=n>String</span> <span class=n>dest</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>Destination</span><span class=p>()</span> <span class=p>{</span>
+            <span class=kd>private</span> <span class=n>String</span> <span class=n>label</span> <span class=o>=</span> <span class=n>dest</span><span class=p>;</span>
+            <span class=nd>@Override</span>
+            <span class=kd>public</span> <span class=n>String</span> <span class=nf>readLabel</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>label</span><span class=p>;</span> <span class=p>}</span>
+        <span class=p>};</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Parcel9</span> <span class=n>p</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Parcel9</span><span class=p>();</span>
+        <span class=n>Destination</span> <span class=n>d</span> <span class=o>=</span> <span class=n>p</span><span class=p>.</span><span class=na>destination</span><span class=p>(</span><span class=s>&quot;Tasmania&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>如果定义一个匿名内部类，并且希望它使用一个在其外部定义的对象，那么编译器会要求其参数引用是 <strong>final</strong> 的（也就是说，它在初始化后不会改变，所以可以被当作 <strong>final</strong>），就像你在 <code>destination()</code> 的参数中看到的那样。这里省略掉 <strong>final</strong> 也没问题，但是通常最好加上 <strong>final</strong> 作为一种暗示。</p> <p>如果只是简单地给一个字段赋值，那么此例中的方法是很好的。但是，如果想做一些类似构造器的行为，该怎么办呢？在匿名类中不可能有命名构造器（因为它根本没名字！），但通过实例初始化，就能够达到为匿名内部类创建一个构造器的效果，就像这样：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/AnonymousConstructor.java</span>
+<span class=c1>// Creating a constructor for an anonymous inner class</span>
+<span class=kd>abstract</span> <span class=kd>class</span> <span class=nc>Base</span> <span class=p>{</span>
+    <span class=n>Base</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Base constructor, i = &quot;</span> <span class=o>+</span> <span class=n>i</span><span class=p>);</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>abstract</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>();</span>
+<span class=p>}</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>AnonymousConstructor</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=n>Base</span> <span class=nf>getBase</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>Base</span><span class=p>(</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+            <span class=p>{</span> <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span>
+                    <span class=s>&quot;Inside instance initializer&quot;</span><span class=p>);</span> <span class=p>}</span>
+            <span class=nd>@Override</span>
+            <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span>
+                <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;In anonymous f()&quot;</span><span class=p>);</span>
+            <span class=p>}</span>
+        <span class=p>};</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Base</span> <span class=n>base</span> <span class=o>=</span> <span class=n>getBase</span><span class=p>(</span><span class=mi>47</span><span class=p>);</span>
+        <span class=n>base</span><span class=p>.</span><span class=na>f</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出为：</p> <div class=highlight><pre><span></span><code>Base constructor, i = 47
+Inside instance initializer
+In anonymous f()
+</code></pre></div> <p>在此例中，不要求变量一定是 <strong>final</strong> 的。因为被传递给匿名类的基类的构造器，它并不会在匿名类内部被直接使用。</p> <p>下例是带实例初始化的"parcel"形式。注意 <code>destination()</code> 的参数必须是 <strong>final</strong> 的，因为它们是在匿名类内部使用的（译者注：即使不加 <strong>final</strong>, Java 8 的编译器也会为我们自动加上 <strong>final</strong>，以保证数据的一致性）。</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Parcel10.java</span>
+<span class=c1>// Using &quot;instance initialization&quot; to perform</span>
+<span class=c1>// construction on an anonymous inner class</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Parcel10</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=n>Destination</span>
+    <span class=nf>destination</span><span class=p>(</span><span class=kd>final</span> <span class=n>String</span> <span class=n>dest</span><span class=p>,</span> <span class=kd>final</span> <span class=kt>float</span> <span class=n>price</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>Destination</span><span class=p>()</span> <span class=p>{</span>
+            <span class=kd>private</span> <span class=kt>int</span> <span class=n>cost</span><span class=p>;</span>
+            <span class=c1>// Instance initialization for each object:</span>
+            <span class=p>{</span>
+                <span class=n>cost</span> <span class=o>=</span> <span class=n>Math</span><span class=p>.</span><span class=na>round</span><span class=p>(</span><span class=n>price</span><span class=p>);</span>
+                <span class=k>if</span><span class=p>(</span><span class=n>cost</span> <span class=o>&gt;</span> <span class=mi>100</span><span class=p>)</span>
+                    <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Over budget!&quot;</span><span class=p>);</span>
+            <span class=p>}</span>
+            <span class=kd>private</span> <span class=n>String</span> <span class=n>label</span> <span class=o>=</span> <span class=n>dest</span><span class=p>;</span>
+            <span class=nd>@Override</span>
+            <span class=kd>public</span> <span class=n>String</span> <span class=nf>readLabel</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>label</span><span class=p>;</span> <span class=p>}</span>
+        <span class=p>};</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Parcel10</span> <span class=n>p</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Parcel10</span><span class=p>();</span>
+        <span class=n>Destination</span> <span class=n>d</span> <span class=o>=</span> <span class=n>p</span><span class=p>.</span><span class=na>destination</span><span class=p>(</span><span class=s>&quot;Tasmania&quot;</span><span class=p>,</span> <span class=mf>101.395F</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出为：</p> <div class=highlight><pre><span></span><code>Over budget!
+</code></pre></div> <p>在实例初始化操作的内部，可以看到有一段代码，它们不能作为字段初始化动作的一部分来执行（就是 <strong>if</strong> 语句）。所以对于匿名类而言，实例初始化的实际效果就是构造器。当然它受到了限制-你不能重载实例初始化方法，所以你仅有一个这样的构造器。</p> <p>匿名内部类与正规的继承相比有些受限，因为匿名内部类既可以扩展类，也可以实现接口，但是不能两者兼备。而且如果是实现接口，也只能实现一个接口。</p> <!-- Nested Classes --> <h2 id=_7>嵌套类<a class=headerlink href=#_7 title="Permanent link">#</a></h2> <p>如果不需要内部类对象与其外部类对象之间有联系，那么可以将内部类声明为 <strong>static</strong>，这通常称为嵌套类。想要理解 <strong>static</strong> 应用于内部类时的含义，就必须记住，普通的内部类对象隐式地保存了一个引用，指向创建它的外部类对象。然而，当内部类是 <strong>static</strong> 的时，就不是这样了。嵌套类意味着：</p> <ol> <li>要创建嵌套类的对象，并不需要其外部类的对象。</li> <li>不能从嵌套类的对象中访问非静态的外部类对象。</li> </ol> <p>嵌套类与普通的内部类还有一个区别。普通内部类的字段与方法，只能放在类的外部层次上，所以普通的内部类不能有 <strong>static</strong> 数据和 <strong>static</strong> 字段，也不能包含嵌套类。但是嵌套类可以包含所有这些东西：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Parcel11.java</span>
+<span class=c1>// Nested classes (static inner classes)</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Parcel11</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kd>static</span> <span class=kd>class</span> <span class=nc>ParcelContents</span> <span class=kd>implements</span> <span class=n>Contents</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>11</span><span class=p>;</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>int</span> <span class=nf>value</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>i</span><span class=p>;</span> <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>protected</span> <span class=kd>static</span> <span class=kd>final</span> <span class=kd>class</span> <span class=nc>ParcelDestination</span>
+            <span class=kd>implements</span> <span class=n>Destination</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=n>String</span> <span class=n>label</span><span class=p>;</span>
+        <span class=kd>private</span> <span class=nf>ParcelDestination</span><span class=p>(</span><span class=n>String</span> <span class=n>whereTo</span><span class=p>)</span> <span class=p>{</span>
+            <span class=n>label</span> <span class=o>=</span> <span class=n>whereTo</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=n>String</span> <span class=nf>readLabel</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=n>label</span><span class=p>;</span> <span class=p>}</span>
+        <span class=c1>// Nested classes can contain other static elements:</span>
+        <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{}</span>
+        <span class=kd>static</span> <span class=kt>int</span> <span class=n>x</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
+        <span class=kd>static</span> <span class=kd>class</span> <span class=nc>AnotherLevel</span> <span class=p>{</span>
+            <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{}</span>
+            <span class=kd>static</span> <span class=kt>int</span> <span class=n>x</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=n>Destination</span> <span class=nf>destination</span><span class=p>(</span><span class=n>String</span> <span class=n>s</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>ParcelDestination</span><span class=p>(</span><span class=n>s</span><span class=p>);</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=n>Contents</span> <span class=nf>contents</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>ParcelContents</span><span class=p>();</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Contents</span> <span class=n>c</span> <span class=o>=</span> <span class=n>contents</span><span class=p>();</span>
+        <span class=n>Destination</span> <span class=n>d</span> <span class=o>=</span> <span class=n>destination</span><span class=p>(</span><span class=s>&quot;Tasmania&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>在 <code>main()</code> 中，没有任何 <strong>Parcel11</strong> 的对象是必需的；而是使用选取 <strong>static</strong> 成员的普通语法来调用方法-这些方法返回对 <strong>Contents</strong> 和 <strong>Destination</strong> 的引用。</p> <p>就像你在本章前面看到的那样，在一个普通的（非 <strong>static</strong>）内部类中，通过一个特殊的 <strong>this</strong> 引用可以链接到其外部类对象。嵌套类就没有这个特殊的 <strong>this</strong> 引用，这使得它类似于一个 <strong>static</strong> 方法。</p> <h3 id=_8>接口内部的类<a class=headerlink href=#_8 title="Permanent link">#</a></h3> <p>嵌套类可以作为接口的一部分。你放到接口中的任何类都自动地是 <strong>public</strong> 和 <strong>static</strong> 的。因为类是 <strong>static</strong> 的，只是将嵌套类置于接口的命名空间内，这并不违反接口的规则。你甚至可以在内部类中实现其外部接口，就像下面这样：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/ClassInInterface.java</span>
+<span class=c1>// {java ClassInInterface$Test}</span>
+<span class=kd>public</span> <span class=kd>interface</span> <span class=nc>ClassInInterface</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>howdy</span><span class=p>();</span>
+    <span class=kd>class</span> <span class=nc>Test</span> <span class=kd>implements</span> <span class=n>ClassInInterface</span> <span class=p>{</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>howdy</span><span class=p>()</span> <span class=p>{</span>
+            <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Howdy!&quot;</span><span class=p>);</span>
+        <span class=p>}</span>
+        <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+            <span class=k>new</span> <span class=n>Test</span><span class=p>().</span><span class=na>howdy</span><span class=p>();</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出为：</p> <div class=highlight><pre><span></span><code>Howdy!
+</code></pre></div> <p>如果你想要创建某些公共代码，使得它们可以被某个接口的所有不同实现所共用，那么使用接口内部的嵌套类会显得很方便。</p> <p>我曾在本书中建议过，在每个类中都写一个 <code>main()</code> 方法，用来测试这个类。这样做有一个缺点，那就是必须带着那些已编译过的额外代码。如果这对你是个麻烦，那就可以使用嵌套类来放置测试代码。</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/TestBed.java</span>
+<span class=c1>// Putting test code in a nested class</span>
+<span class=c1>// {java TestBed$Tester}</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>TestBed</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span> <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;f()&quot;</span><span class=p>);</span> <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kd>class</span> <span class=nc>Tester</span> <span class=p>{</span>
+        <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+            <span class=n>TestBed</span> <span class=n>t</span> <span class=o>=</span> <span class=k>new</span> <span class=n>TestBed</span><span class=p>();</span>
+            <span class=n>t</span><span class=p>.</span><span class=na>f</span><span class=p>();</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出为：</p> <div class=highlight><pre><span></span><code>f()
+</code></pre></div> <p>这生成了一个独立的类 <strong>TestBed<span><span class=MathJax_Preview>Tester**（要运行这个程序，执行 **java TestBed</span><script type=math/tex>Tester**（要运行这个程序，执行 **java TestBed</script></span>Tester</strong>，在 Unix/Linux 系统中需要转义 <strong><span><span class=MathJax_Preview>**）。你可以使用这个类测试，但是不必在发布的产品中包含它，可以在打包产品前删除 **TestBed</span><script type=math/tex>**）。你可以使用这个类测试，但是不必在发布的产品中包含它，可以在打包产品前删除 **TestBed</script></span>Tester.class</strong>。</p> <h3 id=_9>从多层嵌套类中访问外部类的成员<a class=headerlink href=#_9 title="Permanent link">#</a></h3> <p>一个内部类被嵌套多少层并不重要——它能透明地访问所有它所嵌入的外部类的所有成员，如下所示：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/MultiNestingAccess.java</span>
+<span class=c1>// Nested classes can access all members of all</span>
+<span class=c1>// levels of the classes they are nested within</span>
+<span class=kd>class</span> <span class=nc>MNA</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{}</span>
+    <span class=kd>class</span> <span class=nc>A</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=kt>void</span> <span class=nf>g</span><span class=p>()</span> <span class=p>{}</span>
+        <span class=kd>public</span> <span class=kd>class</span> <span class=nc>B</span> <span class=p>{</span>
+            <span class=kt>void</span> <span class=nf>h</span><span class=p>()</span> <span class=p>{</span>
+                <span class=n>g</span><span class=p>();</span>
+                <span class=n>f</span><span class=p>();</span>
+            <span class=p>}</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>MultiNestingAccess</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>MNA</span> <span class=n>mna</span> <span class=o>=</span> <span class=k>new</span> <span class=n>MNA</span><span class=p>();</span>
+        <span class=n>MNA</span><span class=p>.</span><span class=na>A</span> <span class=n>mnaa</span> <span class=o>=</span> <span class=n>mna</span><span class=p>.</span><span class=na>new</span> <span class=nf>A</span><span class=p>();</span>
+        <span class=n>MNA</span><span class=p>.</span><span class=na>A</span><span class=p>.</span><span class=na>B</span> <span class=n>mnaab</span> <span class=o>=</span> <span class=n>mnaa</span><span class=p>.</span><span class=na>new</span> <span class=nf>B</span><span class=p>();</span>
+        <span class=n>mnaab</span><span class=p>.</span><span class=na>h</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>可以看到在 <strong>MNA.A.B</strong> 中，调用方法 <code>g()</code> 和 <code>f()</code> 不需要任何条件（即使它们被定义为 <strong>private</strong>）。这个例子同时展示了如何从不同的类里创建多层嵌套的内部类对象的基本语法。"<strong>.new</strong>"语法能产生正确的作用域，所以不必在调用构造器时限定类名。</p> <!-- Why Inner Classes? --> <h2 id=_10>为什么需要内部类<a class=headerlink href=#_10 title="Permanent link">#</a></h2> <p>至此，我们已经看到了许多描述内部类的语法和语义，但是这并不能同答“为什么需要内部类”这个问题。那么，Java 设计者们为什么会如此费心地增加这项基本的语言特性呢？</p> <p>一般说来，内部类继承自某个类或实现某个接口，内部类的代码操作创建它的外部类的对象。所以可以认为内部类提供了某种进入其外部类的窗口。</p> <p>内部类必须要回答的一个问题是：如果只是需要一个对接口的引用，为什么不通过外部类实现那个接口呢？答案是：“如果这能满足需求，那么就应该这样做。”那么内部类实现一个接口与外部类实现这个接口有什么区别呢？答案是：后者不是总能享用到接口带来的方便，有时需要用到接口的实现。所以，使用内部类最吸引人的原因是：</p> <blockquote> <p>每个内部类都能独立地继承自一个（接口的）实现，所以无论外部类是否已经继承了某个（接口的）实现，对于内部类都没有影响。</p> </blockquote> <p>如果没有内部类提供的、可以继承多个具体的或抽象的类的能力，一些设计与编程问题就很难解决。从这个角度看，内部类使得多重继承的解决方案变得完整。接口解决了部分问题，而内部类有效地实现了“多重继承”。也就是说，内部类允许继承多个非接口类型（译注：类或抽象类）。</p> <p>为了看到更多的细节，让我们考虑这样一种情形：即必须在一个类中以某种方式实现两个接口。由于接口的灵活性，你有两种选择；使用单一类，或者使用内部类：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/mui/MultiInterfaces.java</span>
+<span class=c1>// Two ways a class can implement multiple interfaces</span>
+<span class=c1>// {java innerclasses.mui.MultiInterfaces}</span>
+<span class=kn>package</span> <span class=nn>innerclasses.mui</span><span class=p>;</span>
+<span class=kd>interface</span> <span class=nc>A</span> <span class=p>{}</span>
+<span class=kd>interface</span> <span class=nc>B</span> <span class=p>{}</span>
+<span class=kd>class</span> <span class=nc>X</span> <span class=kd>implements</span> <span class=n>A</span><span class=p>,</span> <span class=n>B</span> <span class=p>{}</span>
+<span class=kd>class</span> <span class=nc>Y</span> <span class=kd>implements</span> <span class=n>A</span> <span class=p>{</span>
+    <span class=n>B</span> <span class=nf>makeB</span><span class=p>()</span> <span class=p>{</span>
+        <span class=c1>// Anonymous inner class:</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>B</span><span class=p>()</span> <span class=p>{};</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>MultiInterfaces</span> <span class=p>{</span>
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>takesA</span><span class=p>(</span><span class=n>A</span> <span class=n>a</span><span class=p>)</span> <span class=p>{}</span>
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>takesB</span><span class=p>(</span><span class=n>B</span> <span class=n>b</span><span class=p>)</span> <span class=p>{}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>X</span> <span class=n>x</span> <span class=o>=</span> <span class=k>new</span> <span class=n>X</span><span class=p>();</span>
+        <span class=n>Y</span> <span class=n>y</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Y</span><span class=p>();</span>
+        <span class=n>takesA</span><span class=p>(</span><span class=n>x</span><span class=p>);</span>
+        <span class=n>takesA</span><span class=p>(</span><span class=n>y</span><span class=p>);</span>
+        <span class=n>takesB</span><span class=p>(</span><span class=n>x</span><span class=p>);</span>
+        <span class=n>takesB</span><span class=p>(</span><span class=n>y</span><span class=p>.</span><span class=na>makeB</span><span class=p>());</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>当然，这里假设在两种方式下的代码结构都确实有逻辑意义。然而遇到问题的时候，通常问题本身就能给出某些指引，告诉你是应该使用单一类，还是使用内部类。但如果没有任何其他限制，从实现的观点来看，前面的例子并没有什么区别，它们都能正常运作。</p> <p>如果拥有的是抽象的类或具体的类，而不是接口，那就只能使用内部类才能实现多重继承：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/MultiImplementation.java</span>
+<span class=c1>// For concrete or abstract classes, inner classes</span>
+<span class=c1>// produce &quot;multiple implementation inheritance&quot;</span>
+<span class=c1>// {java innerclasses.MultiImplementation}</span>
+<span class=kn>package</span> <span class=nn>innerclasses</span><span class=p>;</span>
+
+<span class=kd>class</span> <span class=nc>D</span> <span class=p>{}</span>
+
+<span class=kd>abstract</span> <span class=kd>class</span> <span class=nc>E</span> <span class=p>{}</span>
+
+<span class=kd>class</span> <span class=nc>Z</span> <span class=kd>extends</span> <span class=n>D</span> <span class=p>{</span>
+    <span class=n>E</span> <span class=nf>makeE</span><span class=p>()</span> <span class=p>{</span>
+      <span class=k>return</span> <span class=k>new</span> <span class=n>E</span><span class=p>()</span> <span class=p>{};</span>  
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>MultiImplementation</span> <span class=p>{</span>
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>takesD</span><span class=p>(</span><span class=n>D</span> <span class=n>d</span><span class=p>)</span> <span class=p>{}</span>
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>takesE</span><span class=p>(</span><span class=n>E</span> <span class=n>e</span><span class=p>)</span> <span class=p>{}</span>
+
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Z</span> <span class=n>z</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Z</span><span class=p>();</span>
+        <span class=n>takesD</span><span class=p>(</span><span class=n>z</span><span class=p>);</span>
+        <span class=n>takesE</span><span class=p>(</span><span class=n>z</span><span class=p>.</span><span class=na>makeE</span><span class=p>());</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>如果不需要解决“多重继承”的问题，那么自然可以用别的方式编码，而不需要使用内部类。但如果使用内部类，还可以获得其他一些特性：</p> <ol> <li>内部类可以有多个实例，每个实例都有自己的状态信息，并且与其外部类对象的信息相互独立。</li> <li>在单个外部类中，可以让多个内部类以不同的方式实现同一个接口，或继承同一个类。 稍后就会展示一个这样的例子。</li> <li>创建内部类对象的时刻并不依赖于外部类对象的创建</li> <li>内部类并没有令人迷惑的"is-a”关系，它就是一个独立的实体。</li> </ol> <p>举个例子，如果 <strong>Sequence.java</strong> 不使用内部类，就必须声明"<strong>Sequence</strong> 是一个 <strong>Selector</strong>"，对于某个特定的 <strong>Sequence</strong> 只能有一个 <strong>Selector</strong>，然而使用内部类很容易就能拥有另一个方法 <code>reverseSelector()</code>，用它来生成一个反方向遍历序列的 <strong>Selector</strong>，只有内部类才有这种灵活性。</p> <h3 id=_11>闭包与回调<a class=headerlink href=#_11 title="Permanent link">#</a></h3> <p>闭包（<strong>closure</strong>）是一个可调用的对象，它记录了一些信息，这些信息来自于创建它的作用域。通过这个定义，可以看出内部类是面向对象的闭包，因为它不仅包含外部类对象（创建内部类的作用域）的信息，还自动拥有一个指向此外部类对象的引用，在此作用域内，内部类有权操作所有的成员，包括 <strong>private</strong> 成员。</p> <p>在 Java 8 之前，内部类是实现闭包的唯一方式。在 Java 8 中，我们可以使用 lambda 表达式来实现闭包行为，并且语法更加优雅和简洁，你将会在 <a href>函数式编程 </a> 这一章节中学习相关细节。尽管相对于内部类，你可能更喜欢使用 lambda 表达式实现闭包，但是你会看到并需要理解那些在 Java 8 之前通过内部类方式实现闭包的代码，因此仍然有必要来理解这种方式。</p> <p>Java 最引人争议的问题之一就是，人们认为 Java 应该包含某种类似指针的机制，以允许回调（callback）。通过回调，对象能够携带一些信息，这些信息允许它在稍后的某个时刻调用初始的对象。稍后将会看到这是一个非常有用的概念。如果回调是通过指针实现的，那么就只能寄希望于程序员不会误用该指针。然而，读者应该已经了解到，Java 更小心仔细，所以没有在语言中包括指针。</p> <p>通过内部类提供闭包的功能是优良的解决方案，它比指针更灵活、更安全。见下例：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/Callbacks.java</span>
+<span class=c1>// Using inner classes for callbacks</span>
+<span class=c1>// {java innerclasses.Callbacks}</span>
+<span class=kn>package</span> <span class=nn>innerclasses</span><span class=p>;</span>
+<span class=kd>interface</span> <span class=nc>Incrementable</span> <span class=p>{</span>
+    <span class=kt>void</span> <span class=nf>increment</span><span class=p>();</span>
+<span class=p>}</span>
+<span class=c1>// Very simple to just implement the interface:</span>
+<span class=kd>class</span> <span class=nc>Callee1</span> <span class=kd>implements</span> <span class=n>Incrementable</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>increment</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>i</span><span class=o>++</span><span class=p>;</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+<span class=kd>class</span> <span class=nc>MyIncrement</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>increment</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Other operation&quot;</span><span class=p>);</span>
+    <span class=p>}</span>
+    <span class=kd>static</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>(</span><span class=n>MyIncrement</span> <span class=n>mi</span><span class=p>)</span> <span class=p>{</span> <span class=n>mi</span><span class=p>.</span><span class=na>increment</span><span class=p>();</span> <span class=p>}</span>
+<span class=p>}</span>
+<span class=c1>// If your class must implement increment() in</span>
+<span class=c1>// some other way, you must use an inner class:</span>
+<span class=kd>class</span> <span class=nc>Callee2</span> <span class=kd>extends</span> <span class=n>MyIncrement</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+    <span class=nd>@Override</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>increment</span><span class=p>()</span> <span class=p>{</span>
+        <span class=kd>super</span><span class=p>.</span><span class=na>increment</span><span class=p>();</span>
+        <span class=n>i</span><span class=o>++</span><span class=p>;</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+    <span class=p>}</span>
+    <span class=kd>private</span> <span class=kd>class</span> <span class=nc>Closure</span> <span class=kd>implements</span> <span class=n>Incrementable</span> <span class=p>{</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>increment</span><span class=p>()</span> <span class=p>{</span>
+            <span class=c1>// Specify outer-class method, otherwise</span>
+            <span class=c1>// you&#39;ll get an infinite recursion:</span>
+            <span class=n>Callee2</span><span class=p>.</span><span class=na>this</span><span class=p>.</span><span class=na>increment</span><span class=p>();</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=n>Incrementable</span> <span class=nf>getCallbackReference</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>Closure</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+<span class=kd>class</span> <span class=nc>Caller</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=n>Incrementable</span> <span class=n>callbackReference</span><span class=p>;</span>
+    <span class=n>Caller</span><span class=p>(</span><span class=n>Incrementable</span> <span class=n>cbh</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>callbackReference</span> <span class=o>=</span> <span class=n>cbh</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=kt>void</span> <span class=nf>go</span><span class=p>()</span> <span class=p>{</span> <span class=n>callbackReference</span><span class=p>.</span><span class=na>increment</span><span class=p>();</span> <span class=p>}</span>
+<span class=p>}</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Callbacks</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Callee1</span> <span class=n>c1</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Callee1</span><span class=p>();</span>
+        <span class=n>Callee2</span> <span class=n>c2</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Callee2</span><span class=p>();</span>
+        <span class=n>MyIncrement</span><span class=p>.</span><span class=na>f</span><span class=p>(</span><span class=n>c2</span><span class=p>);</span>
+        <span class=n>Caller</span> <span class=n>caller1</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Caller</span><span class=p>(</span><span class=n>c1</span><span class=p>);</span>
+        <span class=n>Caller</span> <span class=n>caller2</span> <span class=o>=</span>
+                <span class=k>new</span> <span class=n>Caller</span><span class=p>(</span><span class=n>c2</span><span class=p>.</span><span class=na>getCallbackReference</span><span class=p>());</span>
+        <span class=n>caller1</span><span class=p>.</span><span class=na>go</span><span class=p>();</span>
+        <span class=n>caller1</span><span class=p>.</span><span class=na>go</span><span class=p>();</span>
+        <span class=n>caller2</span><span class=p>.</span><span class=na>go</span><span class=p>();</span>
+        <span class=n>caller2</span><span class=p>.</span><span class=na>go</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出为：</p> <div class=highlight><pre><span></span><code><span class=n>Other</span> <span class=n>operation</span>
+<span class=mi>1</span>
+<span class=mi>1</span>
+<span class=mi>2</span>
+<span class=n>Other</span> <span class=n>operation</span>
+<span class=mi>2</span>
+<span class=n>Other</span> <span class=n>operation</span>
+<span class=mi>3</span>
+</code></pre></div> <p>这个例子进一步展示了外部类实现一个接口与内部类实现此接口之间的区别。就代码而言，<strong>Callee1</strong> 是更简单的解决方式。<strong>Callee2</strong> 继承自 <strong>MyIncrement</strong>，后者已经有了一个不同的 <code>increment()</code> 方法，并且与 <strong>Incrementable</strong> 接口期望的 <code>increment()</code> 方法完全不相关。所以如果 <strong>Callee2</strong> 继承了 <strong>MyIncrement</strong>，就不能为了 <strong>Incrementable</strong> 的用途而覆盖 <code>increment()</code> 方法，于是只能使用内部类独立地实现 <strong>Incrementable</strong>，还要注意，当创建了一个内部类时，并没有在外部类的接口中添加东西，也没有修改外部类的接口。</p> <p>注意，在 <strong>Callee2</strong> 中除了 <code>getCallbackReference()</code> 以外，其他成员都是 <strong>private</strong> 的。要想建立与外部世界的任何连接，接口 <strong>Incrementable</strong> 都是必需的。在这里可以看到，<strong>interface</strong> 是如何允许接口与接口的实现完全独立的。 内部类 <strong>Closure</strong> 实现了 <strong>Incrementable</strong>，以提供一个返回 <strong>Callee2</strong> 的“钩子”（hook）-而且是一个安全的钩子。无论谁获得此 <strong>Incrementable</strong> 的引用，都只能调用 <code>increment()</code>，除此之外没有其他功能（不像指针那样，允许你做很多事情）。</p> <p><strong>Caller</strong> 的构造器需要一个 <strong>Incrementable</strong> 的引用作为参数（虽然可以在任意时刻捕获回调引用），然后在以后的某个时刻，<strong>Caller</strong> 对象可以使用此引用回调 <strong>Callee</strong> 类。</p> <p>回调的价值在于它的灵活性-可以在运行时动态地决定需要调用什么方法。例如，在图形界面实现 GUI 功能的时候，到处都用到回调。</p> <h3 id=_12>内部类与控制框架<a class=headerlink href=#_12 title="Permanent link">#</a></h3> <p>在将要介绍的控制框架（control framework）中，可以看到更多使用内部类的具体例子。</p> <p>应用程序框架（application framework）就是被设计用以解决某类特定问题的一个类或一组类。要运用某个应用程序框架，通常是继承一个或多个类，并覆盖某些方法。在覆盖后的方法中，编写代码定制应用程序框架提供的通用解决方案，以解决你的特定问题。这是设计模式中模板方法的一个例子，模板方法包含算法的基本结构，并且会调用一个或多个可覆盖的方法，以完成算法的动作。设计模式总是将变化的事物与保持不变的事物分离开，在这个模式中，模板方法是保持不变的事物，而可覆盖的方法就是变化的事物。</p> <p>控制框架是一类特殊的应用程序框架，它用来解决响应事件的需求。主要用来响应事件的系统被称作<em>事件驱动</em>系统。应用程序设计中常见的问题之一是图形用户接口（GUI），它几乎完全是事件驱动的系统。</p> <p>要理解内部类是如何允许简单的创建过程以及如何使用控制框架的，请考虑这样一个控制框架，它的工作就是在事件“就绪”的时候执行事件。虽然“就绪”可以指任何事，但在本例中是指基于时间触发的事件。接下来的问题就是，对于要控制什么，控制框架并不包含任何具体的信息。那些信息是在实现算法的 <code>action()</code> 部分时，通过继承来提供的。</p> <p>首先，接口描述了要控制的事件。因为其默认的行为是基于时间去执行控制，所以使用抽象类代替实际的接口。下面的例子包含了某些实现：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/controller/Event.java</span>
+<span class=c1>// The common methods for any control event</span>
+<span class=kn>package</span> <span class=nn>innerclasses.controller</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.time.*</span><span class=p>;</span> <span class=c1>// Java 8 time classes</span>
+<span class=kd>public</span> <span class=kd>abstract</span> <span class=kd>class</span> <span class=nc>Event</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=n>Instant</span> <span class=n>eventTime</span><span class=p>;</span>
+    <span class=kd>protected</span> <span class=kd>final</span> <span class=n>Duration</span> <span class=n>delayTime</span><span class=p>;</span>
+    <span class=kd>public</span> <span class=nf>Event</span><span class=p>(</span><span class=kt>long</span> <span class=n>millisecondDelay</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>delayTime</span> <span class=o>=</span> <span class=n>Duration</span><span class=p>.</span><span class=na>ofMillis</span><span class=p>(</span><span class=n>millisecondDelay</span><span class=p>);</span>
+        <span class=n>start</span><span class=p>();</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>start</span><span class=p>()</span> <span class=p>{</span> <span class=c1>// Allows restarting</span>
+        <span class=n>eventTime</span> <span class=o>=</span> <span class=n>Instant</span><span class=p>.</span><span class=na>now</span><span class=p>().</span><span class=na>plus</span><span class=p>(</span><span class=n>delayTime</span><span class=p>);</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kt>boolean</span> <span class=nf>ready</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>Instant</span><span class=p>.</span><span class=na>now</span><span class=p>().</span><span class=na>isAfter</span><span class=p>(</span><span class=n>eventTime</span><span class=p>);</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>abstract</span> <span class=kt>void</span> <span class=nf>action</span><span class=p>();</span>
+<span class=p>}</span>
+</code></pre></div> <p>当希望运行 <strong>Event</strong> 并随后调用 <code>start()</code> 时，那么构造器就会捕获（从对象创建的时刻开始的）时间，此时间是这样得来的：<code>start()</code> 获取当前时间，然后加上一个延迟时间，这样生成触发事件的时间。<code>start()</code> 是一个独立的方法，而没有包含在构造器内，因为这样就可以在事件运行以后重新启动计时器，也就是能够重复使用 <strong>Event</strong> 对象。例如，如果想要重复一个事件，只需简单地在 <code>action()</code> 中调用 <code>start()</code> 方法。</p> <p><code>ready()</code> 告诉你何时可以运行 <code>action()</code> 方法了。当然，可以在派生类中覆盖 <code>ready()</code> 方法，使得 <strong>Event</strong> 能够基于时间以外的其他因素而触发。</p> <p>下面的文件包含了一个用来管理并触发事件的实际控制框架。<strong>Event</strong> 对象被保存在 <strong>List</strong>\&lt;<strong>Event</strong>> 类型（读作“Event 的列表”）的容器对象中，容器会在 <a href>集合 </a> 中详细介绍。目前读者只需要知道 <code>add()</code> 方法用来将一个 <strong>Event</strong> 添加到 <strong>List</strong> 的尾端，<code>size()</code> 方法用来得到 <strong>List</strong> 中元素的个数，foreach 语法用来连续获取 <strong>List</strong> 中的 <strong>Event</strong>，<code>remove()</code> 方法用来从 <strong>List</strong> 中移除指定的 <strong>Event</strong>。</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/controller/Controller.java</span>
+<span class=c1>// The reusable framework for control systems</span>
+<span class=kn>package</span> <span class=nn>innerclasses.controller</span><span class=p>;</span>
+<span class=kn>import</span> <span class=nn>java.util.*</span><span class=p>;</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>Controller</span> <span class=p>{</span>
+    <span class=c1>// A class from java.util to hold Event objects:</span>
+    <span class=kd>private</span> <span class=n>List</span><span class=o>&lt;</span><span class=n>Event</span><span class=o>&gt;</span> <span class=n>eventList</span> <span class=o>=</span> <span class=k>new</span> <span class=n>ArrayList</span><span class=o>&lt;&gt;</span><span class=p>();</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>addEvent</span><span class=p>(</span><span class=n>Event</span> <span class=n>c</span><span class=p>)</span> <span class=p>{</span> <span class=n>eventList</span><span class=p>.</span><span class=na>add</span><span class=p>(</span><span class=n>c</span><span class=p>);</span> <span class=p>}</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>run</span><span class=p>()</span> <span class=p>{</span>
+        <span class=k>while</span><span class=p>(</span><span class=n>eventList</span><span class=p>.</span><span class=na>size</span><span class=p>()</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span>
+            <span class=c1>// Make a copy so you&#39;re not modifying the list</span>
+            <span class=c1>// while you&#39;re selecting the elements in it:</span>
+            <span class=k>for</span><span class=p>(</span><span class=n>Event</span> <span class=n>e</span> <span class=p>:</span> <span class=k>new</span> <span class=n>ArrayList</span><span class=o>&lt;&gt;</span><span class=p>(</span><span class=n>eventList</span><span class=p>))</span>
+                <span class=k>if</span><span class=p>(</span><span class=n>e</span><span class=p>.</span><span class=na>ready</span><span class=p>())</span> <span class=p>{</span>
+                    <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>e</span><span class=p>);</span>
+                    <span class=n>e</span><span class=p>.</span><span class=na>action</span><span class=p>();</span>
+                    <span class=n>eventList</span><span class=p>.</span><span class=na>remove</span><span class=p>(</span><span class=n>e</span><span class=p>);</span>
+                <span class=p>}</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p><code>run()</code> 方法循环遍历 <strong>eventList</strong>，寻找就绪的（<code>ready()</code>）、要运行的 <strong>Event</strong> 对象。对找到的每一个就绪的（<code>ready()</code>）事件，使用对象的 <code>toString()</code> 打印其信息，调用其 <code>action()</code> 方法，然后从列表中移除此 <strong>Event</strong>。</p> <p>注意，在目前的设计中你并不知道 <strong>Event</strong> 到底做了什么。这正是此设计的关键所在—"使变化的事物与不变的事物相互分离”。用我的话说，“变化向量”就是各种不同的 <strong>Event</strong> 对象所具有的不同行为，而你通过创建不同的 <strong>Event</strong> 子类来表现不同的行为。</p> <p>这正是内部类要做的事情，内部类允许：</p> <ol> <li>控制框架的完整实现是由单个的类创建的，从而使得实现的细节被封装了起来。内部类用来表示解决问题所必需的各种不同的 <code>action()</code>。</li> <li>内部类能够很容易地访问外部类的任意成员，所以可以避免这种实现变得笨拙。如果没有这种能力，代码将变得令人讨厌，以至于你肯定会选择别的方法。</li> </ol> <p>考虑此控制框架的一个特定实现，如控制温室的运作：控制灯光、水、温度调节器的开关，以及响铃和重新启动系统，每个行为都是完全不同的。控制框架的设计使得分离这些不同的代码变得非常容易。使用内部类，可以在单一的类里面产生对同一个基类 <strong>Event</strong> 的多种派生版本。对于温室系统的每一种行为，都继承创建一个新的 <strong>Event</strong> 内部类，并在要实现的 <code>action()</code> 中编写控制代码。</p> <p>作为典型的应用程序框架，<strong>GreenhouseControls</strong> 类继承自 <strong>Controller</strong>：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/GreenhouseControls.java</span>
+<span class=c1>// This produces a specific application of the</span>
+<span class=c1>// control system, all in a single class. Inner</span>
+<span class=c1>// classes allow you to encapsulate different</span>
+<span class=c1>// functionality for each type of event.</span>
+<span class=kn>import</span> <span class=nn>innerclasses.controller.*</span><span class=p>;</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>GreenhouseControls</span> <span class=kd>extends</span> <span class=n>Controller</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kt>boolean</span> <span class=n>light</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>LightOn</span> <span class=kd>extends</span> <span class=n>Event</span> <span class=p>{</span>
+        <span class=kd>public</span> <span class=nf>LightOn</span><span class=p>(</span><span class=kt>long</span> <span class=n>delayTime</span><span class=p>)</span> <span class=p>{</span>
+            <span class=kd>super</span><span class=p>(</span><span class=n>delayTime</span><span class=p>);</span> 
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>action</span><span class=p>()</span> <span class=p>{</span>
+            <span class=c1>// Put hardware control code here to</span>
+            <span class=c1>// physically turn on the light.</span>
+            <span class=n>light</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>()</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=s>&quot;Light is on&quot;</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>LightOff</span> <span class=kd>extends</span> <span class=n>Event</span> <span class=p>{</span>
+        <span class=kd>public</span> <span class=nf>LightOff</span><span class=p>(</span><span class=kt>long</span> <span class=n>delayTime</span><span class=p>)</span> <span class=p>{</span>
+            <span class=kd>super</span><span class=p>(</span><span class=n>delayTime</span><span class=p>);</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>action</span><span class=p>()</span> <span class=p>{</span>
+            <span class=c1>// Put hardware control code here to</span>
+            <span class=c1>// physically turn off the light.</span>
+            <span class=n>light</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>()</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=s>&quot;Light is off&quot;</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>private</span> <span class=kt>boolean</span> <span class=n>water</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>WaterOn</span> <span class=kd>extends</span> <span class=n>Event</span> <span class=p>{</span>
+        <span class=kd>public</span> <span class=nf>WaterOn</span><span class=p>(</span><span class=kt>long</span> <span class=n>delayTime</span><span class=p>)</span> <span class=p>{</span>
+            <span class=kd>super</span><span class=p>(</span><span class=n>delayTime</span><span class=p>);</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>action</span><span class=p>()</span> <span class=p>{</span>
+            <span class=c1>// Put hardware control code here.</span>
+            <span class=n>water</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>()</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=s>&quot;Greenhouse water is on&quot;</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>WaterOff</span> <span class=kd>extends</span> <span class=n>Event</span> <span class=p>{</span>
+        <span class=kd>public</span> <span class=nf>WaterOff</span><span class=p>(</span><span class=kt>long</span> <span class=n>delayTime</span><span class=p>)</span> <span class=p>{</span>
+            <span class=kd>super</span><span class=p>(</span><span class=n>delayTime</span><span class=p>);</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>action</span><span class=p>()</span> <span class=p>{</span>
+            <span class=c1>// Put hardware control code here.</span>
+            <span class=n>water</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>()</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=s>&quot;Greenhouse water is off&quot;</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>private</span> <span class=n>String</span> <span class=n>thermostat</span> <span class=o>=</span> <span class=s>&quot;Day&quot;</span><span class=p>;</span>
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>ThermostatNight</span> <span class=kd>extends</span> <span class=n>Event</span> <span class=p>{</span>
+        <span class=kd>public</span> <span class=nf>ThermostatNight</span><span class=p>(</span><span class=kt>long</span> <span class=n>delayTime</span><span class=p>)</span> <span class=p>{</span>
+            <span class=kd>super</span><span class=p>(</span><span class=n>delayTime</span><span class=p>);</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>action</span><span class=p>()</span> <span class=p>{</span>
+            <span class=c1>// Put hardware control code here.</span>
+            <span class=n>thermostat</span> <span class=o>=</span> <span class=s>&quot;Night&quot;</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>()</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=s>&quot;Thermostat on night setting&quot;</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>ThermostatDay</span> <span class=kd>extends</span> <span class=n>Event</span> <span class=p>{</span>
+        <span class=kd>public</span> <span class=nf>ThermostatDay</span><span class=p>(</span><span class=kt>long</span> <span class=n>delayTime</span><span class=p>)</span> <span class=p>{</span>
+            <span class=kd>super</span><span class=p>(</span><span class=n>delayTime</span><span class=p>);</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>action</span><span class=p>()</span> <span class=p>{</span>
+            <span class=c1>// Put hardware control code here.</span>
+            <span class=n>thermostat</span> <span class=o>=</span> <span class=s>&quot;Day&quot;</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>()</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=s>&quot;Thermostat on day setting&quot;</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=c1>// An example of an action() that inserts a</span>
+    <span class=c1>// new one of itself into the event list:</span>
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>Bell</span> <span class=kd>extends</span> <span class=n>Event</span> <span class=p>{</span>
+        <span class=kd>public</span> <span class=nf>Bell</span><span class=p>(</span><span class=kt>long</span> <span class=n>delayTime</span><span class=p>)</span> <span class=p>{</span>
+            <span class=kd>super</span><span class=p>(</span><span class=n>delayTime</span><span class=p>);</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>action</span><span class=p>()</span> <span class=p>{</span>
+            <span class=n>addEvent</span><span class=p>(</span><span class=k>new</span> <span class=n>Bell</span><span class=p>(</span><span class=n>delayTime</span><span class=p>.</span><span class=na>toMillis</span><span class=p>()));</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>()</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=s>&quot;Bing!&quot;</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>Restart</span> <span class=kd>extends</span> <span class=n>Event</span> <span class=p>{</span>
+        <span class=kd>private</span> <span class=n>Event</span><span class=o>[]</span> <span class=n>eventList</span><span class=p>;</span>
+        <span class=kd>public</span>
+        <span class=nf>Restart</span><span class=p>(</span><span class=kt>long</span> <span class=n>delayTime</span><span class=p>,</span> <span class=n>Event</span><span class=o>[]</span> <span class=n>eventList</span><span class=p>)</span> <span class=p>{</span>
+            <span class=kd>super</span><span class=p>(</span><span class=n>delayTime</span><span class=p>);</span>
+            <span class=k>this</span><span class=p>.</span><span class=na>eventList</span> <span class=o>=</span> <span class=n>eventList</span><span class=p>;</span>
+            <span class=k>for</span><span class=p>(</span><span class=n>Event</span> <span class=n>e</span> <span class=p>:</span> <span class=n>eventList</span><span class=p>)</span>
+                <span class=n>addEvent</span><span class=p>(</span><span class=n>e</span><span class=p>);</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>action</span><span class=p>()</span> <span class=p>{</span>
+            <span class=k>for</span><span class=p>(</span><span class=n>Event</span> <span class=n>e</span> <span class=p>:</span> <span class=n>eventList</span><span class=p>)</span> <span class=p>{</span>
+                <span class=n>e</span><span class=p>.</span><span class=na>start</span><span class=p>();</span> <span class=c1>// Rerun each event</span>
+                <span class=n>addEvent</span><span class=p>(</span><span class=n>e</span><span class=p>);</span>
+            <span class=p>}</span>
+            <span class=n>start</span><span class=p>();</span> <span class=c1>// Rerun this Event</span>
+            <span class=n>addEvent</span><span class=p>(</span><span class=k>this</span><span class=p>);</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>()</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=s>&quot;Restarting system&quot;</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kd>class</span> <span class=nc>Terminate</span> <span class=kd>extends</span> <span class=n>Event</span> <span class=p>{</span>
+        <span class=kd>public</span> <span class=nf>Terminate</span><span class=p>(</span><span class=kt>long</span> <span class=n>delayTime</span><span class=p>)</span> <span class=p>{</span>
+            <span class=kd>super</span><span class=p>(</span><span class=n>delayTime</span><span class=p>);</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>action</span><span class=p>()</span> <span class=p>{</span> <span class=n>System</span><span class=p>.</span><span class=na>exit</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span> <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=n>String</span> <span class=nf>toString</span><span class=p>()</span> <span class=p>{</span>
+            <span class=k>return</span> <span class=s>&quot;Terminating&quot;</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>注意，<strong>light</strong>，<strong>water</strong> 和 <strong>thermostat</strong> 都属于外部类 <strong>GreenhouseControls</strong>，而这些内部类能够自由地访问那些字段，无需限定条件或特殊许可。而且，<code>action()</code> 方法通常都涉及对某种硬件的控制。</p> <p>大多数 <strong>Event</strong> 类看起来都很相似，但是 <strong>Bell</strong> 和 <strong>Restart</strong> 则比较特别。<strong>Bell</strong> 控制响铃，然后在事件列表中增加一个 <strong>Bell</strong> 对象，于是过一会儿它可以再次响铃。读者可能注意到了内部类是多么像多重继承：<strong>Bell</strong> 和 <strong>Restart</strong> 有 <strong>Event</strong> 的所有方法，并且似乎也拥有外部类 <strong>GreenhouseContrlos</strong> 的所有方法。</p> <p>一个由 <strong>Event</strong> 对象组成的数组被递交给 <strong>Restart</strong>，该数组要加到控制器上。由于 <code>Restart()</code> 也是一个 <strong>Event</strong> 对象，所以同样可以将 <strong>Restart</strong> 对象添加到 <code>Restart.action()</code> 中，以使系统能够有规律地重新启动自己。</p> <p>下面的类通过创建一个 <strong>GreenhouseControls</strong> 对象，并添加各种不同的 <strong>Event</strong> 对象来配置该系统，这是命令设计模式的一个例子—<strong>eventList</strong> 中的每个对象都被封装成对象的请求：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/GreenhouseController.java</span>
+<span class=c1>// Configure and execute the greenhouse system</span>
+<span class=kn>import</span> <span class=nn>innerclasses.controller.*</span><span class=p>;</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>GreenhouseController</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>GreenhouseControls</span> <span class=n>gc</span> <span class=o>=</span> <span class=k>new</span> <span class=n>GreenhouseControls</span><span class=p>();</span>
+        <span class=c1>// Instead of using code, you could parse</span>
+        <span class=c1>// configuration information from a text file:</span>
+        <span class=n>gc</span><span class=p>.</span><span class=na>addEvent</span><span class=p>(</span><span class=n>gc</span><span class=p>.</span><span class=na>new</span> <span class=nf>Bell</span><span class=p>(</span><span class=mi>900</span><span class=p>));</span>
+        <span class=n>Event</span><span class=o>[]</span> <span class=n>eventList</span> <span class=o>=</span> <span class=p>{</span>
+                <span class=n>gc</span><span class=p>.</span><span class=na>new</span> <span class=nf>ThermostatNight</span><span class=p>(</span><span class=mi>0</span><span class=p>),</span>
+                <span class=n>gc</span><span class=p>.</span><span class=na>new</span> <span class=nf>LightOn</span><span class=p>(</span><span class=mi>200</span><span class=p>),</span>
+                <span class=n>gc</span><span class=p>.</span><span class=na>new</span> <span class=nf>LightOff</span><span class=p>(</span><span class=mi>400</span><span class=p>),</span>
+                <span class=n>gc</span><span class=p>.</span><span class=na>new</span> <span class=nf>WaterOn</span><span class=p>(</span><span class=mi>600</span><span class=p>),</span>
+                <span class=n>gc</span><span class=p>.</span><span class=na>new</span> <span class=nf>WaterOff</span><span class=p>(</span><span class=mi>800</span><span class=p>),</span>
+                <span class=n>gc</span><span class=p>.</span><span class=na>new</span> <span class=nf>ThermostatDay</span><span class=p>(</span><span class=mi>1400</span><span class=p>)</span>
+        <span class=p>};</span>
+        <span class=n>gc</span><span class=p>.</span><span class=na>addEvent</span><span class=p>(</span><span class=n>gc</span><span class=p>.</span><span class=na>new</span> <span class=nf>Restart</span><span class=p>(</span><span class=mi>2000</span><span class=p>,</span> <span class=n>eventList</span><span class=p>));</span>
+        <span class=n>gc</span><span class=p>.</span><span class=na>addEvent</span><span class=p>(</span>
+                <span class=k>new</span> <span class=n>GreenhouseControls</span><span class=p>.</span><span class=na>Terminate</span><span class=p>(</span><span class=mi>5000</span><span class=p>));</span>
+        <span class=n>gc</span><span class=p>.</span><span class=na>run</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出为：</p> <div class=highlight><pre><span></span><code>Thermostat on night setting
+Light is on
+Light is off
+Greenhouse water is on
+Greenhouse water is off
+Bing!
+Thermostat on day setting
+Bing!
+Restarting system
+Thermostat on night setting
+Light is on
+Light is off
+Greenhouse water is on
+Bing!
+Greenhouse water is off
+Thermostat on day setting
+Bing!
+Restarting system
+Thermostat on night setting
+Light is on
+Light is off
+Bing!
+Greenhouse water is on
+Greenhouse water is off
+Terminating
+</code></pre></div> <p>这个类的作用是初始化系统，所以它添加了所有相应的事件。<strong>Restart</strong> 事件反复运行，而且它每次都会将 <strong>eventList</strong> 加载到 <strong>GreenhouseControls</strong> 对象中。如果提供了命令行参数，系统会以它作为毫秒数，决定什么时候终止程序（这是测试程序时使用的）。</p> <p>当然，更灵活的方法是避免对事件进行硬编码。</p> <p>这个例子应该使读者更了解内部类的价值了，特别是在控制框架中使用内部类的时候。</p> <!-- Inheriting from Inner Classes --> <h2 id=_13>继承内部类<a class=headerlink href=#_13 title="Permanent link">#</a></h2> <p>因为内部类的构造器必须连接到指向其外部类对象的引用，所以在继承内部类的时候，事情会变得有点复杂。问题在于，那个指向外部类对象的“秘密的”引用必须被初始化，而在派生类中不再存在可连接的默认对象。要解决这个问题，必须使用特殊的语法来明确说清它们之间的关联：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/InheritInner.java</span>
+<span class=c1>// Inheriting an inner class</span>
+<span class=kd>class</span> <span class=nc>WithInner</span> <span class=p>{</span>
+    <span class=kd>class</span> <span class=nc>Inner</span> <span class=p>{}</span>
+<span class=p>}</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>InheritInner</span> <span class=kd>extends</span> <span class=n>WithInner</span><span class=p>.</span><span class=na>Inner</span> <span class=p>{</span>
+    <span class=c1>//- InheritInner() {} // Won&#39;t compile</span>
+    <span class=n>InheritInner</span><span class=p>(</span><span class=n>WithInner</span> <span class=n>wi</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>wi</span><span class=p>.</span><span class=na>super</span><span class=p>();</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>WithInner</span> <span class=n>wi</span> <span class=o>=</span> <span class=k>new</span> <span class=n>WithInner</span><span class=p>();</span>
+        <span class=n>InheritInner</span> <span class=n>ii</span> <span class=o>=</span> <span class=k>new</span> <span class=n>InheritInner</span><span class=p>(</span><span class=n>wi</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>可以看到，<strong>InheritInner</strong> 只继承自内部类，而不是外部类。但是当要生成一个构造器时，默认的构造器并不算好，而且不能只是传递一个指向外部类对象的引用。此外，必须在构造器内使用如下语法：</p> <div class=highlight><pre><span></span><code><span class=n>enclosingClassReference</span><span class=p>.</span><span class=na>super</span><span class=p>();</span>
+</code></pre></div> <p>这样才提供了必要的引用，然后程序才能编译通过。</p> <!-- Can Inner Classes Be Overridden? --> <h2 id=_14>内部类可以被覆盖么？<a class=headerlink href=#_14 title="Permanent link">#</a></h2> <p>如果创建了一个内部类，然后继承其外部类并重新定义此内部类时，会发生什么呢？也就是说，内部类可以被覆盖吗？这看起来似乎是个很有用的思想，但是“覆盖”内部类就好像它是外部类的一个方法，其实并不起什么作用：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/BigEgg.java</span>
+<span class=c1>// An inner class cannot be overridden like a method</span>
+<span class=kd>class</span> <span class=nc>Egg</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=n>Yolk</span> <span class=n>y</span><span class=p>;</span>
+    <span class=kd>protected</span> <span class=kd>class</span> <span class=nc>Yolk</span> <span class=p>{</span>
+        <span class=kd>public</span> <span class=nf>Yolk</span><span class=p>()</span> <span class=p>{</span>
+            <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Egg.Yolk()&quot;</span><span class=p>);</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=n>Egg</span><span class=p>()</span> <span class=p>{</span>
+        <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;New Egg()&quot;</span><span class=p>);</span>
+        <span class=n>y</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Yolk</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>BigEgg</span> <span class=kd>extends</span> <span class=n>Egg</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>Yolk</span> <span class=p>{</span>
+        <span class=kd>public</span> <span class=nf>Yolk</span><span class=p>()</span> <span class=p>{</span>
+            <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;BigEgg.Yolk()&quot;</span><span class=p>);</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>new</span> <span class=n>BigEgg</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出为：</p> <div class=highlight><pre><span></span><code>New Egg()
+Egg.Yolk()
+</code></pre></div> <p>默认的无参构造器是编译器自动生成的，这里是调用基类的默认构造器。你可能认为既然创建了 <strong>BigEgg</strong> 的对象，那么所使用的应该是“覆盖后”的 <strong>Yolk</strong> 版本，但从输出中可以看到实际情况并不是这样的。</p> <p>这个例子说明，当继承了某个外部类的时候，内部类并没有发生什么特别神奇的变化。这两个内部类是完全独立的两个实体，各自在自己的命名空间内。当然，明确地继承某个内部类也是可以的：</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/BigEgg2.java</span>
+<span class=c1>// Proper inheritance of an inner class</span>
+<span class=kd>class</span> <span class=nc>Egg2</span> <span class=p>{</span>
+    <span class=kd>protected</span> <span class=kd>class</span> <span class=nc>Yolk</span> <span class=p>{</span>
+        <span class=kd>public</span> <span class=nf>Yolk</span><span class=p>()</span> <span class=p>{</span>
+            <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Egg2.Yolk()&quot;</span><span class=p>);</span>
+        <span class=p>}</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span>
+            <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Egg2.Yolk.f()&quot;</span><span class=p>);</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>private</span> <span class=n>Yolk</span> <span class=n>y</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Yolk</span><span class=p>();</span>
+    <span class=n>Egg2</span><span class=p>()</span> <span class=p>{</span> <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;New Egg2()&quot;</span><span class=p>);</span> <span class=p>}</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>insertYolk</span><span class=p>(</span><span class=n>Yolk</span> <span class=n>yy</span><span class=p>)</span> <span class=p>{</span> <span class=n>y</span> <span class=o>=</span> <span class=n>yy</span><span class=p>;</span> <span class=p>}</span>
+    <span class=kd>public</span> <span class=kt>void</span> <span class=nf>g</span><span class=p>()</span> <span class=p>{</span> <span class=n>y</span><span class=p>.</span><span class=na>f</span><span class=p>();</span> <span class=p>}</span>
+<span class=p>}</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>BigEgg2</span> <span class=kd>extends</span> <span class=n>Egg2</span> <span class=p>{</span>
+    <span class=kd>public</span> <span class=kd>class</span> <span class=nc>Yolk</span> <span class=kd>extends</span> <span class=n>Egg2</span><span class=p>.</span><span class=na>Yolk</span> <span class=p>{</span>
+        <span class=kd>public</span> <span class=nf>Yolk</span><span class=p>()</span> <span class=p>{</span>
+            <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;BigEgg2.Yolk()&quot;</span><span class=p>);</span>
+        <span class=p>}</span>
+        <span class=nd>@Override</span>
+        <span class=kd>public</span> <span class=kt>void</span> <span class=nf>f</span><span class=p>()</span> <span class=p>{</span>
+            <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;BigEgg2.Yolk.f()&quot;</span><span class=p>);</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=nf>BigEgg2</span><span class=p>()</span> <span class=p>{</span> <span class=n>insertYolk</span><span class=p>(</span><span class=k>new</span> <span class=n>Yolk</span><span class=p>());</span> <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>Egg2</span> <span class=n>e2</span> <span class=o>=</span> <span class=k>new</span> <span class=n>BigEgg2</span><span class=p>();</span>
+        <span class=n>e2</span><span class=p>.</span><span class=na>g</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出为：</p> <div class=highlight><pre><span></span><code>Egg2.Yolk()
+New Egg2()
+Egg2.Yolk()
+BigEgg2.Yolk()
+BigEgg2.Yolk.f()
+</code></pre></div> <p>现在 <strong>BigEgg2.Yolk</strong> 通过 <strong>extends Egg2.Yolk</strong> 明确地继承了此内部类，并且覆盖了其中的方法。<code>insertYolk()</code> 方法允许 <strong>BigEgg2</strong> 将它自己的 <strong>Yolk</strong> 对象向上转型为 <strong>Egg2</strong> 中的引用 <strong>y</strong>。所以当 <code>g()</code> 调用 <code>y.f()</code> 时，覆盖后的新版的 <code>f()</code> 被执行。第二次调用 <code>Egg2.Yolk()</code>，结果是 <strong>BigEgg2.Yolk</strong> 的构造器调用了其基类的构造器。可以看到在调用 <code>g()</code> 的时候，新版的 <code>f()</code> 被调用了。</p> <!-- Local Inner Classes --> <h2 id=_15>局部内部类<a class=headerlink href=#_15 title="Permanent link">#</a></h2> <p>前面提到过，可以在代码块里创建内部类，典型的方式是在一个方法体的里面创建。局部内部类不能有访问说明符，因为它不是外部类的一部分；但是它可以访问当前代码块内的常量，以及此外部类的所有成员。下面的例子对局部内部类与匿名内部类的创建进行了比较。</p> <div class=highlight><pre><span></span><code><span class=c1>// innerclasses/LocalInnerClass.java</span>
+<span class=c1>// Holds a sequence of Objects</span>
+<span class=kd>interface</span> <span class=nc>Counter</span> <span class=p>{</span>
+    <span class=kt>int</span> <span class=nf>next</span><span class=p>();</span>
+<span class=p>}</span>
+<span class=kd>public</span> <span class=kd>class</span> <span class=nc>LocalInnerClass</span> <span class=p>{</span>
+    <span class=kd>private</span> <span class=kt>int</span> <span class=n>count</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+    <span class=n>Counter</span> <span class=nf>getCounter</span><span class=p>(</span><span class=kd>final</span> <span class=n>String</span> <span class=n>name</span><span class=p>)</span> <span class=p>{</span>
+        <span class=c1>// A local inner class:</span>
+        <span class=kd>class</span> <span class=nc>LocalCounter</span> <span class=kd>implements</span> <span class=n>Counter</span> <span class=p>{</span>
+            <span class=n>LocalCounter</span><span class=p>()</span> <span class=p>{</span>
+                <span class=c1>// Local inner class can have a constructor</span>
+                <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;LocalCounter()&quot;</span><span class=p>);</span>
+            <span class=p>}</span>
+            <span class=nd>@Override</span>
+            <span class=kd>public</span> <span class=kt>int</span> <span class=nf>next</span><span class=p>()</span> <span class=p>{</span>
+                <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>print</span><span class=p>(</span><span class=n>name</span><span class=p>);</span> <span class=c1>// Access local final</span>
+                <span class=k>return</span> <span class=n>count</span><span class=o>++</span><span class=p>;</span>
+            <span class=p>}</span>
+        <span class=p>}</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>LocalCounter</span><span class=p>();</span>
+    <span class=p>}</span>
+    <span class=c1>// Repeat, but with an anonymous inner class:</span>
+    <span class=n>Counter</span> <span class=nf>getCounter2</span><span class=p>(</span><span class=kd>final</span> <span class=n>String</span> <span class=n>name</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=k>new</span> <span class=n>Counter</span><span class=p>()</span> <span class=p>{</span>
+            <span class=c1>// Anonymous inner class cannot have a named</span>
+            <span class=c1>// constructor, only an instance initializer:</span>
+            <span class=p>{</span>
+                <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&quot;Counter()&quot;</span><span class=p>);</span>
+            <span class=p>}</span>
+            <span class=nd>@Override</span>
+            <span class=kd>public</span> <span class=kt>int</span> <span class=nf>next</span><span class=p>()</span> <span class=p>{</span>
+                <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>print</span><span class=p>(</span><span class=n>name</span><span class=p>);</span> <span class=c1>// Access local final</span>
+                <span class=k>return</span> <span class=n>count</span><span class=o>++</span><span class=p>;</span>
+            <span class=p>}</span>
+        <span class=p>};</span>
+    <span class=p>}</span>
+    <span class=kd>public</span> <span class=kd>static</span> <span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=n>String</span><span class=o>[]</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>LocalInnerClass</span> <span class=n>lic</span> <span class=o>=</span> <span class=k>new</span> <span class=n>LocalInnerClass</span><span class=p>();</span>
+        <span class=n>Counter</span>
+                <span class=n>c1</span> <span class=o>=</span> <span class=n>lic</span><span class=p>.</span><span class=na>getCounter</span><span class=p>(</span><span class=s>&quot;Local inner &quot;</span><span class=p>),</span>
+                <span class=n>c2</span> <span class=o>=</span> <span class=n>lic</span><span class=p>.</span><span class=na>getCounter2</span><span class=p>(</span><span class=s>&quot;Anonymous inner &quot;</span><span class=p>);</span>
+        <span class=k>for</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>5</span><span class=p>;</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span>
+            <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>c1</span><span class=p>.</span><span class=na>next</span><span class=p>());</span>
+        <span class=k>for</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>5</span><span class=p>;</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span>
+            <span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=n>c2</span><span class=p>.</span><span class=na>next</span><span class=p>());</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div> <p>输出为：</p> <div class=highlight><pre><span></span><code>LocalCounter()
+Counter()
+Local inner 0
+Local inner 1
+Local inner 2
+Local inner 3
+Local inner 4
+Anonymous inner 5
+Anonymous inner 6
+Anonymous inner 7
+Anonymous inner 8
+Anonymous inner 9
+</code></pre></div> <p><strong>Counter</strong> 返回的是序列中的下一个值。我们分别使用局部内部类和匿名内部类实现了这个功能，它们具有相同的行为和能力，既然局部内部类的名字在方法外是不可见的，那为什么我们仍然使用局部内部类而不是匿名内部类呢？唯一的理由是，我们需要一个已命名的构造器，或者需要重载构造器，而匿名内部类只能用于实例初始化。</p> <p>所以使用局部内部类而不使用匿名内部类的另一个理由就是，需要不止一个该内部类的对象。</p> <!-- Inner-Class Identifiers --> <h2 id=_16>内部类标识符<a class=headerlink href=#_16 title="Permanent link">#</a></h2> <p>由于编译后每个类都会产生一个<strong>.class</strong> 文件，其中包含了如何创建该类型的对象的全部信息（此信息产生一个"meta-class"，叫做 <strong>Class</strong> 对象）。</p> <p>你可能猜到了，内部类也必须生成一个<strong>.class</strong> 文件以包含它们的 <strong>Class</strong> 对象信息。这些类文件的命名有严格的规则：外部类的名字，加上“<strong>$</strong>"，再加上内部类的名字。例如，<strong>LocalInnerClass.java</strong> 生成的 <strong>.class</strong> 文件包括：</p> <div class=highlight><pre><span></span><code><span class=n>Counter</span><span class=p>.</span><span class=na>class</span>
+<span class=n>LocalInnerClass$1</span><span class=p>.</span><span class=na>class</span>
+<span class=n>LocalInnerClass$LocalCounter</span><span class=p>.</span><span class=na>class</span>
+<span class=n>LocalInnerClass</span><span class=p>.</span><span class=na>class</span>
+</code></pre></div> <p>如果内部类是匿名的，编译器会简单地产生一个数字作为其标识符。如果内部类是嵌套在别的内部类之中，只需直接将它们的名字加在其外部类标识符与“<strong>$</strong>”的后面。</p> <p>虽然这种命名格式简单而直接，但它还是很健壮的，足以应对绝大多数情况。因为这是 java 的标准命名方式，所以产生的文件自动都是平台无关的。（注意，为了保证你的内部类能起作用，Java 编译器会尽可能地转换它们。）</p> <!-- Summary --> <h2 id=_17>本章小结<a class=headerlink href=#_17 title="Permanent link">#</a></h2> <p>比起面向对象编程中其他的概念来，接口和内部类更深奥复杂，比如 C++ 就没有这些。将两者结合起来，同样能够解决 C++ 中的用多重继承所能解决的问题。然而，多重继承在 C++ 中被证明是相当难以使用的，相比较而言，Java 的接口和内部类就容易理解多了。</p> <p>虽然这些特性本身是相当直观的，但是就像多态机制一样，这些特性的使用应该是设计阶段考虑的问题。随着时间的推移，读者将能够更好地识别什么情况下应该使用接口，什么情况使用内部类，或者两者同时使用。但此时，读者至少应该已经完全理解了它们的语法和语义。</p> <p>当读者见到这些语言特性的实际应用时，就能最终理解它们了。</p> <!-- 分页 --> <div style="page-break-after: always;"></div> </article> </div> </div> </main> <footer class=md-footer> <div class=md-footer-nav> <nav class="md-footer-nav__inner md-grid"> <a href=../10-Interfaces/ title="10 Interfaces" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel=prev> <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i> </div> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis> <span class=md-footer-nav__direction> 上一页 </span> 10 Interfaces </span> </div> </a> <a href=../12-Collections/ title="12 Collections" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel=next> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis> <span class=md-footer-nav__direction> 下一页 </span> 12 Collections </span> </div> <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i> </div> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> powered by <a href=https://www.mkdocs.org target=_blank rel=noopener>MkDocs</a> and <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs</a> </div> <div class=md-footer-social> <link rel=stylesheet href=../../../../../assets/fonts/font-awesome.css> <a href=https://leay.net target=_blank rel=noopener title=home class="md-footer-social__link fa fa-home"></a> <a href=https://github.com/hqweay target=_blank rel=noopener title=github class="md-footer-social__link fa fa-github"></a> </div> </div> </div> </footer> </div> <script src=../../../../../assets/javascripts/application.c33a9706.js></script> <script src=../../../../../assets/javascripts/lunr/lunr.stemmer.support.js></script> <script src=../../../../../assets/javascripts/lunr/tinyseg.js></script> <script src=../../../../../assets/javascripts/lunr/lunr.ja.js></script> <script src=../../../../../assets/javascripts/lunr/lunr.multi.js></script> <script>app.initialize({version:"1.1",url:{base:"../../../../.."}})</script> </body> </html>
